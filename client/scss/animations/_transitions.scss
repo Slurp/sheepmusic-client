@@ -1,0 +1,33 @@
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.3s
+}
+
+.fade-enter, .fade-leave-active {
+  opacity: 0;
+  .loading-overlay {
+    display: block;
+  }
+}
+.col {
+  &.list-enter-active, &.list-leave-active {
+    transition: all 0.5s ease-out;
+    transform: translateY(0);
+    .card img {
+      min-height: 130px;
+    }
+  }
+  &.list-enter-active {
+    transition-delay: 0.5s;
+
+  }
+
+  &.list-enter, &.list-leave-to {
+    opacity: 0;
+  }
+  &.list-enter {
+    transform: translateY(100%);
+  }
+  &.list-leave-to {
+    transform: translateY(-100%);
+  }
+}

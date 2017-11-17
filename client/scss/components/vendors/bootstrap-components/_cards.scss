@@ -1,0 +1,54 @@
+.card {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  text-decoration: none;
+  color: $body-color;
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    top:5px;
+    bottom:0;
+    opacity: 0;
+    border-radius: 5px;
+    @extend .z-depth-1-half;
+    transition: opacity 0.5s ease;
+  }
+  &:hover {
+    &::after {
+      opacity: 0.9;
+    }
+  }
+  .card-img-top {
+    border-bottom:1px solid $card-border-color;
+    height: auto;
+    width: 100%;
+  }
+  .card-body {
+    padding: 0.5rem;
+  }
+  .card-block {
+    padding: 0 0.5rem;
+  }
+  .card-subtitle,
+  .card-title {
+    text-decoration: none;
+    font-size: 0.8rem;
+    line-height: 1;
+    padding: 0.25rem;
+    margin: 0;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .card-title {
+    @extend .text-truncate;
+    @extend .align-top;
+  }
+  .card-subtitle {
+    padding-top: 0;
+    padding-bottom: 0.5rem;
+  }
+
+}

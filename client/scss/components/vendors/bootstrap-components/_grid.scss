@@ -1,0 +1,107 @@
+// Container widths
+//
+// Set the container width, and override it for fixed navbars in media queries.
+@mixin make-col-ready() {
+  position: relative;
+  // Prevent columns from becoming too narrow when at smaller grid tiers by
+  // always setting `width: 100%;`. This works because we use `flex` values
+  // later on to override this initial width.
+  width: 100%;
+  min-height: 1px; // Prevent collapsing
+  @include make-gutters();
+}
+
+.container {
+  @include make-container();
+  @include make-container-max-widths();
+}
+
+// Fluid container
+//
+// Utilizes the mixin meant for fixed width containers, but with 100% width for
+// fluid, full width layouts.
+
+.container-fluid {
+  width: 100%;
+  @include make-container();
+}
+
+// Row
+//
+// Rows contain and clear the floats of your columns.
+
+.row {
+  @include make-row();
+}
+
+// Remove the negative margin from default .row, then the horizontal padding
+// from all immediate children columns (to prevent runaway style inheritance).
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.list{
+  @include make-row();
+  padding: $grid-gutter-width-base / 2 0;
+  .col {
+    transition: opacity, height 1s ease;
+    @include make-col-ready;
+    @include media-breakpoint-up(sm) {
+      @include make-col(4);
+    }
+    @include media-breakpoint-up(md) {
+      @include make-col(3);
+    }
+    @include media-breakpoint-up(lg) {
+      @include make-col(12/4);
+    }
+    @include media-breakpoint-up(xl) {
+      @include make-col(2);
+    }
+    display: flex;
+    flex-direction: column;
+    .card {
+      flex: 1;
+      margin-bottom: $grid-gutter-width-base;
+    }
+  }
+}
+
+.router-view {
+  margin-bottom: $footer-fixed-height;
+}
+.playlist-show {
+  .router-view {
+    @include make-row();
+    margin-bottom: $footer-fixed-height;
+  }
+  .left-column {
+    @include make-col-ready();
+    @include make-col(6);
+    @include media-breakpoint-up(sm) {
+      @include make-col(9);
+    }
+  }
+  .playlist
+  {
+    @include make-col-ready();
+    @include make-col(6);
+    @include media-breakpoint-up(sm) {
+      @include make-col(3);
+    }
+    transition: all 1s ease;
+    @extend .z-depth-1;
+    top: 40px;
+    height: calc(100vh - 110px);
+  }
+}
+
+
+

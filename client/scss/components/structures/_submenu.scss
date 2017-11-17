@@ -1,0 +1,51 @@
+// Permanent
+@include media-breakpoint-down('sm') {
+  .navdrawer-open-permanent {
+    .navdrawer.show.navdrawer-permanent {
+      .navdrawer-content {
+        top: $toolbar-height;
+      }
+    }
+    .navdrawer.navdrawer-permanent {
+      .navdrawer-content {
+        top: $toolbar-height;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-up('sm') {
+  .navdrawer-permanent {
+    display: block !important;
+    right: auto;
+    width: $navdrawer-width;
+    border-right: 1px solid $navdrawer-border-color;
+    + .container-fluid {
+      .left-column {
+        padding-left: $navdrawer-width + 0.725rem;
+      }
+      .album-backdrop, .artist-backdrop {
+        left: $navdrawer-width;
+      }
+
+    }
+    .navdrawer-content {
+      box-shadow: none;
+      max-width: none;
+      position: absolute;
+      transform: translate3d(0, 0, 0);
+      width: 100%;
+
+    }
+  }
+  .navdrawer-backdrop-permanent {
+    display: none;
+  }
+  // Variation
+  .navdrawer-permanent-clipped,
+  .navdrawer-permanent-float {
+    z-index: (map-get($toolbar-elevation-shadow, elevation) - 1);
+    top: $toolbar-height;
+  }
+}
+

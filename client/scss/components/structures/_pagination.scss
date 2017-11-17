@@ -1,0 +1,49 @@
+/* ==========================================================================
+   Structures - Pagination
+   ========================================================================== */
+
+.pagination {
+    ul {
+        padding: 0;
+        text-align: center;
+    }
+
+    li {
+        color: grayscale("200");
+        font-size: .9rem;
+        a {
+            color: grayscale("200");
+            font-size: .9rem;
+            &:hover,
+            &:active,
+            &:focus {
+                color: map_get(theme-color('secondary'),color);
+            }
+        }
+    }
+    .page-item {
+        display: none;
+        @include media-breakpoint-up(sm) {
+            display: block;
+        }
+        &.next-page,
+        &.prev-page{
+            display: block;
+        }
+    }
+
+    .active {
+        height: 2rem;
+        width: 2rem;
+        background: map_get(theme-color('secondary'),color);
+        border-radius: 100%;
+        span {
+            color: $white;
+            line-height: 2rem;
+        }
+    }
+}
+
+.pagination__direction-icon {
+    font-size: .6rem;
+}

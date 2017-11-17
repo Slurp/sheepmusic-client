@@ -1,0 +1,27 @@
+/* ==========================================================================
+   Config
+
+   This file is exclusively intended for setting up imports
+   Never add styles directly to this file
+   ========================================================================== */
+
+/* General
+   ========================================================================== */
+@import '~daemonite-material/assets/sass/colours';
+@import '~daemonite-material/assets/sass/functions';
+@import '~bootstrap/scss/functions';
+@import "colors";
+@import "vendors/bootstrap-vars";
+
+
+@import '~daemonite-material/assets/sass/mixins';
+@import '~daemonite-material/assets/sass/variables';
+
+
+@import "general/general";
+@import "components/components";
+
+/* Vendors
+   ========================================================================== */
+@import "vendors/bootstrap-imports";
+

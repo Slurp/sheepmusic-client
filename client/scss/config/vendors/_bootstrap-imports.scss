@@ -1,0 +1,60 @@
+
+// Base CSS
+
+@import '~daemonite-material/assets/sass/base/base';
+@import '~daemonite-material/assets/sass/base/grid';
+@import '~daemonite-material/assets/sass/base/typography';
+
+// Bootstrap components
+// Components covered in Bootstrap's css but not in Material design
+
+@import '~daemonite-material/assets/sass/bootstrap/alert';
+@import '~daemonite-material/assets/sass/bootstrap/badge';
+@import '~daemonite-material/assets/sass/bootstrap/breadcrumb';
+@import '~daemonite-material/assets/sass/bootstrap/carousel';
+@import '~daemonite-material/assets/sass/bootstrap/close';
+@import '~daemonite-material/assets/sass/bootstrap/code';
+@import '~daemonite-material/assets/sass/bootstrap/custom-form';
+@import '~daemonite-material/assets/sass/bootstrap/form';
+@import '~daemonite-material/assets/sass/bootstrap/image';
+@import '~daemonite-material/assets/sass/bootstrap/jumbotron';
+@import '~daemonite-material/assets/sass/bootstrap/media';
+@import '~daemonite-material/assets/sass/bootstrap/nav';
+@import '~daemonite-material/assets/sass/bootstrap/pagination';
+@import '~daemonite-material/assets/sass/bootstrap/popover';
+@import '~daemonite-material/assets/sass/bootstrap/responsive-embed';
+@import '~daemonite-material/assets/sass/bootstrap/transition';
+
+
+// Material components
+// Components covered in Material design (https://material.google.com/components)
+
+@import '~daemonite-material/assets/sass/material/button';
+@import '~daemonite-material/assets/sass/material/button-flat';
+@import '~daemonite-material/assets/sass/material/button-float';
+@import '~daemonite-material/assets/sass/material/button-group';
+@import '~daemonite-material/assets/sass/material/card';
+@import '~daemonite-material/assets/sass/material/chip';
+@import '~daemonite-material/assets/sass/material/data-table';
+@import '~daemonite-material/assets/sass/material/dialog';
+@import '~daemonite-material/assets/sass/material/expansion-panel';
+@import '~daemonite-material/assets/sass/material/menu';
+@import '~daemonite-material/assets/sass/material/navdrawer';
+@import '~daemonite-material/assets/sass/material/picker';
+@import '~daemonite-material/assets/sass/material/progress';
+@import '~daemonite-material/assets/sass/material/progress-circular';
+@import '~daemonite-material/assets/sass/material/selection-control';
+@import '~daemonite-material/assets/sass/material/stepper';
+@import '~daemonite-material/assets/sass/material/tab';
+@import '~daemonite-material/assets/sass/material/text-field';
+@import '~daemonite-material/assets/sass/material/text-field-floating-label';
+@import '~daemonite-material/assets/sass/material/text-field-input-group';
+@import '~daemonite-material/assets/sass/material/text-field-textarea';
+@import '~daemonite-material/assets/sass/material/toolbar';
+@import '~daemonite-material/assets/sass/material/tooltip';
+
+
+
+// Utilities
+
+@import '~daemonite-material/assets/sass/utilities';

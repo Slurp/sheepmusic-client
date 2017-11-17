@@ -1,0 +1,5 @@
+// info-bar
+$infobar-bg-color: rgba(map_get(theme-color(),color), 0.95);
+$infobar-border-color: rgba(map_get(theme-color(),color), 0.8);
+$backdrop-overlay-color: rgba(map_get(theme-color(),color), 0.7);
+$songlist-bg-color: map_get(theme-color('light'),color);

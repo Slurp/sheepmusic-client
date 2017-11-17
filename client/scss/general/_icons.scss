@@ -1,0 +1,24 @@
+// Default icon definitions
+[class^="icon--"], [class*=" icon--"] {
+  display: inline-block;
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.icon--search {
+  width: 26px;
+  height: 26px;
+  background-image: url('#{$icons}/icon_search.svg');
+}
+.icon--search_white {
+  width: 26px;
+  height: 26px;
+  background-image: url('#{$icons}/icon_search_white.svg');
+}
+
+.icon--close {
+  width: 15px;
+  height: 15px;
+  background-image: url('#{$icons}/icon_close.svg');
+}

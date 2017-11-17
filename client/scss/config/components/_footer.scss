@@ -1,0 +1,7 @@
+/* ==========  Footer  ========== */
+$footer-fixed-height: 70px;
+$footer-bg-color: map_get(theme-color('dark'),color);
+$footer-color: map_get(theme-color(),color);
+$footer-heading-color: map_get(theme-color(),color);
+$footer-button-fill-color: $footer-color;
+$footer-underline-color: $footer-color;

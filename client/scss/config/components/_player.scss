@@ -1,0 +1,20 @@
+/* ==========  Player  ========== */
+$player-bg-color : map_get(theme-color(),color);
+$player-border-color:  #263238;
+$player-txt-color : map_get(theme-color('light'),color);
+$player-button-color:map_get(theme-color('secondary'),color);
+$plyr-range-selected-bg:map_get(theme-color('secondary'),color);
+$plyr-audio-range-track-bg:map_get(theme-color('dark'),color);
+$plyr-audio-control-bg-hover:map_get(theme-color('secondary'),color);
+// Progress
+$plyr-progress-loading-size:            25px ;
+$plyr-progress-loading-bg:              rgba(#000, .85) ;
+$plyr-video-progress-bg:                rgba(#fafafa, .75) ;
+$plyr-video-progress-buffered-bg:       $plyr-video-progress-bg ;
+$plyr-audio-progress-bg:                rgba(map_get(theme-color('dark'),color), .33) ;
+$plyr-audio-progress-buffered-bg:       $plyr-audio-progress-bg ;
+
+$plyr-range-thumb-bg: map_get(theme-color('secondary'),color);
+$plyr-range-thumb-active-bg: map_get(theme-color(),color);
+$plyr-range-thumb-border: none;
+$plyr-range-thumb-shadow: 0 1px 1px rgba(map_get(theme-color('secondary'),color), 0.85);
