@@ -6,12 +6,12 @@
 <script>
   export default {
     name: 'queue-artist-btn',
-    props: ['artist'],
+    props: ['playlist'],
     methods: {
       queue: function (event) {
         if (event) event.preventDefault()
-        for (const album of this.artist.albums) {
-          this.$store.dispatch('playlist/queueAlbum', album)
+        for (const song of this.playlist.songs) {
+          this.$store.dispatch('playlist/queueSong', song)
         }
       }
     },

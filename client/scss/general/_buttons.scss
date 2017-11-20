@@ -1,38 +1,8 @@
 // Floating button
-.btn-floating {
-  display: inline-block;
-  color: $button-floating-color;
-  position: relative;
-  overflow: hidden;
-  //z-index: 1;
-  width: $button-floating-size;
-  min-width: $button-floating-size;
-  height: $button-floating-size;
-  line-height: $button-floating-size;
-  padding: 0;
-  background-color: $button-floating-background;
-  border-radius: $button-floating-radius;
-  @extend .z-depth-1;
-  transition: all .3s ease;
-  cursor: pointer;
-  vertical-align: middle;
+.btn-float {
 
-  i {
-    width: 100%;
-    display: inline-block;
-    text-align: center;
+  &.btn-secondary i {
     color: $button-floating-color;
-    font-size: $button-large-icon-font-size;
-    line-height: $button-floating-size;
-  }
-
-  &:hover {
-    background-color: $button-floating-background-hover;
-    @extend .z-depth-2;
-  }
-
-  &:before {
-    border-radius: 0;
   }
 }
 
@@ -40,6 +10,7 @@
 button.btn-floating {
   border: $button-border;
 }
+
 // Fixed Action Button
 .fixed-action-btn {
   &.active {
@@ -48,8 +19,9 @@ button.btn-floating {
       bottom: 64px;
       transform: translateY(-50%)
     }
-    a.btn-floating {
+    a.btn-float {
       opacity: 1;
+      z-index: 2;
     }
   }
 
@@ -69,13 +41,11 @@ button.btn-floating {
     margin: 0;
     opacity: 0;
     transition: all 0.3s ease;
-    transform: translateY(-100%)
-
-    li {
+    transform: translateY(-100%) li {
       margin-bottom: 15px;
     }
 
-    a.btn-floating {
+    .btn-float {
       opacity: 0;
       transition: opacity 0.3s ease;
     }

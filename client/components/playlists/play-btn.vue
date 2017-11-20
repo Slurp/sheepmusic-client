@@ -5,14 +5,14 @@
 </template>
 <script>
   export default {
-    name: 'play-artist-btn',
-    props: ['artist'],
+    name: 'play-playlist-btn',
+    props: ['playlist'],
     methods: {
       play: function (event) {
         if (event) event.preventDefault()
         this.$store.dispatch('playlist/clearPlaylist')
-        for (const album of this.artist.albums) {
-          this.$store.dispatch('playlist/queueAlbum', album)
+        for (const song of this.playlist.songs) {
+          this.$store.dispatch('playlist/queueSong', song)
         }
         this.$store.dispatch('playlist/nextSong')
       }

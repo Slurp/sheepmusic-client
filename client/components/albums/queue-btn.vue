@@ -1,5 +1,5 @@
 <template>
-    <a class="btn-floating" v-on:click="queue">
+    <a class="btn btn-float btn-sm btn-secondary" v-on:click="queue">
         <i class="material-icons">playlist_add</i>
     </a>
 </template>

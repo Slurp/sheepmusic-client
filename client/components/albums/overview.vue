@@ -46,7 +46,9 @@
     },
     computed: {
       albumPage () {
-        return this.$store.getters['albums/albums']
+        if(this.loadAlbums) {
+          return this.$store.getters['albums/albums']
+        }
       },
       totalAlbums () {
         return this.$store.getters['albums/totalAlbums']
@@ -55,13 +57,13 @@
     },
     created: function () {
       if(this.albums == null) {
+        let delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time));
         this.$store.dispatch('toggleLoading')
-        this.$store.dispatch('albums/loadAlbums').then(() => {
-          this.$store.dispatch('albums/sortBy', this.type).then(() => {
-            console.log('sorted')
+        console.log('type')
+        this.$store.dispatch('albums/sortBy', this.type)
+        this.$store.dispatch('albums/loadAlbums').then(delay(1000)).then(() => {
+            this.loadAlbums = true;
             this.$store.dispatch('toggleLoading')
-          })
-          this.toast.toast('loaded albums')
         }).catch(() => {
           this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
         })

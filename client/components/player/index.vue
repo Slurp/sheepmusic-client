@@ -39,7 +39,7 @@
                 </div>
         </div>
         <a href='#'
-           class='btn btn-floating btn-playlist'
+           class='btn btn-float btn-sm btn-secondary btn-playlist'
            data-toggle='playlist'
            aria-haspopup='true'
            aria-expanded='false'>

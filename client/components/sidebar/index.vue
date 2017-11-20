@@ -1,20 +1,26 @@
 <template>
-    <div aria-hidden="true" class="navdrawer navdrawer-permanent navdrawer-permanent-clipped" id="doc_navdrawer"
-         tabindex="-1">
-        <div class="navdrawer-content">
-            <div class="d-flex flex-column doc-navdrawer-body">
-                <nav class="navdrawer-nav">
-                    <router-link class="nav-item nav-link" :to="{name:'recent-albums'}">
-                        <strong><i class="material-icons">album</i></strong>
+    <div class="nav-drawer-nav">
+        <nav>
+            <ul>
+                <li>
+                    <router-link class="" :to="{name:'recent-albums'}">
+                        <i class="material-icons">album</i><span>Albums</span>
                     </router-link>
-                    <router-link class="nav-item nav-link" :to="{name:'all-artists'}">
-                        <strong><i class="material-icons">recent_actors</i></strong>
+                </li>
+                <li>
+                    <router-link class="" :to="{name:'all-artists'}">
+                        <i class="material-icons">recent_actors</i><span>Artists</span>
                     </router-link>
-
-                </nav>
-            </div>
-        </div>
+                </li>
+                <li>
+                    <router-link class="" :to="{name:'all-playlists'}">
+                        <i class="material-icons">queue_music</i><span>playlists</span>
+                    </router-link>
+                </li>
+            </ul>
+        </nav>
     </div>
+
 </template>
 <script>
   export default {}

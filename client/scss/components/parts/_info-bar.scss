@@ -1,10 +1,12 @@
 .info-bar {
   @extend .media;
   margin-top: 80px;
-  background-color:  rgba(map_get(theme-color(),color),0.3);
-  border: 1px solid rgba($infobar-border-color,0.3);
-  color: map_get(theme-color('light'),color);
-
+  background-color: rgba(map_get(theme-color(), color), 0.3);
+  border: 1px solid rgba($infobar-border-color, 0.5);
+  color: map_get(theme-color('light'), color);
+  width: 100%;
+  margin-right: $grid-gutter-width /2;
+  margin-left: $grid-gutter-width /2;
   .info-bar-image {
     @include img-fluid();
     @extend .d-flex;

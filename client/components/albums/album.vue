@@ -10,7 +10,7 @@
                  :class="{ active: openSheet }"
                  v-on:click="toggleSheet"
                  v-if="loadedAlbum">
-                <a class="btn btn-floating">
+                <a class="btn btn-float btn-sm btn-secondary">
                     <i class="material-icons">more_horiz</i>
                 </a>
                 <ul class="action-sheet">
@@ -75,7 +75,7 @@
         if (this.loadedAlbum) {
           return {
             name: 'detail_album',
-            params: { artist: this.album.artist.name, album: this.album.name, id: this.album.id },
+            params: { artist: this.album.artist.name, album: this.album.slug, id: this.album.id },
           }
         }
         return '/'

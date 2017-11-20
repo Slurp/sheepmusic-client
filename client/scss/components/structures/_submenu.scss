@@ -1,51 +1,85 @@
-// Permanent
-@include media-breakpoint-down('sm') {
-  .navdrawer-open-permanent {
-    .navdrawer.show.navdrawer-permanent {
-      .navdrawer-content {
-        top: $toolbar-height;
-      }
+.nav-drawer-nav {
+  width: $navdrawer-width;
+  background-color: $navdrawer-content-bg;
+  box-shadow: map-get($elevation-shadow-2dp, shadow);
+  padding: 0;
+  position: fixed;
+  top: 50px;
+  left: 0;
+  right: auto;
+  bottom: 0;
+  transition: all 0.3s linear;
+  z-index: $zindex-fixed;
+  // Visibility.
+  display: block;
+  z-index: (map-get($navdrawer-elevation-shadow, elevation) - 1);
+  + .container-fluid {
+    .left-column {
+      padding-left: $navdrawer-width + 0.725rem;
     }
-    .navdrawer.navdrawer-permanent {
-      .navdrawer-content {
-        top: $toolbar-height;
+    .album-backdrop, .artist-backdrop {
+      left: $navdrawer-width;
+    }
+  }
+  // Items.
+  nav {
+    padding: 15px 0;
+    ul {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      a {
+        display: flex;
+        align-items: center;
+        @include transition-standard(background-color, color);
+
+        color: $navdrawer-nav-link-color;
+        font-size: $navdrawer-nav-link-font-size;
+        font-weight: $navdrawer-nav-link-font-weight;
+        line-height: 1;
+        padding: (($navdrawer-nav-link-height - $navdrawer-nav-link-font-size) / 2) 0;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        white-space: nowrap;
+        &:active,
+        &.active {
+          color: map_get(theme-color('secondary'),'darker');
+        }
+        span {
+          display: none;
+          padding-right: 15px;
+          font-weight: bold;
+          padding-top: 2px;
+        }
+        i {
+          width: 50px;
+          text-align: center;
+          &:before {
+            position: absolute;
+            top: 10px;
+            left: 16px;
+          }
+        }
+      }
+      li {
+        position: relative;
+        height: 38px;
+        &:hover {
+          white-space: nowrap;
+          a {
+            background: map_get(theme-color('secondary'), 'color');
+            color: $white;
+            span {
+              display: inline-block;
+            }
+          }
+        }
       }
     }
   }
 }
 
-@include media-breakpoint-up('sm') {
-  .navdrawer-permanent {
-    display: block !important;
-    right: auto;
-    width: $navdrawer-width;
-    border-right: 1px solid $navdrawer-border-color;
-    + .container-fluid {
-      .left-column {
-        padding-left: $navdrawer-width + 0.725rem;
-      }
-      .album-backdrop, .artist-backdrop {
-        left: $navdrawer-width;
-      }
-
-    }
-    .navdrawer-content {
-      box-shadow: none;
-      max-width: none;
-      position: absolute;
-      transform: translate3d(0, 0, 0);
-      width: 100%;
-
-    }
-  }
-  .navdrawer-backdrop-permanent {
-    display: none;
-  }
-  // Variation
-  .navdrawer-permanent-clipped,
-  .navdrawer-permanent-float {
-    z-index: (map-get($toolbar-elevation-shadow, elevation) - 1);
-    top: $toolbar-height;
-  }
-}
 

@@ -1,43 +1,40 @@
 <template>
     <router-link :to="detailLink"
-                 class="card" v-if="loaded">
-
-        <img class="card-img-top" v-if="hasCover" :src="cover" :alt="artist.name"/>
+                 class="card">
+        <img class="card-img-top" v-if="hasCover" :src="cover" :alt="playlist.name"/>
         <img class="card-img-top" v-else src="/media/general/default.png"/>
-        </div>
         <div class="card-body has-sheet">
             <div class="fixed-action-btn"
                  :class="{ active: openSheet }"
-                 v-on:click="toggleSheet"
-                 v-if="loadedArtist">
+                 v-on:click="toggleSheet">
                 <a class="btn btn-float btn-sm btn-secondary">
                     <i class="material-icons">more_horiz</i>
                 </a>
                 <ul class="action-sheet">
                     <li>
-                        <play_btn :artist=artist></play_btn>
+                        <play_btn :playlist=playlist></play_btn>
                     </li>
                     <li>
-                        <queue_btn :artist=artist></queue_btn>
+                        <queue_btn :playlist=playlist></queue_btn>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="card-block">
-            <h4 class="card-title" v-if="loadedArtist">{{artist.name}}</h4>
-            <h6 class="card-subtitle text-muted" v-if="loadedArtist">{{artist.name}}</h6>
+            <h4 class="card-title">{{playlist.name}}</h4>
         </div>
     </router-link>
 </template>
 
 <script>
+  import config from 'config/index'
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
   import Toaster from 'services/toast'
 
   export default {
-    name: 'artistList',
-    props: ['artist', 'artistId'],
+    name: 'playlistList',
+    props: ['playlist', 'playlistId'],
     components: {
       play_btn,
       queue_btn
@@ -50,7 +47,7 @@
       }
     },
     created () {
-      this.$store.dispatch('artists/loadArtist', this.artistId).then(() => {
+      this.$store.dispatch('playlists/loadPlaylist', this.playlist.id).then(() => {
         this.toast.toast('loaded artist')
         this.loaded = true
       }).catch(() => {
@@ -66,23 +63,17 @@
     },
     computed: {
       hasCover () {
-        return (this.loaded && (this.artist.image || this.artist.albumArt))
+        return (this.loaded && (this.playlist.cover))
       },
       cover () {
         if (this.hasCover) {
-          if (this.artist.image !== '') {
-            return this.artist.image
-          }
-          return this.artist.albumArt
+          return config.baseUrl+"/"+this.playlist.cover
         }
-      },
-      loadedArtist () {
-        return (this.loaded && this.artist.albums)
       },
       detailLink () {
         return {
-          name: 'detail_artist',
-          params: { artist: this.artist.name, id: this.artist.id },
+          name: 'detail_playlists',
+          params: { id: this.playlist.id },
         }
       },
     },

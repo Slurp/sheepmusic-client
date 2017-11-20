@@ -2,8 +2,11 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import AlbumOverview from 'components/albums/overview'
 import ArtistOverview from 'components/artists/overview'
+import PlaylistOverview from 'components/playlists/overview'
 import AlbumDetail from 'components/albums/detail'
 import ArtistDetail from 'components/artists/detail'
+import PlaylistDetail from 'components/playlists/detail'
+
 import Login from 'components/pages/login'
 import NotFound from 'components/not-found.vue'
 
@@ -64,6 +67,27 @@ export default new VueRouter({
       path: '/artist/:artist/:id',
       name: 'detail_artist',
       component: ArtistDetail,
+      props: true,
+      meta: { auth: true }
+    },
+    {
+      path: '/playlists/',
+      name: 'all-playlists',
+      component: PlaylistOverview,
+      props: { type: 'all' },
+      meta: { auth: true }
+    },
+    {
+      path: '/playlists/recent',
+      name: 'recent-playlists',
+      component: PlaylistOverview,
+      props: { type: 'recent' },
+      meta: { auth: true }
+    },
+    {
+      path: '/playlist/:id',
+      name: 'detail_playlists',
+      component: PlaylistDetail,
       props: true,
       meta: { auth: true }
     },
