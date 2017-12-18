@@ -4,151 +4,20 @@
 
 /* General
    ========================================================================== */
-.search-form {
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-  transition: all .4s;
-  height: 44px;
-  width: 100%;
-  @include media-breakpoint-up(sm) {
-    width: 44px;
+form.form-search {
+  .form-control {
+    background: map-get(theme-color('light'),color);
+    border-bottom: 2px solid map-get(theme-color('secondary'),color);
+    opacity: 1;
+    min-height: auto;
+    margin-right: 0;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
   }
-  .search-open & {
-    /* Rectangle 3 Copy 9: */
-    background: #FBFBFB;
-    border: 1px solid #DDDDDD;
-    border-radius: 2px;
-  }
-  input {
-    transition: all .4s;
-    outline: none;
-    border: none;
-    color: #333333;
-    background: transparent;
-    width: 100%;
-    @include media-breakpoint-up(sm) {
-      width: 0;
-      opacity: 0.39;
-    }
-    font-family: OpenSans;
-    font-size: 19px;
-    margin-top: 4px;
-    vertical-align: top;
-  }
-  input::-webkit-input-placeholder {
-    color: #eee;
-  }
-  input:-moz-placeholder {
-    color: #eee;
-  }
-  input::-moz-placeholder {
-    color: #eee;
-  }
-  input:-ms-input-placeholder {
-    color: #eee;
-  }
-  .search-btn {
-    background: none;
-    border: none;
-    color: $white;
-    cursor: pointer;
-    height: 100%;
-    padding: 5px 0;
-    .icon--search {
-      display: block;
-    }
-    &:hover {
-      .icon--search {
-        background-image: url('#{$icons}/icon_search_brown.svg');
-      }
-    }
-  }
-
-  .close {
-    position: absolute;
-    z-index: -1;
-    top: 50%;
-    margin-top: -7.5px;
-    right: 10px;
-    opacity: 0;
-  }
-}
-
-@include media-breakpoint-down(sm) {
-  .search-form {
-    width: 100%;
-    input {
-      width: calc(100% - 74px);
-      opacity: 1;
-      display: inline-block;
-    }
-  }
-}
-
-.animate-open {
-  @include media-breakpoint-up(sm) {
-    .navbar-nav {
-      animation-name: smooth-hide;
-      animation-duration: 0.3s;
-      animation-timing-function: ease;
-      animation-iteration-count: 1;
-      animation-direction: normal;
-      animation-play-state: running;
-      animation-fill-mode: forwards;
-      animation-delay: 0s;
-    }
-  }
-  .search-form {
-    transition-delay: 0s;
-    @include media-breakpoint-up(sm) {
-      width: 400px;
-    }
-    input,
-    .close {
-      z-index: 1;
-      animation-name: show-spin;
-      animation-duration: 0.3s;
-      animation-timing-function: ease;
-      animation-iteration-count: 1;
-      animation-direction: normal;
-      animation-play-state: running;
-      animation-fill-mode: forwards;
-      animation-delay: 0s;
-    }
-    input {
-      transition-delay: 0s;
-      animation-name: show-input;
-    }
-    .search-btn {
-      .icon--search {
-        background-image: url('#{$icons}/icon_search.svg');
-      }
-    }
-  }
-
-}
-
-.animate-close .search-form {
-  .search-btn {
-    position: relative;
-    z-index: 2;
-  }
-  input,
-  .close {
-    transition-delay: .5s;
-    z-index: 1;
-    animation-name: hide-spin;
-    animation-duration: 0.3s;
-    animation-timing-function: ease;
-    animation-iteration-count: 1;
-    animation-direction: normal;
-    animation-play-state: running;
-    animation-fill-mode: forwards;
-  }
-  input {
-    transition-delay: 0s;
-    animation-name: close-input;
+  .btn {
+    color: map-get(theme-color('secondary'),color);
+    border: 2px solid map-get(theme-color('secondary'),color);
+    border-left:0;
   }
 }
 
