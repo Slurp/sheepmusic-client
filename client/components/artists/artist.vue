@@ -61,7 +61,10 @@
       } else {
         this.loaded = true
       }
-
+    },
+    beforeDestroy() {
+      this.toast = null
+      delete this.toast
     },
     methods: {
       toggleSheet: function (event) {

@@ -38,11 +38,10 @@
     },
     methods: {
       save () {
-        this.$store.dispatch('playlist/savePlaylist', this.formName).then((response) => {
-          console.log(response)
+        this.$store.dispatch('playlist/savePlaylist', this.formName).then(() => {
           $('#exampleModal').modal('toggle')
         }, (err) => {
-          console.log(err)
+          this.error = err
         })
 
       }

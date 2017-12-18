@@ -1,7 +1,7 @@
 .song-list{
   background-color: $songlist-bg-color;
   box-shadow: map-get($elevation-shadow-2dp, shadow);
-  margin-bottom: $grid-gutter-width-base * 2;
+  margin: $grid-gutter-width-base * 2 0;
   .song-list-header,
   .song-list-item {
     display: flex;
@@ -9,14 +9,13 @@
     align-items: center;
     flex-wrap: nowrap;
     width: 100%;
-    @include make-gutters();
   }
   .song-list-header
   {
     border-bottom: 3px solid map_get(theme-color('secondary'),color);
     .col {
       font-weight: 700;
-      padding: 0.8rem 0.5rem 0.3rem;
+      padding: 5px 15px;
       border-bottom: none;
       height: auto;
     }
@@ -53,6 +52,7 @@
       background-color: rgba(map_get(theme-color('light'),color),0.5);
       .action {
         a {
+          color: map_get(theme-color('secondary'),color);
           display: block;
         }
         span {
@@ -78,10 +78,11 @@
       flex-basis: 10%;
     }
     &.col-title {
-      flex-basis: 50%;
+      flex-basis: 30%;
      @include text-truncate();
     }
     &.col-duration {
+      flex-basis: 15%;
       text-align: center;
     }
     &.col-artist {
@@ -91,6 +92,7 @@
       }
     }
     &.col-queue {
+      flex-basis: 20px;
       text-align: right;
     }
   }

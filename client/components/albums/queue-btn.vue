@@ -13,6 +13,10 @@
         toast: new Toaster(),
       }
     },
+    beforeDestroy() {
+      this.toast = null
+      delete this.toast
+    },
     methods: {
       queue: function (event) {
         if (event) event.preventDefault()

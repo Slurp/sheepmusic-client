@@ -16,9 +16,7 @@
     },
     methods: {
       search () {
-        console.log(this.query)
         this.$router.push({ name: 'search_results', params: { query: this.query }})
-
       }
     },
   }

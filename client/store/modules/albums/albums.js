@@ -26,7 +26,7 @@ const actions = {
     if (state.albums[albumId] == null || state.albums[albumId].songs == null) {
       Vue.axios.get(`/api/album/` + albumId).then((response) => {
         commit('ADD_ALBUM', { album: response.data, index: albumId })
-        commit('songs/ADD_SONGALBUM', { songs: response.data.songs }, { root: true })
+        //commit('songs/ADD_SONGALBUM', { songs: response.data.songs }, { root: true })
       }, (err) => {
         console.log(err)
       })

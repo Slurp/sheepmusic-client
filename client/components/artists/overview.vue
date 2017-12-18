@@ -22,9 +22,7 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import artist from './artist'
-  import Toaster from 'services/toast'
 
   export default {
     props: ['type'],
@@ -34,7 +32,7 @@
     data () {
       return {
         loadArtists: false,
-        toast: new Toaster()
+        totalArtists: this.$store.getters['artists/totalArtists']
       }
     },
     watch: {
@@ -45,14 +43,7 @@
     computed: {
       artistPage () {
         return this.$store.getters['artists/artists']
-      },
-      totalArtists () {
-        return this.$store.getters['artists/totalArtists']
       }
-
-    },
-    created: function () {
-
     },
   }
 </script>

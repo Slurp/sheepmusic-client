@@ -14,7 +14,7 @@
         </ul>
         <transition-group name="list" tag="div" class="list">
             <div class="col" v-for="playlist in playlistPage" :key="playlist.id" :name="playlist.id">
-                <playlist :playlist-id=playlist.id :playlist=playlist></playlist>
+                <playlist :playlist-id=playlist.id :playlist=playlist :key="playlist.id"></playlist>
             </div>
         </transition-group>
         <pagination for="playlists" :records="totalArtists" :vuex="true"></pagination>
@@ -22,11 +22,10 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import playlist from './playlists'
-  import Toaster from 'services/toast'
 
   export default {
+    name: 'playlist-overview',
     props: ['type'],
     components: {
       playlist
@@ -34,7 +33,6 @@
     data () {
       return {
         loadArtists: false,
-        toast: new Toaster()
       }
     },
     watch: {

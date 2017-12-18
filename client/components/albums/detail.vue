@@ -62,9 +62,7 @@
     computed: {
       lengthAlbum () {
         if (this.album.songs) {
-          const length = this.album.songs.map(song => song.length).reduce((acc, val) => parseInt(acc) + parseInt(val), 0)
-          console.log(length)
-          return this.duration = secondsToHis(length)
+          return this.duration = secondsToHis(this.album.songs.map(song => song.length).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
         }
       },
       album () {

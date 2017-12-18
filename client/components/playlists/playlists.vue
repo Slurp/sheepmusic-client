@@ -30,7 +30,6 @@
   import config from 'config/index'
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
-  import Toaster from 'services/toast'
 
   export default {
     name: 'playlistList',
@@ -42,16 +41,13 @@
     data () {
       return {
         openSheet: false,
-        toast: new Toaster(),
         loaded: false,
       }
     },
     created () {
       this.$store.dispatch('playlists/loadPlaylist', this.playlist.id).then(() => {
-        this.toast.toast('loaded artist')
         this.loaded = true
       }).catch(() => {
-        this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
         this.loaded = false
       })
     },

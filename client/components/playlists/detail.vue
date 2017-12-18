@@ -23,6 +23,7 @@
   import queue_btn from './queue-btn'
 
   export default {
+    name:'playlist-detail',
     components: {
       songList,
       breadcrumbs,

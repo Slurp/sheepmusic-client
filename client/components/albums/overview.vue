@@ -14,7 +14,7 @@
         </ul>
         <transition-group name="list" tag="div" class="list">
             <div class="col" v-for="album in albumPage" :key="album.id" :name="album.id">
-                <album :album-id=album.id :album=album></album>
+                <album :album-id=album.id :album=album :key="album.id"></album>
             </div>
         </transition-group>
         <pagination for="albums" :records="totalAlbums" :vuex="true"></pagination>
@@ -39,34 +39,30 @@
     data () {
       return {
         loadAlbums: false,
-        toast: new Toaster()
+        toast: new Toaster(),
+        totalAlbums: this.$store.getters['albums/totalAlbums']
       }
     },
+    created () {
+      this.toast.toast(this.type)
+      this.$store.dispatch('albums/sortBy', this.type)
+    },
+    beforeDestroy () {
+      this.toast = null
+      delete this.toast
+      delete this.totalAlbums
+      delete this.loadAlbums
+    },
+
     watch: {
       type: function () {
-        this.$store.dispatch('albums/sortBy', this.type).then(() => {
-          console.log('sorted')
-        })
+        this.$store.dispatch('albums/sortBy', this.type)
       }
     },
     computed: {
       albumPage () {
         return this.$store.getters['albums/albums']
-      },
-      totalAlbums () {
-        return this.$store.getters['albums/totalAlbums']
       }
-
-    },
-    created () {
-      this.toast.toast(this.type)
-      console.log(this.type)
-      this.$store.dispatch('albums/sortBy', this.type)
-    },
+    }
   }
 </script>
-<style>
-    .md-card .md-card-media img {
-        height: auto;
-    }
-</style>
