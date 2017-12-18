@@ -1,6 +1,7 @@
 .song-list{
   background-color: $songlist-bg-color;
-  box-shadow: 0 2px 5px 0  rgba(map_get(theme-color('light'),color),0.5), 0 2px 10px 0 rgba(map_get(theme-color('light'),color),0.6);
+  box-shadow: map-get($elevation-shadow-2dp, shadow);
+  margin-bottom: $grid-gutter-width-base * 2;
   .song-list-header,
   .song-list-item {
     display: flex;
@@ -8,8 +9,7 @@
     align-items: center;
     flex-wrap: nowrap;
     width: 100%;
-    padding-left: 15px;
-    padding-right: 15px;
+    @include make-gutters();
   }
   .song-list-header
   {
@@ -22,18 +22,35 @@
     }
   }
   .song-list-item {
-    border-bottom: 1px solid map_get(theme-color('dark'),color);
+    border-bottom: 1px solid $divider-color;
+    transition: background-color 0.3s ease;
+    &.playing {
+      background-color: rgba($player-txt-color, 1);
+      .track-number {
+        opacity: 0;
+      }
+      .col-track {
+        position: relative;
+        &:after {
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          bottom: 0;
+          right: 0;
+          z-index: 2;
+          content: "";
+          width: 40px;
+          display: block;
+          background: url('#{$general}/now-playing.gif') rgba($player-txt-color, 0.6);
+          background-position: right;
+        }
+      }
+    }
     &:last-child {
       border-bottom: none;
     }
-    &:nth-child(odd){
-      background: rgba(map_get(theme-color('light'),color),0.2);
-    }
     &:hover {
       background-color: rgba(map_get(theme-color('light'),color),0.5);
-      &:nth-child(odd){
-        background: rgba(map_get(theme-color('light'),color),0.8);
-      }
       .action {
         a {
           display: block;
@@ -50,21 +67,19 @@
   .col{
     padding: 5px 15px;
     display: inline-block;
-    flex: 1 1 auto;
+    flex: 1 1 25%;
     vertical-align: middle;
-    width: 25%;
     &.col-track {
       text-align: right;
     }
     &.col-playcount,
     &.col-track {
       text-align: center;
-      width: 10%;
+      flex-basis: 10%;
     }
     &.col-title {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: block;
+      flex-basis: 50%;
+     @include text-truncate();
     }
     &.col-duration {
       text-align: center;

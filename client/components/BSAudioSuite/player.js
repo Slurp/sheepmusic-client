@@ -7,7 +7,6 @@ export default class BlackSheepPlayer {
   constructor () {
     this.initialized = false
     this.player = null
-    this.repeatModes = ['NO_REPEAT', 'REPEAT_ALL', 'REPEAT_ONE']
     this.nextSong = null
     this.currentSong = null
     this.playlist = null
@@ -23,45 +22,9 @@ export default class BlackSheepPlayer {
       return
     }
 
-    const controls = [
-      '<div class=\'player-info\'>',
-      '<img src=\'/frontend/img/default.png\' class=\'song-image\'/>',
-
-      '<span class=\'plyr__progress progress-wrapper\'>',
-      '<label for=\'seek{id}\' class=\'plyr__sr-only\'>Seek</label>',
-      '<input id=\'seek{id}\' class=\'plyr__progress--seek\' type=\'range\' min=\'0\' max=\'100\' step=\'0.1\' value=\'0\' data-plyr=\'seek\'>',
-      '<progress class=\'plyr__progress--played\' max=\'100\' value=\'0\' role=\'presentation\'></progress>',
-      '<progress class=\'plyr__progress--buffer\' max=\'100\' value=\'0\'>',
-      '<span>0</span>% buffered',
-      '</progress>',
-      '<span class=\'plyr__tooltip\'>00:00</span>',
-      '</span>',
-      '<div id=\'now-playing\' href=\'#albums\'>',
-      '<a href=\'#\' class=\'playing-song-title\'>',
-      'Nothing Playing',
-      '</a>',
-      '<a href=\'#\' class=\'playing-song-artist\'>',
-      '</a>',
-      '<span class=\'playing-song-meta\'></span>',
-      '<canvas width=\'453\' height=\'66\' id=\'showcase\'></canvas>',
-      '</div>',
-      '<button type=\'button\' data-plyr=\'restart\'>',
-      '<i class=\'material-icons\'>replay</i>',
-      '<span class=\'plyr__sr-only\'>Restart</span>',
-      '</button>',
-      '</div>',
-      '<div class=\'player-extra player-controls plyr__controls\'>',
-      '<span class=\'plyr__volume\'>',
-      '<label for=\'volume{id}\' class=\'plyr__sr-only\'>Volume</label>',
-      '<input id=\'volume{id}\' class=\'plyr__volume--input\' type=\'range\' min=\'0\' max=\'10\' value=\'5\' data-plyr=\'volume\'>',
-      '<progress class=\'plyr__volume--display\' max=\'10\' value=\'0\' role=\'presentation\'></progress>',
-      '</span>',
-      '</div>'].join('')
-
     this.player = plyr.setup(
       {
-        html: controls,
-        controle: ['progress', 'current-time'],
+        controls: ['progress'],
         loadSprite: false,
         debug: false
       }
@@ -84,11 +47,7 @@ export default class BlackSheepPlayer {
     this.nextSong = null
     this.currentSong = song
     this.updateAudioElement(this.currentSong.src)
-    jQuery('title').text(`${this.currentSong.title} ♫ sheepMusic`)
     jQuery('.plyr audio').attr('title', `${this.currentSong.artist.name} - ${this.currentSong.title}`)
-    jQuery('.player .playing-song-title').text(`${this.currentSong.title}`)
-    jQuery('.player .playing-song-artist').text(`${this.currentSong.artist.name}`)
-    jQuery('.player .song-image').attr('src', this.currentSong.album.cover)
     this.restart()
   };
 
@@ -112,5 +71,22 @@ export default class BlackSheepPlayer {
   stop () {
     this.nextSong = null
     this.player.stop()
-  }
+  };
+
+  forward () {
+    this.player.forward()
+  };
+
+  rewind () {
+    this.player.rewind()
+  };
+
+  /**
+   * Set the volume level.
+   *
+   * @param {Number}     volume   0-10
+   */
+  setVolume (volume) {
+    this.player.setVolume(volume)
+  };
 }

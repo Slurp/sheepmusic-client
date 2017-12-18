@@ -39,7 +39,7 @@ export default new VueRouter({
       path: '/albums/recent',
       name: 'recent-albums',
       component: AlbumOverview,
-      props: { type: 'recent' },
+      props: { type: 'recent'},
       meta: { auth: true }
     },
     {

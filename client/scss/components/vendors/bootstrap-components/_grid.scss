@@ -77,29 +77,21 @@
 .router-view {
   margin-bottom: $footer-fixed-height;
 }
+.router-view {
+  @include make-row();
+  margin-bottom: $footer-fixed-height;
+}
+.left-column {
+  @include make-col-ready();
+  @include make-col(12);
+  @include transition-standard-complex(all);
+}
 .playlist-show {
-  .router-view {
-    @include make-row();
-    margin-bottom: $footer-fixed-height;
-  }
   .left-column {
-    @include make-col-ready();
     @include make-col(6);
     @include media-breakpoint-up(sm) {
       @include make-col(9);
     }
-  }
-  .playlist
-  {
-    @include make-col-ready();
-    @include make-col(6);
-    @include media-breakpoint-up(sm) {
-      @include make-col(3);
-    }
-    transition: all 1s ease;
-    @extend .z-depth-1;
-    top: 40px;
-    height: calc(100vh - 110px);
   }
 }
 

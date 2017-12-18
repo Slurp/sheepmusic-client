@@ -1,49 +1,46 @@
 /* ==========================================================================
    Structures - Pagination
    ========================================================================== */
-
 .pagination {
-    ul {
-        padding: 0;
-        text-align: center;
-    }
-
-    li {
-        color: grayscale("200");
-        font-size: .9rem;
-        a {
-            color: grayscale("200");
-            font-size: .9rem;
-            &:hover,
-            &:active,
-            &:focus {
-                color: map_get(theme-color('secondary'),color);
-            }
-        }
-    }
+    display: flex;
+    @include list-unstyled();
+    @include border-radius();
+    border-top:1px solid $divider-color;
     .page-item {
-        display: none;
-        @include media-breakpoint-up(sm) {
-            display: block;
-        }
-        &.next-page,
-        &.prev-page{
-            display: block;
+        flex: 1 0;
+        height: 100%;
+    }
+    .next-chunk,
+    .next-page,
+    .prev-chunk,
+    .prev-page
+    {
+        .page-link {
+            padding-left: $pagination-inner-spacer-x / 2;
+            padding-right: $pagination-inner-spacer-x / 2;
         }
     }
-
-    .active {
-        height: 2rem;
-        width: 2rem;
-        background: map_get(theme-color('secondary'),color);
-        border-radius: 100%;
-        span {
+    .page-link {
+        line-height: initial;
+        display: block;
+        @include active-focus-hover {
             color: $white;
-            line-height: 2rem;
+            text-decoration: none;
         }
+
+        @include focus-hover {
+            background-image: linear-gradient(to bottom, map_get(theme-color('secondary'),color), map_get(theme-color('secondary'),color));
+        }
+
+        &:active,
+        &.active {
+            background-color: map_get(theme-color('secondary'),color);
+            background-image: none;
+        }
+    }
+    .count {
+        color: $divider-color;
     }
 }
 
-.pagination__direction-icon {
-    font-size: .6rem;
-}
+

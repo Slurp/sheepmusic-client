@@ -10,7 +10,7 @@
 @import '~daemonite-material/assets/sass/colours';
 @import '~daemonite-material/assets/sass/functions';
 @import '~bootstrap/scss/functions';
-@import "colors";
+@import "general/colors";
 @import "vendors/bootstrap-vars";
 
 
@@ -24,4 +24,5 @@
 /* Vendors
    ========================================================================== */
 @import "vendors/bootstrap-imports";
+@import "vendors/material";
 

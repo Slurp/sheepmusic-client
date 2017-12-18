@@ -10,10 +10,14 @@ const state = {
 
 const actions = {
   loadArtists: function ({ commit }) {
-    Vue.axios.get(`/api/artist_list`).then((response) => {
-      commit('ADD_ARTISTS', { artists: response.data })
-    }, (err) => {
-      console.log(err)
+    return new Promise((resolve, reject) => {
+      Vue.axios.get(`/api/artist_list`).then((response) => {
+        commit('ADD_ARTISTS', { artists: response.data })
+        resolve()
+      }, (err) => {
+        reject(err)
+        console.log(err)
+      })
     })
   },
   loadArtist: function ({ commit, state }, artistId) {
@@ -39,7 +43,7 @@ const actions = {
 const mutations = {
   ADD_ARTISTS: (state, { artists }) => {
     for (const artist of artists) {
-      if (state.artists[artist.id] == null || state.artists[artist.id].artist == null) {
+      if (state.artists[artist.id] == null || state.artists[artist.id].albums == null) {
         Vue.set(state.artists, artist.id, artist)
       }
     }
@@ -87,6 +91,12 @@ const getters = {
   },
   getArtistById: (state) => (artistId) => {
     return state.artists[artistId]
+  },
+  detailLink: (state) => (artist) => {
+    return {
+      name: 'detail_artist',
+      params: { artist: artist.name, id: artist.id }
+    }
   }
 }
 

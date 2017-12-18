@@ -59,14 +59,12 @@ const mutations = {
   },
   SORT_BY: (state, { sort }) => {
     if (sort !== state.sortBy) {
-      console.log('sorting')
       if (sort === 'recent') {
         state.sortedList.sort((a, b) => b.date - a.date)
       } else {
         state.sortedList.sort((a, b) => a.id - b.id)
       }
       state.sortBy = sort
-      console.log('sorted')
     }
   }
 }
@@ -79,10 +77,8 @@ const getters = {
     return state.playlists.length
   },
   getPlaylists: (state) => {
-
     const start = (12 * (state.page - 1)) + 1
     return state.sortedList.slice(start, start + 12).map(playlist => state.playlists[playlist.id])
-
   },
   getPlaylistById: (state) => (playlistId) => {
     return state.playlists[playlistId]

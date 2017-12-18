@@ -9,16 +9,20 @@ const state = {
 }
 
 const actions = {
-  loadAlbums: function ({ commit, state }) {
-    Vue.axios.get(`/api/album_list`).then((response) => {
-      if (response.data.length !== state.albums.length) {
-        commit('ADD_ALBUMS', { albums: response.data })
-      }
-    }, (err) => {
-      console.log(err)
+  async loadAlbums ({ commit, state }) {
+    return new Promise((resolve, reject) => {
+      Vue.axios.get(`/api/album_list`).then((response) => {
+        if (response.data.length !== state.albums.length) {
+          commit('ADD_ALBUMS', { albums: response.data })
+          resolve()
+        }
+      }, (err) => {
+        reject(err);
+        console.log(err)
+      })
     })
   },
-  loadAlbum: function ({ commit, state }, albumId) {
+  async loadAlbum ({ commit, state }, albumId) {
     if (state.albums[albumId] == null || state.albums[albumId].songs == null) {
       Vue.axios.get(`/api/album/` + albumId).then((response) => {
         commit('ADD_ALBUM', { album: response.data, index: albumId })
@@ -28,13 +32,13 @@ const actions = {
       })
     }
   },
-  viewAlbum: function ({ commit }, albumId) {
+  async viewAlbum ({ commit }, albumId) {
     commit('SET_CURRENT_ALBUM', { index: albumId })
   },
-  paginate: function ({ commit }, page) {
+  async paginate ({ commit }, page) {
     commit('PAGINATE', { page: page })
   },
-  sortBy: function ({ commit }, sort) {
+  async sortBy ({ commit }, sort) {
     commit('SORT_BY', { 'sort': sort })
   }
 }
@@ -56,6 +60,7 @@ const mutations = {
     } else {
       state.sortedList.sort((a, b) => a.name.localeCompare(b.name))
     }
+    console.log('added albums')
   },
   ADD_ALBUM: (state, { album, index }) => {
     Vue.set(state.albums, index, album)
@@ -97,6 +102,12 @@ const getters = {
   },
   getAlbumById: (state) => (albumId) => {
     return state.albums[albumId]
+  },
+  detailLink: (state) => (album) => {
+    return {
+      name: 'detail_album',
+      params: { artist: album.name, id: album.id }
+    }
   }
 }
 

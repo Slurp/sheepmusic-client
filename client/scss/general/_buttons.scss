@@ -13,11 +13,21 @@ button.btn-floating {
 
 // Fixed Action Button
 .fixed-action-btn {
+  > .btn-float {
+    height: 2rem;
+    line-height: 1.75rem;
+    width: 2rem;
+  }
   &.active {
     ul {
       opacity: 1;
       bottom: 64px;
-      transform: translateY(-50%)
+      transform: translateY(-50%);
+      a.btn-float {
+        height: 2rem;
+        line-height: 1.75rem;
+        width: 2rem;
+      }
     }
     a.btn-float {
       opacity: 1;

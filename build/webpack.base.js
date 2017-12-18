@@ -13,7 +13,11 @@ module.exports = {
   output: {
     path: _.outputPath,
     filename: '[name].js',
-    publicPath: config.publicPath
+    publicPath: config.publicPath,
+    // Point sourcemap entries to original disk location
+    devtoolModuleFilenameTemplate: info => path.resolve(info.absoluteResourcePath),
+    // Add /* filename */ comments to generated require()s in the output.
+    pathinfo: true
   },
   performance: {
     hints: process.env.NODE_ENV === 'production' ? 'warning' : false
@@ -22,7 +26,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.css', '.json'],
     alias: {
       root: path.join(__dirname, '../client'),
-      components: path.join(__dirname, '../client/components')
+      components: path.join(__dirname, '../client/components'),
     },
     modules: [
       _.cwd('node_modules'),

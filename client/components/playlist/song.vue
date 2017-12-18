@@ -6,10 +6,10 @@
             <h6>{{ song.artist.name }} - {{ song.album.name }}</h6>
         </div>
         <div class="playlist-item-actions">
-            <a class="playlist-item-actions__select" v-on:click="select">
+            <a class="playlist-item-actions__select" v-on:click.stop.prevent="select">
                 <i class="material-icons">play_arrow</i>
             </a>
-            <a class="playlist-item-actions__remove" v-on:click="remove">
+            <a class="playlist-item-actions__remove" v-on:click.stop.prevent="remove">
                 <i class="material-icons">remove_from_queue</i>
             </a>
         </div>

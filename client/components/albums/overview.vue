@@ -22,16 +22,21 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
   import album from './album'
   import Toaster from 'services/toast'
 
   export default {
-    props: ['type'],
+    props: {
+      type: {
+        type: String,
+        required: false,
+        default: 'all'
+      }
+    },
     components: {
       album
     },
-    data(){
+    data () {
       return {
         loadAlbums: false,
         toast: new Toaster()
@@ -46,9 +51,7 @@
     },
     computed: {
       albumPage () {
-        if(this.loadAlbums) {
-          return this.$store.getters['albums/albums']
-        }
+        return this.$store.getters['albums/albums']
       },
       totalAlbums () {
         return this.$store.getters['albums/totalAlbums']
@@ -56,18 +59,8 @@
 
     },
     created: function () {
-      if(this.albums == null) {
-        let delay = (time) => (result) => new Promise(resolve => setTimeout(() => resolve(result), time));
-        this.$store.dispatch('toggleLoading')
-        console.log('type')
-        this.$store.dispatch('albums/sortBy', this.type)
-        this.$store.dispatch('albums/loadAlbums').then(delay(1000)).then(() => {
-            this.loadAlbums = true;
-            this.$store.dispatch('toggleLoading')
-        }).catch(() => {
-          this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-        })
-      }
+      console.log(this.type)
+      this.$store.dispatch('albums/sortBy', this.type)
     },
   }
 </script>

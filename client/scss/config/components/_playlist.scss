@@ -1,3 +1,6 @@
 /* ==========  Playlist  ========== */
+$playlist-width: 250px;
 $playlist-bg-color: map_get(theme-color('light'),color);
-$playlist-txt-color: map_get(theme-color('dark'),color);
+$playlist-txt-color: map_get(theme-color('dark'),darker);
+$playlist-border-color: 1px solid rgba(0, 0, 0, 0.06);
+$playlist-item-hover-bg-color: $white;

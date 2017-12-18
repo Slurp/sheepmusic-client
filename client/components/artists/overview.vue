@@ -52,13 +52,7 @@
 
     },
     created: function () {
-      if (this.artists == null) {
-        this.$store.dispatch('artists/loadArtists').then(() => {
-          this.toast.toast('loaded artists')
-        }).catch(() => {
-          this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-        })
-      }
+
     },
   }
 </script>

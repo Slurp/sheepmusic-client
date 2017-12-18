@@ -1,5 +1,5 @@
 <template>
-    <a class="btn btn-float btn-sm btn-secondary" v-on:click="play">
+    <a class="btn btn-float btn-sm btn-secondary" v-on:click.stop.prevent="play">
         <i class="material-icons">play_arrow</i>
     </a>
 </template>

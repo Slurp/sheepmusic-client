@@ -1,16 +1,14 @@
 <template>
-    <router-link :to="detailLink"
-                 class="card" v-if="loaded">
 
+    <router-link :to="detailLink"
+                 class="card" v-if="loadedAlbum">
         <img class="card-img-top" v-if="hasCover" :src="album.cover" :alt="album.name"/>
         <img class="card-img-top" v-else src="/media/general/default.png"/>
-        </div>
         <div class="card-body has-sheet">
             <div class="fixed-action-btn"
-                 :class="{ active: openSheet }"
-                 v-on:click="toggleSheet"
-                 v-if="loadedAlbum">
-                <a class="btn btn-float btn-sm btn-secondary">
+                 v-bind:class="{ active: openSheet }">
+                <a class="btn btn-float btn-sm btn-secondary" v-on:click.stop.prevent="toggleSheet"
+                   v-if="loadedAlbum">
                     <i class="material-icons">more_horiz</i>
                 </a>
                 <ul class="action-sheet">
@@ -24,7 +22,7 @@
             </div>
         </div>
         <div class="card-block">
-            <h4 class="card-title" v-if="loadedAlbum">{{album.artist.name}}</h4>
+            <h4 class="card-title" v-if="loadedAlbum">{{album.artist.name}} {{ openSheet }}</h4>
             <h6 class="card-subtitle text-muted" v-if="loadedAlbum">{{album.name}}</h6>
         </div>
     </router-link>
@@ -36,7 +34,6 @@
   import Toaster from 'services/toast'
 
   export default {
-    name: 'albumList',
     props: ['album', 'albumId'],
     components: {
       play_btn,
@@ -50,17 +47,19 @@
       }
     },
     created () {
-      this.$store.dispatch('albums/loadAlbum', this.albumId).then(() => {
-        this.toast.toast('loaded album')
-        this.loaded = true
-      }).catch(() => {
-        this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-        this.loaded = false
-      })
+      console.log('toggleSheet' + this.openSheet)
+      if (this.album.artist == null || typeof this.album.songs == 'undefined') {
+        this.$store.dispatch('albums/loadAlbum', this.albumId).then(() => {
+          this.loaded = true
+        }).catch(() => {
+          this.toast.toast(`Stop! ${this.album.name} got hammered and is not getting of the server`)
+          this.loaded = false
+        })
+      }
+      this.loaded = true
     },
     methods: {
-      toggleSheet: function (event) {
-        if (event) event.preventDefault()
+      toggleSheet()  {
         this.openSheet = !this.openSheet
       }
     },

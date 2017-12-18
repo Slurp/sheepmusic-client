@@ -4,17 +4,21 @@
   justify-content: center;
   min-height: 100vh;
   .card {
-   flex: 1;
+    flex: 1;
     max-width: 50%;
     .card-header {
-      color:map_get(theme-color('dark'),color);
-      background-color:map_get(theme-color('secondary'),color);
+      color: $white;
+      background-color: map_get(theme-color('secondary'), color);
       display: flex;
       align-items: center;
       justify-content: center;
       h1 {
         flex: 1;
+        align-self: center;
       }
+    }
+    .card-body {
+      padding: 1rem;
     }
   }
   .brand-logo {
@@ -22,9 +26,9 @@
     transition: all 0.3s linear;
     padding: 10px;
     display: block;
-    height:44px;
+    height: 44px;
     width: 44px;
-    background: map_get(theme-color('dark'),color) url('#{$general}/logo.png') no-repeat;
+    background: map_get(theme-color('dark'), 'darker') url('#{$general}/logo.png') no-repeat;
     background-size: cover;
     margin-right: 20px;
   }

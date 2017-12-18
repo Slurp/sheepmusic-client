@@ -23,13 +23,19 @@
                     </song-item>
                 </ul>
             </div>
-            <div class="playlist-actions">
-                <a href="#" data-playlist_action="shuffle">
+            <div v-if="isEmpty == false" class="playlist-actions" role="group">
+                <a href="#" class='btn' v-on:click.stop.prevent="shuffle">
                     <i class="material-icons">shuffle</i>
                 </a>
-                <a href="#">
+                <a href="#" class='btn' v-bind:class="repeatMode" v-bind:title="repeatStatus" v-on:click.stop.prevent="changeRepeatMode">
+                    <i v-if="repeatMode == 'REPEAT_ONE'" class="material-icons">repeat_one</i>
+                    <i v-if="repeatMode == 'NO_REPEAT'" class="material-icons">repeat</i>
+                    <i v-if="repeatMode == 'REPEAT_ALL'" class="material-icons">repeat</i>
+                </a>
+                <a href="#" class='btn' data-toggle="modal" data-target="#playlistModal">
                     <i class="material-icons">save</i>
                 </a>
+
             </div>
         </div>
     </div>
@@ -37,19 +43,30 @@
 <script>
   import songItem from './song'
 
+
   export default {
     name: 'playlist',
     components: {
       songItem
     },
+    data () {
+      return {
+        repeatStatus: ''
+      }
+    },
     methods: {
       isActive (index) {
-        console.log(this.currentIndex + ' == ' + index)
         if (this.playing && this.currentSong !== null) {
           return (this.currentIndex === index)
         }
         return false
       },
+      shuffle () {
+        this.$store.dispatch('playlist/shuffle')
+      },
+      changeRepeatMode () {
+        this.$store.dispatch('playlist/setRepeatMode', this.repeatMode)
+      }
     },
     computed: {
       playing () {
@@ -66,6 +83,9 @@
       },
       list () {
         return this.$store.getters['playlist/list']
+      },
+      repeatMode () {
+        return this.repeatStatus = this.$store.getters['playlist/repeatMode']
       }
     },
   }

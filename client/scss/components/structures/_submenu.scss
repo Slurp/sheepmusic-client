@@ -15,7 +15,7 @@
   z-index: (map-get($navdrawer-elevation-shadow, elevation) - 1);
   + .container-fluid {
     .left-column {
-      padding-left: $navdrawer-width + 0.725rem;
+      padding-left: $navdrawer-width + 0.5rem;
     }
     .album-backdrop, .artist-backdrop {
       left: $navdrawer-width;

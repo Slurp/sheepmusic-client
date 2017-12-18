@@ -1,8 +1,10 @@
 <template>
-    <p>
-        <span v-if="!show">{{truncate(text)}} <a v-if="text.length >= length" @click="toggle()">{{clamp || 'Read More'}}</a></span>
-        <span v-if="show"><span v-html="text"></span> <a @click="toggle()" v-if="text.length >= length">{{less || 'Show Less'}}</a></span>
-    </p>
+    <div class="artist-bio">
+        <div class="artist-bio__short" v-bind:class="{ visible: !show}">{{truncate(text)}}</div>
+        <div class="artist-bio__long" v-bind:class="{ visible: show}" v-html="text"></div>
+        <a v-if="text.length >= length && !show" @click="toggle()">{{clamp || 'Read More'}}</a>
+        <a @click="toggle()" v-if="text.length >= length && show">{{less || 'Show Less'}}</a>
+    </div>
 </template>
 
 <script>
@@ -11,25 +13,25 @@
     name: 'truncate',
     props: { 'text': String, 'clamp': String, 'length': Number, 'less': String },
     methods: {
-      truncate(string) {
+      truncate (string) {
         if (string) {
-          return string.toString().substring(0, this.length || 100);
+          return string.toString().substring(0, this.length || 100)
         }
 
-        return '';
+        return ''
       },
-      toggle() {
-        this.show = !this.show;
+      toggle () {
+        this.show = !this.show
       },
     },
 
-    data() {
+    data () {
       return {
         show: false,
         counter: this.length,
-      };
+      }
     },
-  };
+  }
 </script>
 
 <style lang="css" scoped>

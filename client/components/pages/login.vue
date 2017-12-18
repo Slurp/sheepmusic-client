@@ -1,10 +1,11 @@
 <template>
     <div class="login">
         <div class="card">
-            <div class="card-header"><span class="brand-logo">
-
-            </span>
-                <h1>Login</h1></div>
+            <div class="card-header">
+                <span class="brand-logo">
+                </span>
+                <h1>Login</h1>
+            </div>
             <div class="card-body">
                 <form v-on:submit.prevent="login()">
                     <div class="form-group">
@@ -16,12 +17,16 @@
                         <input v-model="data.body.password" type="password" class="form-control"/>
                     </div>
                     <div class="form-group">
-                        <label class="col-form-label"></label>
-                        <input v-model="data.rememberMe" type="checkbox" class="form-control"/> Remember Me
+                        <label class="custom-control custom-checkbox">
+                            <input v-model="data.rememberMe" type="checkbox" class="custom-control-input">
+                            <span class="custom-control-indicator"></span>
+                            <span class="custom-control-description">Remember Me</span>
+                        </label>
+                        <button type="submit" class="btn btn-secondary float-md-right">Login</button>
                     </div>
                     <div class="form-group">
                         <label class="col-form-label"></label>
-                        <button type="submit" class="btn-outline-secondary">Login</button>
+
                     </div>
                     </table>
                     <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
@@ -56,19 +61,18 @@
 
     methods: {
       login () {
-        this.$store.dispatch('toggleLoading');
+        this.$store.dispatch('toggleLoading')
         var redirect = this.$auth.redirect()
         this.$auth.login({
-          body: this.data.body, // Vue-resource
           data: this.data.body, // Axios
           rememberMe: this.data.rememberMe,
           redirect: { name: redirect ? redirect.from.name : 'all-albums' },
           fetchUser: this.data.fetchUser,
           success (res) {
-            this.$store.dispatch('toggleLoading');
+            this.$store.dispatch('toggleLoading')
           },
           error (res) {
-            this.$store.dispatch('toggleLoading');
+            this.$store.dispatch('toggleLoading')
             this.error = res.data
           }
         })

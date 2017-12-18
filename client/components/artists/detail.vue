@@ -5,23 +5,22 @@
             <div class="info-bar artist media">
                 <img class="info-bar-image" :src="cover"/>
                 <div class="info-bar-content media-body">
-                    <h1 class="artist-name">{{ artist.name }}</h1>
-                    <h3 class="artist-name">
-                        <router-link
-                                :to="{ name: 'detail_artist', params: { artist: artist.name, id: artist.id }}">
-                            {{artist.name}}
-                        </router-link>
-                    </h3>
-
-                    <play_btn :artist=artist></play_btn>
-                    <queue_btn :artist=artist></queue_btn>
-                    <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography" ></truncate>
+                    <div class="info-bar-content__header">
+                        <h1 class="artist-name">{{ artist.name }}</h1>
+                        <play_btn :artist=artist></play_btn>
+                        <queue_btn :artist=artist></queue_btn>
+                    </div>
+                    <dl class="info">
+                        <dt>Albums:</dt>
+                        <dd>{{ artist.albums.length }}</dd>
+                    </dl>
+                    <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
                 </div>
             </div>
         </div>
         <div class="list">
-            <div class="col" v-for="album in artist.albums" :key="album.id" :name="album.id">
-                <album :album-id=album.id :album=album></album>
+            <div class="col" v-for="album in artist.albums" :key="album.id">
+                <album :album-id=album.id :album=album :key="album.id"></album>
             </div>
         </div>
     </div>
@@ -31,9 +30,9 @@
   import songList from 'components/songs/list'
   import breadcrumbs from 'components/misc/breadcrumbs'
   import album from 'components/albums/album'
-  import truncate from './bio';
-    import play_btn from './play-btn'
-    import queue_btn from './queue-btn'
+  import truncate from './bio'
+  import play_btn from './play-btn'
+  import queue_btn from './queue-btn'
 
   export default {
     components: {
@@ -46,7 +45,9 @@
     },
     props: ['id'],
     created: function () {
-      this.$store.dispatch('artists/loadArtist', this.id)
+      if (this.artist == null || typeof this.artist.albums == 'undefined') {
+        this.$store.dispatch('artists/loadArtist', this.id)
+      }
       this.$store.dispatch('artists/viewArtist', this.id)
     },
     computed: {

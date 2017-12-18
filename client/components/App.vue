@@ -1,17 +1,19 @@
 <template>
     <div v-bind:class="loginScreen">
         <navbar v-if="$auth.check()"></navbar>
-        <sidebar v-if="$auth.ready() && loaded"></sidebar>
+        <sidebar v-if="$auth.check() && loaded"></sidebar>
         <div class="container-fluid">
             <main class="router-view" role="main">
                 <div class="left-column">
                     <router-view></router-view>
+
                 </div>
                 <playlist v-show="$auth.check()"></playlist>
             </main>
         </div>
         <player v-show="$auth.check()"></player>
         <overlay v-if="!$auth.ready() || !loaded || loading"></overlay>
+        <modal-screens></modal-screens>
     </div>
 </template>
 <script>
@@ -20,31 +22,46 @@
   import playlist from 'components/playlist/playlist'
   import overlay from 'components/misc/overlay'
   import sidebar from 'components/sidebar/index'
+  import modalScreens from 'components/modals/screens'
+  import Toaster from 'services/toast'
 
   export default {
-    components: { navbar, player, playlist, overlay, sidebar },
+    components: { navbar, player, playlist, overlay, sidebar, modalScreens },
     data () {
       return {
         loaded: false,
+        toast: new Toaster()
       }
     },
     computed: {
       loginScreen: function () {
         return {
-          'playlist-show': this.loaded && this.$auth.check(),
+          'playlist-show': this.loaded && this.$auth.check() && this.showPlaylist,
           'main-background': !this.$auth.check()
         }
       },
       loading () {
         return this.$store.getters['loading']
+      },
+      showPlaylist () {
+        return this.$store.getters['showPlaylist']
       }
     },
     created () {
       let _this = this
       this.$store.dispatch('toggleLoading')
       this.$auth.ready(function () {
-        this.$store.dispatch('toggleLoading')
-        _this.loaded = true
+        this.$store.dispatch('albums/loadAlbums').then(() => {
+          this.$store.dispatch('artists/loadArtists').then(() => {
+            this.toast.toast('Start me up')
+            _this.loaded = true
+            this.$store.dispatch('toggleLoading')
+          }).catch(() => {
+            this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
+          })
+        }).catch(() => {
+          this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
+        })
       })
     }
   }

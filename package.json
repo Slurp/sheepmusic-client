@@ -18,7 +18,28 @@
       "browser"
     ]
   },
+  "babel": {
+    "presets": [
+      [
+        "vue-app",
+        {
+          "useBuiltIns": true
+        }
+      ]
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {},
+      "postcss-nested": {}
+    }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "ie > 8"
+  ],
   "dependencies": {
+    "@material/toolbar": "^0.25.0",
     "@websanova/vue-auth": "^2.18.3-beta",
     "axios": "^0.16.2",
     "babel-runtime": "^6.18.0",
@@ -67,13 +88,13 @@
     "postcss-loader": "^0.9.1",
     "postcss-nested": "^1.0.0",
     "raw-loader": "^0.5.1",
+    "rimraf": "^2.6.1",
     "sass-loader": "^6.0.4",
     "style-loader": "^0.13.1",
     "vue-loader": "^11.0.0",
     "vue-template-compiler": "^2.2.0",
     "webpack": "2.2.0",
-    "webpack-dev-middleware": "^1.8.1",
-    "webpack-hot-middleware": "^2.12.2",
+    "webpack-dev-server": "^2.6.1",
     "xo": "^0.18.0"
   }
 }

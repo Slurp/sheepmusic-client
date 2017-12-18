@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import modules from './modules'
-import { CLEAR, TOGGLE_LOADING, TOGGLE_SIDE_BAR } from './mutations'
+import { CLEAR, TOGGLE_LOADING, TOGGLE_PLAYLIST } from './mutations'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   modules,
   state: {
-    sideBarVisible: false,
+    showPlaylist: true,
     loadingScreen: false
   },
 
@@ -32,13 +32,13 @@ const store = new Vuex.Store({
      *
      * @param commit
      */
-    toggleSideBar: ({ commit }) => commit(TOGGLE_SIDE_BAR),
+    togglePlaylist: ({ commit }) => commit(TOGGLE_PLAYLIST),
     toggleLoading: ({ commit }) => commit(TOGGLE_LOADING)
   },
 
   mutations: {
-    [TOGGLE_SIDE_BAR]: (state) => {
-      state.sideBarVisible = !state.sideBarVisible
+    [TOGGLE_PLAYLIST]: (state) => {
+      state.showPlaylist = !state.showPlaylist
     },
     [TOGGLE_LOADING]: (state) => {
       state.loadingScreen = !state.loadingScreen
@@ -47,6 +47,9 @@ const store = new Vuex.Store({
   getters: {
     loading: state => {
       return state.loadingScreen
+    },
+    showPlaylist: state => {
+      return state.showPlaylist
     }
   }
 })

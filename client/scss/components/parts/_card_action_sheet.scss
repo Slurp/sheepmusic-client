@@ -1,6 +1,6 @@
 .card .has-sheet {
   position: relative;
-  border-top: 1px solid map_get(theme-color('light'),color);
+  border-top: 1px solid map_get(theme-color('light'), color);
   z-index: 0;
   .btn-floating {
     z-index: 2;
@@ -23,25 +23,36 @@
       margin-left: auto;
       margin-right: 5px;
     }
+    &.active {
+      .action-sheet {
+        height: $btn-float-size-sm + 0.5rem;
+        transform: translateY(-50%);
+        z-index: 1;
+        li {
+          display: block;
+        }
+      }
+    }
 
     .action-sheet {
       display: flex;
       flex-direction: row;
       justify-content: flex-end;
       list-style: none;
-      z-index: 1;
+      z-index: -1;
       text-align: right;
       right: 0;
       left: 0;
       top: -9px;
-      transform: translateY(-50%);
-      height: $btn-float-size-sm + 0.5rem;
+      transform: translateY(-100%);
       margin: 0;
-      padding: 4px;
-      background:  rgba(map_get(theme-color('dark'),color), 0.5);
+      padding: 0.5rem 4px;
       padding-right: $button-floating-size;
+      background: rgba(map_get(theme-color('dark'), color), 0.5);
       border-bottom: 1px solid $card-border-color;
+      height: 0;
       li {
+        display: none;
         flex: 0 0 auto;
         padding: 0;
         margin-right: 5px;
@@ -50,7 +61,7 @@
     }
 
     .btn-floating {
-      background-color: map_get(theme-color('secondary'),color);
+      background-color: map_get(theme-color('secondary'), color);
 
     }
   }

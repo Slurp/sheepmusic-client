@@ -12,31 +12,35 @@
   opacity: 0;
   color: $playlist-txt-color;
   transition: all 1s ease 0.1s;
-
 }
 
 .playlist {
-  top:0;
+  @include make-col-ready();
+  @include make-col(6);
+  @include media-breakpoint-up(sm) {
+    @include make-col(3);
+  }
+  @extend .z-depth-1;
+  top: 40px;
+  position: fixed;
+  right: 0;
   background-color: $playlist-bg-color;
-  transform: translateX(100%);
+  transform: translate3d(100%,0,0);
   z-index: 998;
   margin-right: 0;
   margin-bottom: 0;
-  transition: all 1s ease 0.2s;
+  @include transition-sharp(transform);
   color: $playlist-txt-color;
+  height: calc(100vh - 110px);
   .playlist-wrapper {
     position: absolute;
     left: 5px;
     right: 5px;
   }
-  .btn {
-    position: absolute;
-    bottom: 15px;
-    right: 10px;
-  }
   .playlist-header {
     padding-top: 30px;
     margin-bottom: 5px;
+    border-bottom:1px solid rgba(0, 0, 0, 0.1);
   }
 
   ul {
@@ -45,7 +49,7 @@
     overflow-y: auto;
     position: relative;
     height: calc(100vh - 190px);
-    padding-bottom: 30px;
+    padding-bottom: 50px;
     align-content: flex-start;
     &::-webkit-scrollbar {
       display: none;
@@ -61,6 +65,7 @@
   min-height: 40px;
   font-size: 14px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  position: relative;
   img {
     width: 32px;
     height: auto;
@@ -78,20 +83,20 @@
       width: 40px;
       height: 40px;
       display: block;
-      background: url('#{$general}/now-playing.gif') rgba($player-txt-color, 0.5);
+      background: url('#{$general}/now-playing.gif') rgba($player-txt-color, 0.6);
     }
   }
 
   &-actions {
     opacity: 0;
-    transition: opacity 0.5s ease;
+    transition: opacity,background-color 0.5s ease;
     position: absolute;
     right: 5px;
     left: 5px;
     top: 4px;
     bottom: 4px;
     height: 100%;
-
+    background: transparent;
     z-index: 3;
     a {
       text-align: center;
@@ -116,7 +121,7 @@
     }
   }
   &:hover {
-    background: $body-bg;
+    background: $playlist-item-hover-bg-color;
     .playlist-item-actions {
       opacity: 1;
     }
@@ -148,23 +153,39 @@
 }
 
 .playlist-actions {
-  padding-top: 5px;
+  border-top:1px solid rgba(0, 0, 0, 0.1);
+  padding: 5px 0 1.5rem;
+  margin: 0 10px;
   position: absolute;
-  bottom: 10px;
-  left:10px;
-  right:10px;
+  bottom: 0px;
+  left:0;
+  right:0;
   background: $playlist-bg-color;
   z-index: 999;
-  height: 32px;
+  display: flex;
+  justify-content: space-around;
+  a {
+    @extend .btn;
+    @extend .btn-sm;
+    @extend .btn-secondary;
+    min-width: 0;
+    &.REPEAT_ONE {
+      @extend .btn-info;
+    }
+    &.NO_REPEAT {
+      @extend .btn-light;
+    }
+    &.REPEAT_ALL {
+
+    }
+  }
 }
 
 .playlist-show
 {
   .playlist {
-    display: block;
-    transform: translateX(0%);
-    position: fixed;
-    right: 0;
+    transform: translate3d(0,0,0);
+    @include transition-deceleration(transform);
   }
   .playlist-dropup {
     opacity: 1;

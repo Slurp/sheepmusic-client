@@ -6,7 +6,7 @@
         <div class="card-body has-sheet">
             <div class="fixed-action-btn"
                  :class="{ active: openSheet }"
-                 v-on:click="toggleSheet">
+                 v-on:click.stop.prevent="toggleSheet">
                 <a class="btn btn-float btn-sm btn-secondary">
                     <i class="material-icons">more_horiz</i>
                 </a>

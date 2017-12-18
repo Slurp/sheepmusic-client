@@ -2,164 +2,195 @@
   z-index: 4;
   display: flex;
   background-color: $player-bg-color;
+
+  height: $footer-fixed-height;
   border-top: 1px solid $player-border-color;
   border-bottom: 1px solid $player-border-color;
   @include media-breakpoint-down(xs) {
     flex-direction: column-reverse;
   }
-  button {
-    height: $footer-fixed-height;
-    width: 25%;
-    background-color: transparent;
-    color: $button-floating-background;
-    border: none;
-    text-align: center;
-    padding: 0.2rem;
-    i {
-      display: block;
-      font-size: 2rem;
-    }
-    &.tab-focus:focus,
-    &:hover {
-      background: $button-floating-background;
-      color: $player-bg-color;
-    }
-  }
-  .player-controls {
-    @include make-col-ready();
-    @include make-col(3);
-    @include media-breakpoint-down(sm) {
-      @include make-col(4);
-    }
-
-    button {
-      width: 20%;
-      @include media-breakpoint-down(sm) {
-        width: 33.33%;
-      }
-    }
-    .icon--muted {
-      display: none;
-    }
-    [data-plyr='fast-forward'],
-    [data-plyr='rewind'] {
-      @include media-breakpoint-down(sm) {
-        display: none;
-      }
-    }
-  }
-  .plyr {
-    @include make-col-ready();
-    @include make-col(9);
-    @include media-breakpoint-down(sm) {
-      @include make-col(8);
-    }
+  .player-row {
     display: flex;
-    .player-info {
-      @include make-col-ready();
-      @include make-col(8);
-      @include media-breakpoint-down(sm) {
-        @include make-col(6);
-      }
-      position: relative;
-      button {
-        margin-top: -30px;
-        height: 50px;
-        float: right;
-        i {
-          font-size: 20px;
-        }
-      }
-      .song-image {
-        width: auto;
-        height: 70px;
-        float: left;
-        margin-right: 15px;
-        margin-left: -15px;
-      }
-      .progress-wrapper {
-        position: absolute;
-        top: 0;
-        left: 73px;
-        right: 15px;
-        padding-top: 1px;
-        margin-bottom: -1px;
-        * {
-          border-radius: 0;
-        }
-      }
-      #now-playing {
-        margin-top: 10px;
-        .playing-song-artist,
-        .playing-song-title {
-          display: block;
-        }
-      }
+    width: 100%;
+  }
+  .plyr--playing + .player-row {
+    padding-top: 10px;
+  }
+}
 
-      #time {
-        float: right;
-        width: 50%;
-        text-align: right;
-        > div {
-          float: left;
-          width: 50%;
-        }
-      }
+.player__button {
+  flex: 1 0;
+  height: 100%;
+  background-color: transparent;
+  color: $button-floating-background;
+  border: none;
+  text-align: center;
+  padding: 0.2rem;
+  i {
+    display: block;
+    font-size: 2rem;
+  }
+  &.tab-focus:focus,
+  &:hover {
+    background: $button-floating-background;
+    color: $player-bg-color;
+  }
+  &.player__forward,
+  &.player__rewind {
+    display: none;
+    @include media-breakpoint-up(sm) {
+      display: initial;
     }
-    .player-extra {
-      @include make-col-ready();
-      @include make-col(4);
-      @include media-breakpoint-down(sm) {
-        @include make-col(5);
-      }
-      button {
-        margin-top: 20px;
-        height: 50px;
-        i {
-          font-size: 20px;
-        }
-      }
+  }
+}
+
+
+
+.player-controls {
+  @include make-col-ready();
+  @include make-col(4);
+  @include media-breakpoint-up(md) {
+    @include make-col(3);
+  }
+  .row {
+    flex-direction: row;
+    height: 100%;
+  }
+
+}
+
+.player-info {
+  @include make-col-ready();
+  @include make-col(8);
+  @include media-breakpoint-up(md) {
+    @include make-col(6);
+  }
+  display: flex;
+  .song-image {
+    flex: 0;
+    width: auto;
+    height: 70px;
+    margin-left: ($grid-gutter-width-base / 2) * -1;
+  }
+  button {
+    margin-top: -30px;
+    height: 50px;
+    float: right;
+    i {
+      font-size: 20px;
     }
-    .plyr__volume {
-      position: absolute;
-      top: 0px;
-      right: 65px;
-      left: 15px;
-      /* width: 100%; */
-      max-width: 100%;
-      .plyr__volume__display {
-        border-radius: 0;
+  }
+  .now-playing {
+    padding-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    width: 100%;
+    flex: 0 0 100%;
+    @include media-breakpoint-up(md) {
+      align-items: center;
+    }
+    .title {
+      @include text-truncate();
+      font-size: 1rem;
+      min-height: 1.1rem;
+      line-height: 1rem;
+      color: map_get(theme-color('secondary'), 'color');
+      margin: 0;
+      display: block;
+      width: 100%;
+      @include media-breakpoint-up(md) {
+        text-align: center;
       }
-      input[type='range'] {
-        &::-webkit-slider-thumb {
-          margin-top: 8px;
-        }
-        &:hover {
-          &::-webkit-slider-thumb {
-            margin-top: 4px;
+      padding-top: 6px;
+      flex: 1 1 100%;
+    }
+    a:hover {
+      color: map_get(theme-color('secondary'), 'lighter');
+    }
+    .meta {
+      display: flex;
+      margin: 0;
+      flex: 1 1 100%;
+      text-transform: capitalize;
+      display: flex;
+      align-items: center;
+      padding-bottom: 3px;
+    }
+  }
+
+  #time {
+    float: right;
+    width: 50%;
+    text-align: right;
+    > div {
+      float: left;
+      width: 50%;
+    }
+  }
+}
+
+.player .plyr {
+  position: absolute;
+  top: -5px;
+  left: $navdrawer-width;
+  right: percentage(3 / $grid-columns);
+  @include media-breakpoint-up(sm) {
+    //right: 5rem;
+  }
+
+  //margin-left: -5px;
+  //left: percentage(4 / $grid-columns);
+  //@include media-breakpoint-up(md) {
+  //  left: percentage(3 / $grid-columns);
+  //}
+  .plyr--audio .plyr__progress--buffer {
+    border-radius: 0 0 1rem 1rem;
+    background: $player-bg-color;
+  }
+  &.plyr--playing {
+    .plyr__progress {
+      width: 100%;
+      opacity: 1;
+      @include media-breakpoint-up(sm) {
+
+        .plyr__progress--buffer,
+        .plyr__progress--played {
+          border-radius: 0 0 1rem 1rem;
+          &::-webkit-progress-bar {
+            background: transparent;
+          }
+          &::-webkit-progress-value {
+            border-radius: 0 0 0rem 1rem;
+          }
+          &::-moz-progress-bar {
+            border-radius: 0 0 0rem 1rem;
+          }
+          &::-ms-fill {
+            border-radius: 0 0 0rem 1rem;
           }
         }
       }
     }
-    // Change icons on state change
-    &.plyr--muted .plyr__controls .icon--muted {
-      display: block;
-      & + i {
-        display: none;
-      }
-    }
-    .plyr__time--current,
-    .plyr__time--duration {
-      position: absolute;
-      top: 15px;
-      left: 75px;
-      color: $player-txt-color;
-    }
-    .plyr__time--duration {
-      left: auto;
-      right: 15px;
-    }
   }
-
+  .plyr__progress {
+    width: 1px;
+    opacity: 0;
+    transition: all 0.5s ease;
+  }
+  .plyr__time--current,
+  .plyr__time--duration {
+    position: absolute;
+    top: 15px;
+    left: 75px;
+    color: $player-txt-color;
+  }
+  .plyr__time--duration {
+    left: auto;
+    right: 15px;
+  }
 }
+
+
 

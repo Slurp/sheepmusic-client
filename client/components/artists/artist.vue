@@ -8,7 +8,7 @@
         <div class="card-body has-sheet">
             <div class="fixed-action-btn"
                  :class="{ active: openSheet }"
-                 v-on:click="toggleSheet"
+                 v-on:click.stop.prevent="toggleSheet"
                  v-if="loadedArtist">
                 <a class="btn btn-float btn-sm btn-secondary">
                     <i class="material-icons">more_horiz</i>
@@ -50,13 +50,18 @@
       }
     },
     created () {
-      this.$store.dispatch('artists/loadArtist', this.artistId).then(() => {
-        this.toast.toast('loaded artist')
+      if (this.artist == null || typeof this.artist.albums == 'undefined') {
+        this.$store.dispatch('artists/loadArtist', this.artistId).then(() => {
+          this.toast.toast('loaded artist')
+          this.loaded = true
+        }).catch(() => {
+          this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
+          this.loaded = false
+        })
+      } else {
         this.loaded = true
-      }).catch(() => {
-        this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-        this.loaded = false
-      })
+      }
+
     },
     methods: {
       toggleSheet: function (event) {
@@ -80,10 +85,7 @@
         return (this.loaded && this.artist.albums)
       },
       detailLink () {
-        return {
-          name: 'detail_artist',
-          params: { artist: this.artist.name, id: this.artist.id },
-        }
+        return  this.$store.getters['artists/detailLink'](this.artist)
       },
     },
 

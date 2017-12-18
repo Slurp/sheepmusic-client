@@ -15,7 +15,7 @@ _.cssLoader = config.cssModules ?
 
 _.cssProcessors = [
   {loader: '', test: /\.css$/},
-  {loader: 'sass-loader?sourceMap', test: /\.scss$/},
+  {loader: 'sass-loader?sourceMap&{"includePaths":["./node_modules"]}', test: /\.scss$/},
   {loader: 'less-loader?sourceMap', test: /\.less$/},
   {loader: 'stylus-loader?sourceMap', test: /\.styl$/},
   {loader: 'sass-loader?indentedSyntax&sourceMap', test: /\.sass$/},
@@ -53,16 +53,11 @@ _.loadersOptions = () => {
     options: {
       // css-loader relies on context
       context: process.cwd(),
-      // postcss plugins apply to .css files
-      postcss: config.postcss,
-      babel: config.babel,
       vue: {
-        // postcss plugins apply to css in .vue files
-        postcss: config.postcss,
         loaders: {
           css: generateLoader([]),
           sass: generateLoader(['sass-loader?indentedSyntax&sourceMap']),
-          scss: generateLoader(['sass-loader?sourceMap']),
+          scss: generateLoader(['sass-loader?sourceMap&{"includePaths":["./node_modules"]}']),
           less: generateLoader(['less-loader?sourceMap']),
           stylus: generateLoader(['stylus-loader?sourceMap']),
           js: 'babel-loader'

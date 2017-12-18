@@ -13,8 +13,9 @@ module.exports = function () {
           'a',
           {
             'class': 'page-link', attrs: {
-            role: 'button'
-          },
+              role: 'button',
+              href: "#"
+            },
             on: {
               click: this.setPage.bind(this, page)
             }
@@ -26,7 +27,7 @@ module.exports = function () {
 
     return h(
       'div',
-      { 'class': 'VuePagination' },
+      { 'class': 'pager' },
       [h(
         'ul',
         {
@@ -44,13 +45,13 @@ module.exports = function () {
             'a',
             {
               'class': 'page-link', attrs: {
-              href: 'javascript:void(0);'
-            },
+                href: 'javascript:void(0);'
+              },
               on: {
                 click: this.setChunk.bind(this, -1)
               }
             },
-            ['<<']
+            [h('i', { 'class': 'material-icons' }, 'first_page')]
           )]
         ), h(
           'li',
@@ -59,13 +60,13 @@ module.exports = function () {
             'a',
             {
               'class': 'page-link', attrs: {
-              href: 'javascript:void(0);'
-            },
+                href: 'javascript:void(0);'
+              },
               on: {
                 click: this.prev.bind(this)
               }
             },
-            ['<']
+            [h('i', { 'class': 'material-icons' }, 'chevron_left')]
           )]
         ), items, h(
           'li',
@@ -73,14 +74,15 @@ module.exports = function () {
           [h(
             'a',
             {
-              'class': 'page-link', attrs: {
-              href: 'javascript:void(0);'
-            },
+              'class': 'page-link',
+              attrs: {
+                href: 'javascript:void(0);'
+              },
               on: {
                 click: this.next.bind(this)
               }
             },
-            ['>']
+            [h('i', { 'class': 'material-icons' }, 'chevron_right')]
           )]
         ), h(
           'li',
@@ -89,13 +91,13 @@ module.exports = function () {
             'a',
             {
               'class': 'page-link', attrs: {
-              href: 'javascript:void(0);'
-            },
+                href: 'javascript:void(0);'
+              },
               on: {
                 click: this.setChunk.bind(this, 1)
               }
             },
-            ['>>']
+            [[h('i', { 'class': 'material-icons' }, 'last_page')]]
           )]
         )]
       ), h(
