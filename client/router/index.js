@@ -6,6 +6,7 @@ import PlaylistOverview from 'components/playlists/overview'
 import AlbumDetail from 'components/albums/detail'
 import ArtistDetail from 'components/artists/detail'
 import PlaylistDetail from 'components/playlists/detail'
+import SearchResults from 'components/search/search-results'
 
 import Login from 'components/pages/login'
 import NotFound from 'components/not-found.vue'
@@ -88,6 +89,13 @@ export default new VueRouter({
       path: '/playlist/:id',
       name: 'detail_playlists',
       component: PlaylistDetail,
+      props: true,
+      meta: { auth: true }
+    },
+    {
+      path: '/search/:query',
+      name: 'search_results',
+      component: SearchResults,
       props: true,
       meta: { auth: true }
     },

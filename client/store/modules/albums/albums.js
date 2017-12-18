@@ -100,6 +100,9 @@ const getters = {
     }
     return state.albums.slice
   },
+  search: (state) => (albums) => {
+    return albums.map(album => state.albums[album.id])
+  },
   getAlbumById: (state) => (albumId) => {
     return state.albums[albumId]
   },

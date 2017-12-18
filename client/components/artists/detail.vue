@@ -1,6 +1,5 @@
 <template>
-
-    <div class="artist-detail" :id="artist.id" v-if="artist && artist.albums && !loading">
+    <div class="artist-detail" :id="artist.id" v-if="artist && artist.albums">
         <breadcrumbs :artist="artist"></breadcrumbs>
         <div class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + artist.albumArt + ')' }">
             <div class="info-bar artist media">

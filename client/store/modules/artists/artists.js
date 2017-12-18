@@ -92,6 +92,9 @@ const getters = {
   getArtistById: (state) => (artistId) => {
     return state.artists[artistId]
   },
+  search: (state) => (artists) => {
+    return artists.map(artist => state.artists[artist.id])
+  },
   detailLink: (state) => (artist) => {
     return {
       name: 'detail_artist',

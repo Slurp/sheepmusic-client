@@ -51,7 +51,9 @@
     },
     methods: {
       getAlbumDetails() {
-        if (this.album.artist == null || typeof this.album.songs == 'undefined') {
+        if (this.album == null || this.album.artist == null || typeof this.album.songs == 'undefined') {
+          this.loaded = false;
+          console.log('loading album');
           this.$store.dispatch('albums/loadAlbum', this.albumId).then(() => {
             this.loaded = true
           }).catch(() => {
