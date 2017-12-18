@@ -1,5 +1,6 @@
 <template>
-    <div class="artist-detail" :id="artist.id" v-if="artist && artist.albums">
+
+    <div class="artist-detail" :id="artist.id" v-if="artist && artist.albums && !loading">
         <breadcrumbs :artist="artist"></breadcrumbs>
         <div class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + artist.albumArt + ')' }">
             <div class="info-bar artist media">
@@ -24,6 +25,7 @@
             </div>
         </div>
     </div>
+
 </template>
 
 <script>
@@ -44,11 +46,16 @@
       queue_btn
     },
     props: ['id'],
-    created: function () {
-      if (this.artist == null || typeof this.artist.albums == 'undefined') {
-        this.$store.dispatch('artists/loadArtist', this.id)
+    created () {
+      this.loadAlbumDetail()
+    },
+    methods: {
+      loadAlbumDetail () {
+        if (this.artist == null || typeof this.artist.albums == 'undefined') {
+          this.$store.dispatch('artists/loadArtist', this.id)
+        }
+        this.$store.dispatch('artists/viewArtist', this.id)
       }
-      this.$store.dispatch('artists/viewArtist', this.id)
     },
     computed: {
       cover () {

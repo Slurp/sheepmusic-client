@@ -58,7 +58,8 @@
       }
 
     },
-    created: function () {
+    created () {
+      this.toast.toast(this.type)
       console.log(this.type)
       this.$store.dispatch('albums/sortBy', this.type)
     },

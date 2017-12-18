@@ -6,7 +6,6 @@
             <main class="router-view" role="main">
                 <div class="left-column">
                     <router-view></router-view>
-
                 </div>
                 <playlist v-show="$auth.check()"></playlist>
             </main>
@@ -48,13 +47,11 @@
       }
     },
     created () {
-      let _this = this
       this.$store.dispatch('toggleLoading')
       this.$auth.ready(function () {
         this.$store.dispatch('albums/loadAlbums').then(() => {
           this.$store.dispatch('artists/loadArtists').then(() => {
-            this.toast.toast('Start me up')
-            _this.loaded = true
+            this.loaded = true
             this.$store.dispatch('toggleLoading')
           }).catch(() => {
             this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')

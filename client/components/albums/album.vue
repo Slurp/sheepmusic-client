@@ -21,9 +21,9 @@
                 </ul>
             </div>
         </div>
-        <div class="card-block">
-            <h4 class="card-title" v-if="loadedAlbum">{{album.artist.name}} {{ openSheet }}</h4>
-            <h6 class="card-subtitle text-muted" v-if="loadedAlbum">{{album.name}}</h6>
+        <div class="card-block" v-if="loadedAlbum">
+            <h4 class="card-title">{{album.artist.name}}</h4>
+            <h6 class="card-subtitle text-muted">{{album.name}}</h6>
         </div>
     </router-link>
 </template>
@@ -47,18 +47,20 @@
       }
     },
     created () {
-      console.log('toggleSheet' + this.openSheet)
-      if (this.album.artist == null || typeof this.album.songs == 'undefined') {
-        this.$store.dispatch('albums/loadAlbum', this.albumId).then(() => {
-          this.loaded = true
-        }).catch(() => {
-          this.toast.toast(`Stop! ${this.album.name} got hammered and is not getting of the server`)
-          this.loaded = false
-        })
-      }
-      this.loaded = true
+      this.getAlbumDetails()
     },
     methods: {
+      getAlbumDetails() {
+        if (this.album.artist == null || typeof this.album.songs == 'undefined') {
+          this.$store.dispatch('albums/loadAlbum', this.albumId).then(() => {
+            this.loaded = true
+          }).catch(() => {
+            this.toast.toast(`Stop! ${this.album.name} got hammered and is not getting of the server`)
+            this.loaded = false
+          })
+        }
+        this.loaded = true
+      },
       toggleSheet()  {
         this.openSheet = !this.openSheet
       }
