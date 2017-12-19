@@ -17,7 +17,7 @@
                 <playlist :playlist-id=playlist.id :playlist=playlist :key="playlist.id"></playlist>
             </div>
         </transition-group>
-        <pagination for="playlists" :records="totalArtists" :vuex="true"></pagination>
+        <pagination for="playlists" :records="totalPlaylists" :vuex="true"></pagination>
     </div>
 </template>
 
@@ -44,7 +44,7 @@
       playlistPage () {
         return this.$store.getters['playlists/getPlaylists']
       },
-      totalArtists () {
+      totalPlaylists () {
         return this.$store.getters['playlists/totalPlaylists']
       }
 

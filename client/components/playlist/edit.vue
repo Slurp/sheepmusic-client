@@ -10,7 +10,7 @@
                     <form v-on:submit.prevent="save()">
                         <div class="form-group">
                             <label class="col-form-label">Name:</label>
-                            <input v-model="playlistName" class="form-control" placeholder="new playlist"/>
+                            <input v-model="formName" class="form-control" placeholder="new playlist"/>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-secondary float-md-right">save</button>
@@ -23,11 +23,13 @@
     </div>
 </template>
 <script>
+  import Toaster from 'services/toast'
+
   export default {
     name: 'playlist-edit',
     data () {
       return {
-        formName: this.$store.getters['playlist/name'],
+        formName: '',
         error: null
       }
     },
@@ -38,9 +40,17 @@
     },
     methods: {
       save () {
-        this.$store.dispatch('playlist/savePlaylist', this.formName).then(() => {
-          $('#exampleModal').modal('toggle')
+        let toast = new Toaster()
+        this.$store.dispatch('playlist/savePlaylist', this.formName).then((response) => {
+          this.$store.dispatch('playlist/setTitle', response.data.name).then(() => {
+            this.$store.dispatch('playlists/loadPlaylists', response.data.name)
+            $('#playlistModal').modal('toggle')
+            toast.toast(`Saved playlist: ${response.data.name}`)
+            toast = null;
+          })
         }, (err) => {
+          toast.toast(`Something went wrong`)
+          toast = null;
           this.error = err
         })
 
