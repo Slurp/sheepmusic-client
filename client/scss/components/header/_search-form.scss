@@ -7,12 +7,16 @@
 form.form-search {
   .form-control {
     background: map-get(theme-color('light'),color);
-    border-bottom: 2px solid map-get(theme-color('secondary'),color);
+    border-bottom: 2px solid map-get(theme-color('light'),darker);
     opacity: 1;
     min-height: auto;
     margin-right: 0;
     border-bottom-right-radius: 0;
     border-top-right-radius: 0;
+    &:focus {
+      text-decoration: none;
+      border-bottom: 2px solid map-get(theme-color('secondary'),color);
+    }
   }
   .btn {
     color: map-get(theme-color('secondary'),color);

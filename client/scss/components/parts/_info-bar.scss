@@ -36,6 +36,17 @@
       line-height: 1.75rem;
       width: 2rem;
       margin-left:0.25rem;
+      @include media-breakpoint-up(sm) {
+        height: 3.0rem;
+        line-height: 3.0rem;
+        min-width: 0;
+        padding: 0;
+        width: 3.0rem;
+        i {
+          font-size: 1.75rem;
+        }
+      }
+
     }
     h3 {
       font-size: $font-size-lg;

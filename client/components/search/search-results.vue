@@ -1,6 +1,9 @@
 <template>
     <article class="search-results">
-        <h1>Search results for {{ query }}</h1>
+        <h3 class="search-results__title">
+            Search results for
+            <small class="text-muted">{{ query }}</small>
+        </h3>
         <ul class="nav nav-tabs active" id="searchTabs" role="tablist">
             <li class="nav-item" v-if="artists">
                 <a class="nav-link active"

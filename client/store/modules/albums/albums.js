@@ -53,14 +53,14 @@ const mutations = {
     state.sortedList = state.albums.map(album => ({
       id: album.id,
       name: album.name,
+      playCount: album.playCount,
       date: new Date(album.createdAt.date)
     }))
     if (state.sortBy === 'recent') {
       state.sortedList.sort((a, b) => b.date - a.date)
-    } else {
-      state.sortedList.sort((a, b) => a.name.localeCompare(b.name))
+    } else if (state.sortBy === 'most-played') {
+      state.sortedList.sort((a, b) => b.playCount - a.playCount)
     }
-    console.log('added albums')
   },
   ADD_ALBUM: (state, { album, index }) => {
     Vue.set(state.albums, index, album)
@@ -73,15 +73,15 @@ const mutations = {
   },
   SORT_BY: (state, { sort }) => {
     if (sort !== state.sortBy) {
-      console.log('sorting')
       if (sort === 'recent') {
         state.sortedList.sort((a, b) => b.date - a.date)
+      } else if (sort === 'most-played') {
+        state.sortedList.sort((a, b) => b.playCount - a.playCount)
       } else {
-        state.sortedList.sort((a, b) => a.name.localeCompare(b.name))
+        state.sortedList.sort((a, b) => a.id - b.id)
       }
       state.sortBy = sort
       state.page = 1
-      console.log('sorted')
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
     <router-link :to="detailLink"
-                 class="card" v-if="loaded">
+                 class="card">
 
         <img class="card-img-top" v-if="hasCover" :src="cover" :alt="artist.name"/>
         <img class="card-img-top" v-else src="/media/general/default.png"/>
@@ -23,9 +23,12 @@
                 </ul>
             </div>
         </div>
-        <div class="card-block">
-            <h4 class="card-title" v-if="loadedArtist">{{artist.name}}</h4>
-            <h6 class="card-subtitle text-muted" v-if="loadedArtist">{{artist.name}}</h6>
+        <div class="progress" v-if="!loadedArtist">
+            <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
+        </div>
+        <div class="card-block" v-if="loadedArtist">
+            <h4 class="card-title">{{artist.name}}</h4>
+            <h6 class="card-subtitle text-muted">{{artist.name}}</h6>
         </div>
     </router-link>
 </template>

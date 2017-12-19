@@ -11,6 +11,12 @@
                     <span class="font-weight-normal">Recent</span>
                 </router-link>
             </li>
+            <!-- Disabled as backend doens't support it yet-->
+            <!--<li class="nav-item">-->
+                <!--<router-link class="nav-item nav-link" :to="{name:'most-played-artists'}">-->
+                    <!--<span class="font-weight-normal">Most Played</span>-->
+                <!--</router-link>-->
+            <!--</li>-->
         </ul>
         <transition-group name="list" tag="div" class="list">
             <div class="col" v-for="artist in artistPage" :key="artist.id" :name="artist.id">
@@ -32,7 +38,7 @@
     data () {
       return {
         loadArtists: false,
-        totalArtists: this.$store.getters['artists/totalArtists']
+
       }
     },
     watch: {
@@ -43,6 +49,9 @@
     computed: {
       artistPage () {
         return this.$store.getters['artists/artists']
+      },
+      totalArtists () {
+        return this.$store.getters['artists/totalArtists']
       }
     },
   }

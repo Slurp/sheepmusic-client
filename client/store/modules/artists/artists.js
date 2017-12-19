@@ -47,9 +47,15 @@ const mutations = {
         Vue.set(state.artists, artist.id, artist)
       }
     }
-    state.sortedList = state.artists.map(artist => ({ id: artist.id, date: new Date(artist.createdAt.date) }))
+    state.sortedList = state.artists.map(artist => ({
+      id: artist.id,
+      date: new Date(artist.createdAt.date),
+      playCount: artist.playCount
+    }))
     if (state.sortBy === 'recent') {
       state.sortedList.sort((a, b) => b.date - a.date)
+    } else if (state.sortBy === 'most-played') {
+      state.sortedList.sort((a, b) => b.playCount - a.playCount)
     }
   },
   ADD_ARTIST: (state, { artist, index }) => {
@@ -63,14 +69,14 @@ const mutations = {
   },
   SORT_BY: (state, { sort }) => {
     if (sort !== state.sortBy) {
-      console.log('sorting')
       if (sort === 'recent') {
         state.sortedList.sort((a, b) => b.date - a.date)
+      } else if (sort === 'most-played') {
+        state.sortedList.sort((a, b) => b.playCount - a.playCount)
       } else {
         state.sortedList.sort((a, b) => a.id - b.id)
       }
       state.sortBy = sort
-      console.log('sorted')
     }
   }
 }

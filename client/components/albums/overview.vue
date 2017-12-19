@@ -11,6 +11,11 @@
                     <span class="font-weight-normal">Recent</span>
                 </router-link>
             </li>
+            <li class="nav-item">
+                <router-link class="nav-item nav-link" :to="{name:'most-played-albums'}">
+                    <span class="font-weight-normal">Most Played</span>
+                </router-link>
+            </li>
         </ul>
         <transition-group name="list" tag="div" class="list">
             <div class="col" v-for="album in albumPage" :key="album.id" :name="album.id">
@@ -40,7 +45,6 @@
       return {
         loadAlbums: false,
         toast: new Toaster(),
-        totalAlbums: this.$store.getters['albums/totalAlbums']
       }
     },
     created () {
@@ -50,7 +54,6 @@
     beforeDestroy () {
       this.toast = null
       delete this.toast
-      delete this.totalAlbums
       delete this.loadAlbums
     },
 
@@ -62,6 +65,9 @@
     computed: {
       albumPage () {
         return this.$store.getters['albums/albums']
+      },
+      totalAlbums () {
+        return this.$store.getters['albums/totalAlbums'];
       }
     }
   }

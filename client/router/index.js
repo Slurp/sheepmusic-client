@@ -40,7 +40,14 @@ export default new VueRouter({
       path: '/albums/recent',
       name: 'recent-albums',
       component: AlbumOverview,
-      props: { type: 'recent'},
+      props: { type: 'recent' },
+      meta: { auth: true }
+    },
+    {
+      path: '/albums/most-played',
+      name: 'most-played-albums',
+      component: AlbumOverview,
+      props: { type: 'most-played' },
       meta: { auth: true }
     },
     {
@@ -62,6 +69,13 @@ export default new VueRouter({
       name: 'recent-artists',
       component: ArtistOverview,
       props: { type: 'recent' },
+      meta: { auth: true }
+    },
+    {
+      path: '/artists/most-played',
+      name: 'most-played-artists',
+      component: ArtistOverview,
+      props: { type: 'most-played' },
       meta: { auth: true }
     },
     {

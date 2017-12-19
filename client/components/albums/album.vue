@@ -4,9 +4,7 @@
                  class="card">
         <img class="card-img-top" v-if="hasCover" :src="album.cover" :alt="album.name"/>
         <img class="card-img-top" v-else src="/media/general/default.png"/>
-        <div class="progress" v-if="loadedAlbum == false">
-            <div class="progress-bar progress-bar-indeterminate" role="progressbar"></div>
-        </div>
+
         <div class="card-body has-sheet">
             <div class="fixed-action-btn"
                  v-bind:class="{ active: openSheet }">
@@ -24,7 +22,9 @@
                 </ul>
             </div>
         </div>
-
+        <div class="progress" v-if="!loadedAlbum">
+            <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
+        </div>
         <div class="card-block" v-if="loadedAlbum">
             <h4 class="card-title">{{album.artist.name}}</h4>
             <h6 class="card-subtitle text-muted">{{album.name}}</h6>
