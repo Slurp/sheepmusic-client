@@ -48,7 +48,6 @@
       }
     },
     created () {
-      this.toast.toast(this.type)
       this.$store.dispatch('albums/sortBy', this.type)
     },
     beforeDestroy () {

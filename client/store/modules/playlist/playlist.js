@@ -57,7 +57,10 @@ const actions = {
   async savePlaylist ({ commit }, title) {
     const data = new FormData()
     data.append('name', title)
-    data.append('songs', state.songs.map(song => song.id))
+    for(const song of state.songs) {
+      data.append('songs[]', song.id)
+    }
+
 
     return Vue.axios.post(`app_dev.php/api/save/playlist`, data).then(response => {
       commit('SAVE', { title: response.name })

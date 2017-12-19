@@ -12,9 +12,10 @@
                 </router-link>
             </li>
         </ul>
+
         <transition-group name="list" tag="div" class="list">
-            <div class="col" v-for="playlist in playlistPage" :key="playlist.id" :name="playlist.id">
-                <playlist :playlist-id=playlist.id :playlist=playlist :key="playlist.id"></playlist>
+            <div class="col" v-for="(playlist, index) in playlistPage" :key="playlist.id" :name="playlist.id">
+                <playlist :playlist-id=index :playlist=playlist :key="playlist.id"></playlist>
             </div>
         </transition-group>
         <pagination for="playlists" :records="totalPlaylists" :vuex="true"></pagination>
@@ -23,6 +24,7 @@
 
 <script>
   import playlist from './playlists'
+  import Toaster from 'services/toast'
 
   export default {
     name: 'playlist-overview',
@@ -32,8 +34,12 @@
     },
     data () {
       return {
-        loadArtists: false,
+        toast: new Toaster(),
       }
+    },
+    beforeDestroy () {
+      this.toast = null
+      delete this.toast
     },
     watch: {
       type: function () {
@@ -42,6 +48,7 @@
     },
     computed: {
       playlistPage () {
+        console.log(this.$store.getters['playlists/getPlaylists'])
         return this.$store.getters['playlists/getPlaylists']
       },
       totalPlaylists () {
@@ -50,13 +57,11 @@
 
     },
     created: function () {
-      if (this.playlists == null) {
-        this.$store.dispatch('playlists/loadPlaylists').then(() => {
-          this.toast.toast('loaded playlists')
-        }).catch(() => {
-          this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-        })
-      }
+      this.$store.dispatch('playlists/loadPlaylists').then(() => {
+        this.toast.toast('loaded playlists')
+      }).catch(() => {
+        this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
+      })
     },
   }
 </script>

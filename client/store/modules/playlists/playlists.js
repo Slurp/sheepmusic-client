@@ -18,7 +18,7 @@ const actions = {
   },
   loadPlaylist: function ({ commit, state }, playlistId) {
     if (state.playlists[playlistId] == null || state.playlists[playlistId].songs == null) {
-      Vue.axios.get(`/api/playlist/` + playlistId).then((response) => {
+      Vue.axios.get(`/api/playlist/` + state.playlists[playlistId].id).then((response) => {
         commit('ADD_PLAYLIST', { playlist: response.data, index: playlistId })
       }, (err) => {
         console.log(err)
@@ -38,11 +38,7 @@ const actions = {
 
 const mutations = {
   ADD_PLAYLISTS: (state, { playlists }) => {
-    for (const playlist of playlists) {
-      if (state.playlists[playlist.id] == null || state.playlists[playlist.id].playlist == null) {
-        Vue.set(state.playlists, playlist.id, playlist)
-      }
-    }
+    state.playlists = playlists
     state.sortedList = state.playlists.map(playlist => ({ id: playlist.id, date: new Date(playlist.createdAt.date) }))
     if (state.sortBy === 'recent') {
       state.sortedList.sort((a, b) => b.date - a.date)
@@ -77,8 +73,11 @@ const getters = {
     return state.playlists.length
   },
   getPlaylists: (state) => {
-    const start = (12 * (state.page - 1)) + 1
-    return state.sortedList.slice(start, start + 12).map(playlist => state.playlists[playlist.id])
+    if (state.playlists.length >= 12) {
+      const start = (12 * (state.page - 1)) + 1
+      return state.sortedList.slice(start, start + 12).map(playlist => state.playlists[playlist.id])
+    }
+    return state.playlists
   },
   getPlaylistById: (state) => (playlistId) => {
     return state.playlists[playlistId]

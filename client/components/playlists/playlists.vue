@@ -20,6 +20,9 @@
                 </ul>
             </div>
         </div>
+        <div class="progress" v-if="!loaded">
+            <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
+        </div>
         <div class="card-block">
             <h4 class="card-title">{{playlist.name}}</h4>
         </div>
@@ -45,15 +48,15 @@
       }
     },
     created () {
-      this.$store.dispatch('playlists/loadPlaylist', this.playlist.id).then(() => {
+      this.$store.dispatch('playlists/loadPlaylist', this.playlistId).then(() => {
         this.loaded = true
-      }).catch(() => {
+      }).catch((err) => {
+        console.log(err)
         this.loaded = false
       })
     },
     methods: {
-      toggleSheet: function (event) {
-        if (event) event.preventDefault()
+      toggleSheet () {
         this.openSheet = !this.openSheet
       }
     },
@@ -69,7 +72,7 @@
       detailLink () {
         return {
           name: 'detail_playlists',
-          params: { id: this.playlist.id },
+          params: { id: this.playlistId },
         }
       },
     },
