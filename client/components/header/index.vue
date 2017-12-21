@@ -8,12 +8,8 @@
             <li class="nav-item dropdown ">
                 <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
                    aria-expanded="false">
-                    <i class="material-icons mx-auto">more_vert</i>
+                    {{ $auth.user().user }}
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <span class="dropdown-item">{{ $auth.user().user }}</span>
-                    <a class="dropdown-item" v-on:click.prevent="logout()">Logout</a>
-                </div>
             </li>
         </ul>
 
@@ -26,7 +22,7 @@
   import searchBox from 'components/search/search-box'
 
   export default {
-    name: 'header',
+    name: 'navbar-header',
     components: {
       searchBox
     },

@@ -1,6 +1,6 @@
 <template>
     <router-link :to="detailLink"
-                 class="card">
+                 class="card card__overview">
 
         <img class="card-img-top" v-if="hasCover" :src="cover" :alt="artist.name"/>
         <img class="card-img-top" v-else src="/media/general/default.png"/>

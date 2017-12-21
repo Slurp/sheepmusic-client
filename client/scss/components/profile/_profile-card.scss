@@ -1,0 +1,21 @@
+.user-profile {
+  .card {
+    .card-header {
+      padding: 0.25rem 1rem;
+      margin-bottom: 0.5rem;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      border-bottom: 1px solid $divider-color;
+      .card-actions {
+        margin-left: auto;
+        align-self: flex-end;
+      }
+    }
+    .card-actions {
+      margin-left: auto;
+      align-self: flex-end;
+    }
+  }
+}

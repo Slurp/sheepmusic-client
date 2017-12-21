@@ -14,7 +14,12 @@
                 </li>
                 <li>
                     <router-link class="" :to="{name:'all-playlists'}">
-                        <i class="material-icons">queue_music</i><span>playlists</span>
+                        <i class="material-icons">queue_music</i><span>Playlists</span>
+                    </router-link>
+                </li>
+                <li>
+                    <router-link class="" :to="{name:'user_profile'}">
+                        <i class="material-icons">settings</i><span>You</span>
                     </router-link>
                 </li>
             </ul>

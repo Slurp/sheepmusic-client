@@ -1,7 +1,7 @@
 <template>
 
     <router-link :to="detailLink"
-                 class="card">
+                 class="card card__overview">
         <img class="card-img-top" v-if="hasCover" :src="album.cover" :alt="album.name"/>
         <img class="card-img-top" v-else src="/media/general/default.png"/>
 

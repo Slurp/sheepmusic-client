@@ -15,7 +15,7 @@ Vue.use(Auth, {
   router: RouterDriver,
   fetchData: { url: 'api/user', method: 'GET', enabled: true },
   registerData: { url: 'api/register', method: 'POST', redirect: '/login' },
-  loginData: { url: 'api/login_check', method: 'POST', redirect: { name: 'home', redirect: true }, fetchUser: false },
+  loginData: { url: 'api/login_check', method: 'POST', redirect: { name: 'home', redirect: true }, fetchUser: true },
   logoutData: { url: 'api/logout', method: 'POST', redirect: 'home', makeRequest: false },
   refreshData: {
     url: 'api/token/refresh',

@@ -7,6 +7,7 @@ import AlbumDetail from 'components/albums/detail'
 import ArtistDetail from 'components/artists/detail'
 import PlaylistDetail from 'components/playlists/detail'
 import SearchResults from 'components/search/search-results'
+import UserProfile from 'components/user/profile'
 
 import Login from 'components/pages/login'
 import NotFound from 'components/not-found.vue'
@@ -110,6 +111,13 @@ export default new VueRouter({
       path: '/search/:query',
       name: 'search_results',
       component: SearchResults,
+      props: true,
+      meta: { auth: true }
+    },
+    {
+      path: '/you',
+      name: 'user_profile',
+      component: UserProfile,
       props: true,
       meta: { auth: true }
     },
