@@ -28,8 +28,9 @@
     display: block;
     height: 44px;
     width: 44px;
-    background: map_get(theme-color('dark'), 'darker') url('#{$general}/logo.png') no-repeat;
+    background: map_get(theme-color('dark'), 'darker') url('#{$general}/logo.svg') no-repeat;
     background-size: cover;
+    background-position: center;
     margin-right: 20px;
   }
 }

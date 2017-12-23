@@ -2,7 +2,7 @@ export default {
 
   request: function (req, token) {
     token = token.split(';')
-    if (req.url.indexOf('refresh') > -1) {
+    if (req.url.indexOf('refresh') > -1 && token[1] !== 'undefined') {
       req.url += '?refresh_token=' + token[1]
     }
     this.options.http._setHeaders.call(this, req, { Authorization: 'Bearer ' + token[0] })
@@ -15,7 +15,7 @@ export default {
     if (token) {
       token = token.split(/Bearer\:?\s?/i)
       return token[token.length > 1 ? 1 : 0].trim()
-    } else if (data.token) {
+    } else if (data.token && data.refresh_token) {
       return data.token + ';' + data.refresh_token
     }
   }

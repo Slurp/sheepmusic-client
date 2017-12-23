@@ -57,6 +57,7 @@
 
     mounted () {
       // Can set query parameter here for auth redirect or just do it silently in login redirect.
+
     },
 
     methods: {

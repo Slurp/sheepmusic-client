@@ -15,8 +15,9 @@
     display: block;
     height:32px;
     width: 32px;
-    background: url('#{$general}/logo.png') no-repeat;
+    background: url('#{$general}/logo.svg') no-repeat;
     background-size: contain;
+    background-position: center;
   }
 }
 

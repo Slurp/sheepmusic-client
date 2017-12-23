@@ -1,5 +1,9 @@
 .user-profile {
+  .flip {
+    min-height: 25rem;
+  }
   .card {
+    margin-top: 2rem;
     .card-header {
       padding: 0.25rem 1rem;
       margin-bottom: 0.5rem;
@@ -12,6 +16,10 @@
         margin-left: auto;
         align-self: flex-end;
       }
+    }
+    .card-actions__header {
+      position: absolute;
+      top: -82px;
     }
     .card-actions {
       margin-left: auto;
