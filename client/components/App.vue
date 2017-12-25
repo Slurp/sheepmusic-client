@@ -44,6 +44,22 @@
       },
       showPlaylist () {
         return this.$store.getters['showPlaylist']
+      },
+      isLoggedIn()
+      {
+        if(this.$auth.check()) {
+          this.$store.dispatch('toggleLoading')
+          this.$store.dispatch('albums/loadAlbums').then(() => {
+            this.$store.dispatch('artists/loadArtists').then(() => {
+              this.loaded = true
+              this.$store.dispatch('toggleLoading')
+            }).catch(() => {
+              this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
+            })
+          }).catch(() => {
+            this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
+          })
+        }
       }
     },
     created () {
