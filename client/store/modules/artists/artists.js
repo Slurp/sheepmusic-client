@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import arrayFunctions from 'root/services/array-helper'
 
 const state = {
   artists: [],
@@ -106,6 +107,40 @@ const getters = {
       name: 'detail_artist',
       params: { artist: artist.name, id: artist.id }
     }
+  },
+  getImportedByMonth: (state) => {
+    if (state.artists.length > 0) {
+      const year = (new Date()).getFullYear()
+      const groups = state.artists.reduce((r, o) => {
+        const date = new Date(o.createdAt.date)
+        let m = date.getMonth()
+        if (year === date.getFullYear()) {
+          (r[m]) ? r[m]++ : r[m] = 1
+        }
+        return r
+      }, arrayFunctions.initializeArrayWithValues(12, 0))
+      for (let i = 1; i < 12; i++) {
+        groups[i] = groups[i] + groups[i - 1]
+      }
+      return groups
+    }
+    return []
+  },
+  getUpdatedByMonth: (state) => {
+    if (state.artists.length > 0) {
+      const year = (new Date()).getFullYear()
+      const groups = state.artists.reduce((r, o) => {
+        const date = new Date(o.updatedAt.date)
+        let m = date.getMonth()
+        if (year === date.getFullYear()) {
+          (r[m]) ? r[m]++ : r[m] = 1
+        }
+        return r
+      }, arrayFunctions.initializeArrayWithValues(12, 0))
+      return groups
+
+    }
+    return []
   }
 }
 

@@ -22,6 +22,12 @@
                         <i class="material-icons">settings</i><span>You</span>
                     </router-link>
                 </li>
+                <li>
+                    <router-link class="" :to="{name:'charts'}">
+                        <i class="material-icons">show_chart</i><span>Donuts and Pies!</span>
+                    </router-link>
+                </li>
+
             </ul>
         </nav>
     </div>
