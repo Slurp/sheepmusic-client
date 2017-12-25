@@ -4,7 +4,7 @@ import VueAxios from 'vue-axios'
 import router from 'router'
 import auth from '@websanova/vue-auth'
 import bearer from 'services/auth/response'
-import httpDriver from '@websanova/vue-auth/drivers/http/axios.1.x.js'
+import httpDriver from 'services/auth/axios.1.x.js'
 import routerDriver from '@websanova/vue-auth/drivers/router/vue-router.2.x.js'
 import config from 'config'
 // Use stuff
