@@ -19,7 +19,7 @@
             </div>
         </div>
         <div class="list">
-            <div class="col" v-for="album in artist.albums" :key="album.id">
+            <div class="col" v-for="album in albums" :key="album.id">
                 <album :album-id=album.id :album=album :key="album.id"></album>
             </div>
         </div>
@@ -66,6 +66,11 @@
       },
       artist () {
         return this.$store.getters['artists/getArtistById'](this.id)
+      },
+      albums() {
+        if(this.artist.albums !== 'undefined') {
+            return this.artist.albums.sort((a, b) => b.year - a.year)
+        }
       }
     },
   }
