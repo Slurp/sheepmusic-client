@@ -52,7 +52,7 @@
     },
     methods: {
       getTokenLastFm (refresh) {
-        const url = `app_dev.php/api/lastfm/token/${refresh}`
+        const url = `/api/lastfm/token/${refresh}`
         this.axios.get(url).then((response) => {
           console.log(response)
           this.lastFmAuth = response.data
@@ -69,13 +69,13 @@
         })
       },
       connectLastFm () {
-        const url = `app_dev.php/api/lastfm/connect`
+        const url = `/api/lastfm/connect`
         this.axios.get(url).then((response) => {
           this.lastfm.isConnected = response.data.connected
         })
       },
       disconnectLastFm () {
-        const url = `app_dev.php/api/lastfm/disconnect/${this.lastfm.token}`
+        const url = `/api/lastfm/disconnect/${this.lastfm.token}`
         this.axios.get(url).then((response) => {
           this.lastfm.isConnected = false
         })

@@ -61,7 +61,7 @@
     },
     methods: {
       getProfile () {
-        this.axios.get(`app_dev.php/api/user/profile`).then((response) => {
+        this.axios.get(`/api/user/profile`).then((response) => {
           console.log(response)
           this.profile = response.data
         }, (err) => {

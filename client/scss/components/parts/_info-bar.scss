@@ -30,6 +30,10 @@
       flex: 1;
       max-width: calc(100% - 5rem);
       font-weight: bolder;
+      img {
+        max-width: 100%;
+        height: auto;
+      }
     }
     .btn-float {
       height: 2rem;

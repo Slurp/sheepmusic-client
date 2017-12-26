@@ -94,7 +94,7 @@
     },
     methods: {
       search () {
-        this.axios.get(`app_dev.php/api/search/` + this.query).then((response) => {
+        this.axios.get(`/api/search/` + this.query).then((response) => {
           this.results = response.data
         }, (err) => {
           console.log(err)

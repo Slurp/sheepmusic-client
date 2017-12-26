@@ -94,7 +94,7 @@
     },
     methods: {
       saveProfile () {
-        const url = `app_dev.php/api/user/save/profile`
+        const url = `/api/user/save/profile`
         const form = new FormData(document.getElementById('fos_user_profile_form'))
         this.hasErrors = false
         this.errors = {

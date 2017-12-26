@@ -6,7 +6,8 @@
                 <img class="info-bar-image" :src="cover"/>
                 <div class="info-bar-content media-body">
                     <div class="info-bar-content__header">
-                        <h1 class="artist-name">{{ artist.name }}</h1>
+                        <h1 class="artist-name" v-if="logo == null">{{ artist.name }}</h1>
+                        <h1 class="artist-name" v-if="logo != null"><img :src="logo"></h1>
                         <play_btn :artist=artist></play_btn>
                         <queue_btn :artist=artist></queue_btn>
                     </div>
@@ -46,17 +47,24 @@
     },
     props: ['id'],
     created () {
-      this.loadAlbumDetail()
+      this.loadArtistDetail()
     },
     methods: {
-      loadAlbumDetail () {
+      loadArtistDetail () {
         if (this.artist == null || typeof this.artist.albums == 'undefined') {
           this.$store.dispatch('artists/loadArtist', this.id)
         }
         this.$store.dispatch('artists/viewArtist', this.id)
+
       }
     },
     computed: {
+      logo () {
+        if (this.artist.logos !== 'undefined') {
+          return this.artist.logos[0]
+        }
+        return null
+      },
       cover () {
         if (this.artist.image !== '') {
           return this.artist.image
@@ -67,9 +75,9 @@
       artist () {
         return this.$store.getters['artists/getArtistById'](this.id)
       },
-      albums() {
-        if(this.artist.albums !== 'undefined') {
-            return this.artist.albums.sort((a, b) => b.year - a.year)
+      albums () {
+        if (this.artist.albums !== 'undefined') {
+          return this.artist.albums.sort((a, b) => b.year - a.year)
         }
       }
     },
