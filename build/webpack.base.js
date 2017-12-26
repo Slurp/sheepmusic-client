@@ -33,7 +33,7 @@ module.exports = {
       // this meanse you can get rid of dot hell
       // for example import 'components/Foo' instead of import '../../components/Foo'
       _.cwd('client')
-    ]
+    ],
   },
   module: {
     loaders: [
