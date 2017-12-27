@@ -97,7 +97,15 @@ const getters = {
     return state.artists.slice
   },
   getArtistById: (state) => (artistId) => {
-    return state.artists[artistId]
+    if (state.artists) {
+      return state.artists[artistId]
+    }
+  },
+  getLogoForArtist: (state) => (artistId) => {
+    if (state.artists && state.artists[artistId] && state.artists[artistId].logos !== 'undefined') {
+      return state.artists[artistId].logos[Math.max(Math.floor(Math.random() * state.artists[artistId].logos.length), state.artists[artistId].logos.length - 1)]
+    }
+    return null
   },
   search: (state) => (artists) => {
     return artists.map(artist => state.artists[artist.id])

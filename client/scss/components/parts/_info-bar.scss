@@ -30,10 +30,8 @@
       flex: 1;
       max-width: calc(100% - 5rem);
       font-weight: bolder;
-      img {
-        max-width: 100%;
-        height: auto;
-      }
+      margin-right: auto;
+
     }
     .btn-float {
       height: 2rem;
@@ -43,7 +41,7 @@
       @include media-breakpoint-up(sm) {
         height: 3.0rem;
         line-height: 3.0rem;
-        min-width: 0;
+        min-width: 3.0rem;
         padding: 0;
         width: 3.0rem;
         i {
@@ -64,7 +62,7 @@
     padding-top: 20px;
     margin-top: -20px;
   }
-  .meta {
+  .info {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -72,11 +70,17 @@
       margin: 0;
       padding: 0;
     }
-    label {
+    span {
       display: inline-block;
       max-width: 100%;
       margin-bottom: 5px;
       font-weight: bold;
+    }
+  }
+  .artist-name {
+    img {
+      max-width: 100%;
+      height: auto;
     }
   }
 }

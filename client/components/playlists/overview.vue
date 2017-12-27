@@ -48,7 +48,6 @@
     },
     computed: {
       playlistPage () {
-        console.log(this.$store.getters['playlists/getPlaylists'])
         return this.$store.getters['playlists/getPlaylists']
       },
       totalPlaylists () {

@@ -5,9 +5,11 @@
             <div class="info-bar album media">
                 <img class="info-bar-image" :src="cover"/>
                 <div class="info-bar-content media-body">
-                    <h1 class="album-name">{{ playlist.name }}</h1>
-                    <play_btn :playlist=playlist></play_btn>
-                    <queue_btn :playlist=playlist></queue_btn>
+                    <div class="info-bar-content__header">
+                        <h1 class="album-name">{{ playlist.name }}</h1>
+                        <play_btn :playlist=playlist></play_btn>
+                        <queue_btn :playlist=playlist></queue_btn>
+                    </div>
                 </div>
             </div>
         </div>
@@ -23,7 +25,7 @@
   import queue_btn from './queue-btn'
 
   export default {
-    name:'playlist-detail',
+    name: 'playlist-detail',
     components: {
       songList,
       breadcrumbs,
@@ -38,7 +40,7 @@
     computed: {
       cover () {
         if (this.playlist.cover) {
-          return config.baseUrl+"/"+this.playlist.cover
+          return config.baseUrl + '/' + this.playlist.cover
         }
       },
       playlist () {

@@ -6,24 +6,25 @@
                 <img class="info-bar-image" :src="album.cover"/>
                 <div class="info-bar-content media-body">
                     <div class="info-bar-content__header">
-                        <h1 class="album-name">
-                            {{ album.name }}
-                        </h1>
+                        <router-link
+                                :to="{ name: 'detail_artist', params: { artist: album.artist.name, id: album.artist.id }}">
+                            <h1 class="artist-name">
+                                <span v-if="logo == null">{{album.artist.name}}</span>
+                                <img :src="logo" v-if="logo != null">
+                            </h1>
+                        </router-link>
+
                         <play_btn :album=album></play_btn>
                         <queue_btn :album=album></queue_btn>
                     </div>
-                    <h3 class="artist-name">
-                        <router-link
-                                :to="{ name: 'detail_artist', params: { artist: album.artist.name, id: album.artist.id }}">
-                            {{album.artist.name}}
-                        </router-link>
+                    <h3 class="album-name">
+                        {{ album.name }}
                     </h3>
-                    <dl class="info">
-                        <dt>Songs:</dt>
-                        <dd>{{ this.album.songs.length }}</dd>
-                        <dt>Duration:</dt>
-                        <dd>{{ lengthAlbum }}</dd>
-                    </dl>
+                    <ul class="info">
+                        <li><span>Year:</span>{{ this.album.year}}</li>
+                        <li><span>Songs:</span>{{ this.album.songs.length }}</li>
+                        <li><span>Duration:</span>{{ lengthAlbum }}</li>
+                    </ul>
 
                 </div>
             </div>
@@ -64,6 +65,12 @@
         if (this.album.songs) {
           return this.duration = secondsToHis(this.album.songs.map(song => song.length).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
         }
+      },
+      logo() {
+         if(this.album.artist) {
+           return this.$store.getters['artists/getLogoForArtist'](this.album.artist.id)
+         }
+        return null
       },
       album () {
         return this.$store.getters['albums/getAlbumById'](this.id)

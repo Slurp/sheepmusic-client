@@ -60,10 +60,7 @@
     },
     computed: {
       logo () {
-        if (this.artist.logos !== 'undefined') {
-          return this.artist.logos[0]
-        }
-        return null
+        return this.$store.getters['artists/getLogoForArtist'](this.id)
       },
       cover () {
         if (this.artist.image !== '') {

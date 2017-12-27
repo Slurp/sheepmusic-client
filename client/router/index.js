@@ -1,15 +1,27 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// Components
-const AlbumOverview = () => import('components/albums/overview')
-const ArtistOverview = () => import('components/artists/overview')
-const PlaylistOverview = () => import('components/playlists/overview')
-const AlbumDetail = () => import('components/albums/detail')
-const ArtistDetail = () => import('components/artists/detail')
-const PlaylistDetail = () => import('components/playlists/detail')
-const SearchResults = () => import('components/search/search-results')
-const UserProfile = () => import('components/user/profile')
-const Charts = () => import('components/charts/charts')
+
+// Promised based routing
+// Is really buggy at the moment..
+// const AlbumOverview = () => import('components/albums/overview')
+// const ArtistOverview = () => import('components/artists/overview')
+// const PlaylistOverview = () => import('components/playlists/overview')
+// const AlbumDetail = () => import('components/albums/detail')
+// const ArtistDetail = () => import('components/artists/detail')
+// const PlaylistDetail = () => import('components/playlists/detail')
+// const SearchResults = () => import('components/search/search-results')
+// const UserProfile = () => import('components/user/profile')
+// const Charts = () => import('components/charts/charts')
+
+import AlbumOverview from 'components/albums/overview'
+import ArtistOverview from 'components/artists/overview'
+import PlaylistOverview from 'components/playlists/overview'
+import AlbumDetail from 'components/albums/detail'
+import ArtistDetail from 'components/artists/detail'
+import PlaylistDetail from 'components/playlists/detail'
+import SearchResults from 'components/search/search-results'
+import UserProfile from 'components/user/profile'
+import Charts from 'components/charts/charts'
 
 import Login from 'components/pages/login'
 import NotFound from 'components/not-found.vue'

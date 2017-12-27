@@ -11,7 +11,7 @@
             </main>
         </div>
         <player v-show="$auth.check()"></player>
-        <overlay v-if="!$auth.ready() || !loaded || loading"></overlay>
+        <overlay v-if="(!$auth.ready() && !loaded ) || loading"></overlay>
         <modal-screens></modal-screens>
     </div>
 </template>
@@ -47,7 +47,11 @@
       },
       isLoggedIn()
       {
-        if(this.$auth.check()) {
+        if(this.$auth.check() == false) {
+          this.loaded == false;
+        }
+        if(this.$auth.check() && this.loaded == false) {
+          console.log('loading')
           this.$store.dispatch('toggleLoading')
           this.$store.dispatch('albums/loadAlbums').then(() => {
             this.$store.dispatch('artists/loadArtists').then(() => {
