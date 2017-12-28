@@ -1,7 +1,7 @@
 <template>
     <div class="artist-detail" :id="artist.id" v-if="artist && artist.albums">
         <breadcrumbs :artist="artist"></breadcrumbs>
-        <div class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + artist.albumArt + ')' }">
+        <div class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }">
             <div class="info-bar artist media">
                 <img class="info-bar-image" :src="cover"/>
                 <div class="info-bar-content media-body">
@@ -63,11 +63,20 @@
         return this.$store.getters['artists/getLogoForArtist'](this.id)
       },
       cover () {
+        if(this.$store.getters['artists/getThumbForArtist'](this.id)) {
+          return this.$store.getters['artists/getThumbForArtist'](this.id)
+        }
         if (this.artist.image !== '') {
           return this.artist.image
         }
         return this.artist.albumArt
 
+      },
+      background () {
+        if(this.$store.getters['artists/getBackgroundForArtist'](this.id)) {
+          return this.$store.getters['artists/getBackgroundForArtist'](this.id)
+        }
+        return this.artist.albumArt
       },
       artist () {
         return this.$store.getters['artists/getArtistById'](this.id)

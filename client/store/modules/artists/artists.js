@@ -102,8 +102,26 @@ const getters = {
     }
   },
   getLogoForArtist: (state) => (artistId) => {
-    if (state.artists && state.artists[artistId] && state.artists[artistId].logos !== 'undefined') {
-      return state.artists[artistId].logos[Math.max(Math.floor(Math.random() * state.artists[artistId].logos.length), state.artists[artistId].logos.length - 1)]
+    if (state.artists && state.artists[artistId] && state.artists[artistId].logo !== 'undefined') {
+      return state.artists[artistId].logo[Math.max(Math.floor(Math.random() * state.artists[artistId].logo.length), state.artists[artistId].logo.length - 1)]
+    }
+    return null
+  },
+  getBackgroundForArtist: (state) => (artistId) => {
+    if (state.artists && state.artists[artistId] && state.artists[artistId].background !== 'undefined') {
+      return state.artists[artistId].background[Math.max(Math.floor(Math.random() * state.artists[artistId].background.length), state.artists[artistId].background.length - 1)]
+    }
+    return null
+  },
+  getBannerForArtist: (state) => (artistId) => {
+    if (state.artists && state.artists[artistId] && state.artists[artistId].banner !== 'undefined') {
+      return state.artists[artistId].banner[Math.max(Math.floor(Math.random() * state.artists[artistId].banner.length), state.artists[artistId].banner.length - 1)]
+    }
+    return null
+  },
+  getThumbForArtist: (state) => (artistId) => {
+    if (state.artists && state.artists[artistId] && state.artists[artistId].thumbs !== 'undefined') {
+      return state.artists[artistId].thumbs[Math.max(Math.floor(Math.random() * state.artists[artistId].thumbs.length), state.artists[artistId].thumbs.length - 1)]
     }
     return null
   },
