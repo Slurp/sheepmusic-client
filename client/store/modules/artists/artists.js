@@ -45,6 +45,7 @@ const mutations = {
   ADD_ARTISTS: (state, { artists }) => {
     for (const artist of artists) {
       if (state.artists[artist.id] == null || state.artists[artist.id].albums == null) {
+        artist.fullyLoaded = false
         Vue.set(state.artists, artist.id, artist)
       }
     }
@@ -53,6 +54,7 @@ const mutations = {
       date: new Date(artist.createdAt.date),
       playCount: artist.playCount
     }))
+    state.sortedList.splice(0, 1)
     if (state.sortBy === 'recent') {
       state.sortedList.sort((a, b) => b.date - a.date)
     } else if (state.sortBy === 'most-played') {
@@ -60,6 +62,7 @@ const mutations = {
     }
   },
   ADD_ARTIST: (state, { artist, index }) => {
+    artist.fullyLoaded = true
     Vue.set(state.artists, index, artist)
   },
   SET_CURRENT_ARTIST: (state, { index }) => {
@@ -91,7 +94,7 @@ const getters = {
   },
   artists: (state) => {
     if (state.artists.length >= 12) {
-      const start = (12 * (state.page - 1)) + 1
+      const start = (12 * (state.page - 1))
       return state.sortedList.slice(start, start + 12).map(artist => state.artists[artist.id])
     }
     return state.artists.slice

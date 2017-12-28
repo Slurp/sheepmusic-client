@@ -5,8 +5,9 @@ const state = {
 }
 
 const actions = {
-  announceSong: function ({ commit, state }, song) {
+  announceSong: function ({ dispatch, commit, state }, song) {
     Vue.axios.get(song.events.now_playing).then(() => {
+      dispatch('albums/loadAlbum', this.albumId, {root:true})
       console.log('announced song')
     }, (err) => {
       console.log(err)
