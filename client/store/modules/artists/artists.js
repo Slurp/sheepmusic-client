@@ -23,7 +23,7 @@ const actions = {
   },
   loadArtist: function ({ commit, state }, artistId) {
     if (state.artists[artistId] == null || state.artists[artistId].songs == null) {
-      Vue.axios.get(`/api/artist/` + artistId).then((response) => {
+      Vue.axios.get(`app_dev.php/api/artist/` + artistId).then((response) => {
         commit('ADD_ARTIST', { artist: response.data, index: artistId })
       }, (err) => {
         console.log(err)

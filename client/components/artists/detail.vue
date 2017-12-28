@@ -1,7 +1,7 @@
 <template>
-    <div class="artist-detail" :id="artist.id" v-if="artist && artist.albums">
+    <article class="artist-detail" :id="artist.id" v-if="artist && artist.albums">
         <breadcrumbs :artist="artist"></breadcrumbs>
-        <div class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }">
+        <section class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }">
             <div class="info-bar artist media">
                 <img class="info-bar-image" :src="cover"/>
                 <div class="info-bar-content media-body">
@@ -11,20 +11,22 @@
                         <play_btn :artist=artist></play_btn>
                         <queue_btn :artist=artist></queue_btn>
                     </div>
-                    <dl class="info">
-                        <dt>Albums:</dt>
-                        <dd>{{ artist.albums.length }}</dd>
-                    </dl>
+                    <ul class="info">
+                        <li><span>Albums:</span>{{ artist.albums.length }}</li>
+                        <li><span>Genres:</span>{{ genres }}</li>
+                    </ul>
+
+
                     <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
                 </div>
             </div>
-        </div>
-        <div class="list">
+        </section>
+        <section class="list">
             <div class="col" v-for="album in albums" :key="album.id">
                 <album :album-id=album.id :album=album :key="album.id"></album>
             </div>
-        </div>
-    </div>
+        </section>
+    </article>
 
 </template>
 
@@ -59,6 +61,14 @@
       }
     },
     computed: {
+      genres () {
+        return this.artist.genres.reduce(function(prevVal, elem ,index, array) {
+          if(array.length - 1 > index) {
+            return prevVal + elem.name + ", "
+          }
+          return prevVal + elem.name
+        }, '');
+      },
       logo () {
         return this.$store.getters['artists/getLogoForArtist'](this.id)
       },

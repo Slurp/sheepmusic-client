@@ -6,13 +6,15 @@
                 <img class="info-bar-image" :src="album.cover"/>
                 <div class="info-bar-content media-body">
                     <div class="info-bar-content__header">
-                        <router-link
-                                :to="{ name: 'detail_artist', params: { artist: album.artist.name, id: album.artist.id }}">
-                            <h1 class="artist-name">
+
+                        <h1 class="artist-name">
+                            <router-link
+                                    :to="{ name: 'detail_artist', params: { artist: album.artist.name, id: album.artist.id }}">
                                 <span v-if="logo == null">{{album.artist.name}}</span>
                                 <img :src="logo" v-if="logo != null">
-                            </h1>
-                        </router-link>
+                            </router-link>
+                        </h1>
+
 
                         <play_btn :album=album></play_btn>
                         <queue_btn :album=album></queue_btn>
@@ -24,6 +26,7 @@
                         <li><span>Year:</span>{{ this.album.year}}</li>
                         <li><span>Songs:</span>{{ this.album.songs.length }}</li>
                         <li><span>Duration:</span>{{ lengthAlbum }}</li>
+                        <li><span>Genre:</span>{{ this.album.genre}}</li>
                     </ul>
 
                 </div>
@@ -66,10 +69,10 @@
           return this.duration = secondsToHis(this.album.songs.map(song => song.length).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
         }
       },
-      logo() {
-         if(this.album.artist) {
-           return this.$store.getters['artists/getLogoForArtist'](this.album.artist.id)
-         }
+      logo () {
+        if (this.album.artist) {
+          return this.$store.getters['artists/getLogoForArtist'](this.album.artist.id)
+        }
         return null
       },
       album () {
