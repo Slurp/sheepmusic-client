@@ -1,4 +1,5 @@
 import Vue from 'vue'
+
 import arrayFunctions from 'services/array-helper'
 
 const state = {
@@ -10,7 +11,7 @@ const state = {
 }
 
 const actions = {
-  async loadAlbums ({ commit, state }) {
+  async loadAlbums({ commit, state }) {
     return new Promise((resolve, reject) => {
       Vue.axios.get(`/api/album_list`).then((response) => {
         if (response.data.length !== state.albums.length) {
@@ -23,7 +24,7 @@ const actions = {
       })
     })
   },
-  async loadAlbum ({ commit, state }, albumId) {
+  async loadAlbum({ commit, state }, albumId) {
     if (state.albums[albumId] == null || state.albums[albumId].songs == null) {
       Vue.axios.get(`/api/album/` + albumId).then((response) => {
         commit('ADD_ALBUM', { album: response.data, index: albumId })
@@ -33,13 +34,13 @@ const actions = {
       })
     }
   },
-  async viewAlbum ({ commit }, albumId) {
+  async viewAlbum({ commit }, albumId) {
     commit('SET_CURRENT_ALBUM', { index: albumId })
   },
-  async paginate ({ commit }, page) {
+  async paginate({ commit }, page) {
     commit('PAGINATE', { page: page })
   },
-  async sortBy ({ commit }, sort) {
+  async sortBy({ commit }, sort) {
     commit('SORT_BY', { 'sort': sort })
   }
 }

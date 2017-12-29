@@ -16,9 +16,11 @@ import VueRouter from 'vue-router'
 import AlbumOverview from 'components/albums/overview'
 import ArtistOverview from 'components/artists/overview'
 import PlaylistOverview from 'components/playlists/overview'
+import GenreOverview from 'components/genres/overview'
 import AlbumDetail from 'components/albums/detail'
 import ArtistDetail from 'components/artists/detail'
 import PlaylistDetail from 'components/playlists/detail'
+import GenreDetail from 'components/genres/detail'
 import SearchResults from 'components/search/search-results'
 import UserProfile from 'components/user/profile'
 import Charts from 'components/charts/charts'
@@ -118,6 +120,27 @@ export default new VueRouter({
       path: '/playlist/:id',
       name: 'detail_playlists',
       component: PlaylistDetail,
+      props: true,
+      meta: { auth: true }
+    },
+    {
+      path: '/genres',
+      name: 'all-genres',
+      component: GenreOverview,
+      props: { type: 'all' },
+      meta: { auth: true }
+    },
+    {
+      path: '/genres/recent',
+      name: 'recent-genres',
+      component: GenreOverview,
+      props: { type: 'recent' },
+      meta: { auth: true }
+    },
+    {
+      path: '/genre/:genre/:id',
+      name: 'detail_genres',
+      component: GenreDetail,
       props: true,
       meta: { auth: true }
     },

@@ -3,7 +3,7 @@
 To start:
 
 ```bash
-$ npm install
+$ yarn install
 ```
 
 To develop:

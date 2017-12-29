@@ -18,6 +18,11 @@
                     </router-link>
                 </li>
                 <li>
+                    <router-link class="" :to="{name:'all-genres'}">
+                        <i class="material-icons">receipt</i><span>Genres</span>
+                    </router-link>
+                </li>
+                <li>
                     <router-link class="" :to="{name:'user_profile'}">
                         <i class="material-icons">settings</i><span>You</span>
                     </router-link>
@@ -27,6 +32,7 @@
                         <i class="material-icons">show_chart</i><span>Donuts and Pies!</span>
                     </router-link>
                 </li>
+
 
             </ul>
         </nav>
