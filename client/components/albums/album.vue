@@ -53,16 +53,16 @@
     created () {
       this.getAlbumDetails()
     },
-    beforeDestroy() {
+    beforeDestroy () {
       this.toast = null
       delete this.toast
       delete this.openSheet
       delete this.loaded
     },
     methods: {
-      getAlbumDetails() {
-        if (this.album == null || this.album.artist == null || typeof this.album.songs == 'undefined') {
-          this.loaded = false;
+      getAlbumDetails () {
+        if (this.album == null || this.album.fullyLoaded == false) {
+          this.loaded = false
           this.$store.dispatch('albums/loadAlbum', this.albumId).then(() => {
             this.loaded = true
           }).catch(() => {
@@ -72,7 +72,7 @@
         }
         this.loaded = true
       },
-      toggleSheet()  {
+      toggleSheet () {
         this.openSheet = !this.openSheet
       }
     },
@@ -81,7 +81,7 @@
         return (this.loaded && this.album.cover)
       },
       loadedAlbum () {
-        return (this.loaded && this.album.artist)
+        return this.album.fullyLoaded
       },
       detailLink () {
         if (this.loadedAlbum) {

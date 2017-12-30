@@ -12,9 +12,9 @@
                 </router-link>
             </li>
         </ul>
-        <transition-group name="list" tag="ul" class="nav flex-column" v-if="genrePage">
-            <li class="col" v-for="(genre, index) in genrePage" :key="index" :name="genre.slug">
-                <router-link :to="{ name: 'detail_genres', params: { genre: genre.slug, id: genre.id }}">
+        <transition-group name="list" tag="ul" class="nav nav-pills flex-column flex-sm-row" v-if="genrePage">
+            <li class="nav-item" v-for="(genre, index) in genrePage" :key="index" :name="genre.slug">
+                <router-link  class="nav-link" :to="{ name: 'detail_genres', params: { genre: genre.slug, id: genre.id }}">
                     {{ genre.name }}
                 </router-link>
             </li>
@@ -53,11 +53,11 @@
 
     },
     created: function () {
-      this.$store.dispatch('genres/loadGenres').then(() => {
-        this.toast.toast('loaded genres')
-      }).catch(() => {
-        this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-      })
+        this.$store.dispatch('genres/loadGenres').then(() => {
+          this.toast.toast('loaded genres')
+        }).catch(() => {
+          this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
+        })
     },
   }
 </script>

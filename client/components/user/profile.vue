@@ -1,8 +1,15 @@
 <template>
     <article class="user-profile">
-        <h1 class="user-profile__title">
-            Your profile
-        </h1>
+        <div class="album-backdrop no-image">
+            <div class="info-bar album media">
+                <!--<img class="info-bar-image" :src="cover"/>-->
+                <div class="info-bar-content media-body">
+                    <div class="info-bar-content__header">
+                        <h1>Your profile</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <ul class="nav nav-tabs" id="list-tab" role="tablist">
             <li class="nav-item">

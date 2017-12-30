@@ -3,22 +3,25 @@ import Vue from 'vue'
 const state = {
   genres: [],
   sortedList: [],
-  currentArtist: null,
+  current: null,
   page: 1,
-  sortBy: 'all'
+  sortBy: 'all',
+  fetchedOverview: false
 }
 
 const actions = {
-  loadGenres: function ({ commit }) {
-    Vue.axios.get(`/api/genre_list`).then((response) => {
-      commit('ADD_GENRES', { genres: response.data })
-    }, (err) => {
-      console.log(err)
-    })
+  loadGenres: function ({ commit, state }) {
+    if (state.fetchedOverview === false) {
+      Vue.axios.get(`/api/genre_list`).then((response) => {
+        commit('ADD_GENRES', { genres: response.data })
+      }, (err) => {
+        console.log(err)
+      })
+    }
   },
   loadGenre: function ({ commit, state }, genreId) {
     if (state.genres[genreId] == null || state.genres[genreId].songs == null) {
-      Vue.axios.get(`/api/genre/` + state.genres[genreId].id).then((response) => {
+      Vue.axios.get(`app_dev.php/api/genre/` + genreId).then((response) => {
         commit('ADD_GENRE', { genre: response.data, index: genreId })
       }, (err) => {
         console.log(err)
@@ -38,6 +41,7 @@ const actions = {
 
 const mutations = {
   ADD_GENRES: (state, { genres }) => {
+    state.fetchedOverview = true
     state.genres = genres.filter(Boolean)
     state.sortedList = state.genres.map(genre => ({
       id: genre.id,
@@ -59,7 +63,7 @@ const mutations = {
     Vue.set(state.genres, index, genre)
   },
   SET_CURRENT_GENRE: (state, { index }) => {
-    state.currentArtist = state.genres[index]
+    state.current = state.genres[index]
   },
   PAGINATE: (state, { page }) => {
     state.page = page

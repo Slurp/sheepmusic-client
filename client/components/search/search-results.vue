@@ -1,9 +1,15 @@
 <template>
     <article class="search-results">
-        <h3 class="search-results__title">
-            Search results for
-            <small class="text-muted">{{ query }}</small>
-        </h3>
+        <div class="album-backdrop no-image">
+            <div class="info-bar album media">
+                <!--<img class="info-bar-image" :src="cover"/>-->
+                <div class="info-bar-content media-body">
+                    <div class="info-bar-content__header">
+                        <h1>Search results for <small>{{ query }}</small></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
         <ul class="nav nav-tabs active" id="searchTabs" role="tablist">
             <li class="nav-item" v-if="artists">
                 <a class="nav-link active"

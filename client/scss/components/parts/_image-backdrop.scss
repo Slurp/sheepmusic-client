@@ -4,7 +4,13 @@
   background-position: 50% 50%;
   display: flex;
   @include make-row();
-
+  &.no-image {
+    .info-bar {
+      &:before {
+        background-color: map_get(theme-color('secondary'),color);
+      }
+    }
+  }
   .info-bar {
     position: relative;
     &:before {
