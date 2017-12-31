@@ -19,12 +19,17 @@
                 </router-link>
             </li>
         </transition-group>
-        <pagination for="genres" :records="totalGenres" :vuex="true"></pagination>
+        <ul class="pagination alphabet-pagination">
+            <li class="page-item" v-for="letter in this.alphabet"  v-bind:class="{ active: isActive(letter) }">
+               <a class="page-link" v-on:click.stop.prevent="selectLetter(letter)"> {{ letter }}</a>
+            </li>
+        </ul>
     </div>
 </template>
 
 <script>
   import Toaster from 'services/toast'
+  import arrayFunctions from 'services/array-helper'
 
   export default {
     name: 'genre-overview',
@@ -32,11 +37,21 @@
     data () {
       return {
         toast: new Toaster(),
+        alphabet: arrayFunctions.alphabetRange(),
+        letter: 'a'
       }
     },
     beforeDestroy () {
       this.toast = null
       delete this.toast
+    },
+    methods: {
+      isActive (letter) {
+        return (letter === this.selectedLetter)
+      },
+      selectLetter(letter) {
+        this.letter = letter
+      }
     },
     watch: {
       type: function () {
@@ -45,12 +60,11 @@
     },
     computed: {
       genrePage () {
-        return this.$store.getters['genres/getGenres']
+        return this.$store.getters['genres/getGenresByLetter'](this.selectedLetter)
       },
-      totalGenres () {
-        return this.$store.getters['genres/totalGenres']
-      },
-
+      selectedLetter () {
+        return this.letter;
+      }
     },
     created: function () {
         this.$store.dispatch('genres/loadGenres').then(() => {

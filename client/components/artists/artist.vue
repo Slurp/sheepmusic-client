@@ -53,7 +53,7 @@
       }
     },
     created () {
-      if (this.artist == null || typeof this.artist.albums == 'undefined') {
+      if (this.artist == null || this.artist.fullyLoaded == false) {
         this.$store.dispatch('artists/loadArtist', this.artistId).then(() => {
           this.toast.toast('loaded artist')
           this.loaded = true
@@ -88,10 +88,13 @@
         }
       },
       loadedArtist () {
-        return (this.loaded && this.artist.albums)
+        return (this.loaded && this.artist.fullyLoaded)
       },
       detailLink () {
-        return  this.$store.getters['artists/detailLink'](this.artist)
+        if(this.loadedArtist) {
+          return this.$store.getters['artists/detailLink'](this.artist)
+        }
+        return '404';
       },
     },
 

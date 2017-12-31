@@ -1,31 +1,46 @@
 <template>
-    <article class="artist-detail" :id="artist.id" v-if="artist && artist.albums">
-        <breadcrumbs :artist="artist"></breadcrumbs>
-        <section class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }">
-            <div class="info-bar artist media">
-                <img class="info-bar-image" :src="cover"/>
-                <div class="info-bar-content media-body">
-                    <div class="info-bar-content__header">
-                        <h1 class="artist-name" v-if="logo == null">{{ artist.name }}</h1>
-                        <h1 class="artist-name" v-if="logo != null"><img :src="logo"></h1>
-                        <play_btn :artist=artist></play_btn>
-                        <queue_btn :artist=artist></queue_btn>
+    <article class="artist-detail" :id="artist.id">
+        <div v-if="artist && artist.fullyLoaded">
+            <breadcrumbs :artist="artist"></breadcrumbs>
+            <section class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }">
+                <div class="info-bar artist media">
+                    <img class="info-bar-image" :src="cover"/>
+                    <div class="info-bar-content media-body">
+                        <div class="info-bar-content__header">
+                            <h1 class="artist-name" v-if="logo == null">{{ artist.name }}</h1>
+                            <h1 class="artist-name" v-if="logo != null"><img :src="logo"></h1>
+                            <play_btn :artist=artist></play_btn>
+                            <queue_btn :artist=artist></queue_btn>
+                        </div>
+                        <ul class="info">
+                            <li><span>Albums:</span>{{ artist.albums.length }}</li>
+                            <li><span>Genres:</span>{{ genres }}</li>
+                        </ul>
+
+
+                        <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
                     </div>
-                    <ul class="info">
-                        <li><span>Albums:</span>{{ artist.albums.length }}</li>
-                        <li><span>Genres:</span>{{ genres }}</li>
-                    </ul>
-
-
-                    <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
+                </div>
+            </section>
+            <section class="list">
+                <div class="col" v-for="album in albums" :key="album.id">
+                    <album :album-id=album.id :album=storedAlbum(album.id) :key="album.id"></album>
+                </div>
+            </section>
+        </div>
+        <div class="progress-circular progress-circular-secondary" v-else>
+            <div class="progress-circular-wrapper">
+                <div class="progress-circular-inner">
+                    <div class="progress-circular-left">
+                        <div class="progress-circular-spinner"></div>
+                    </div>
+                    <div class="progress-circular-gap"></div>
+                    <div class="progress-circular-right">
+                        <div class="progress-circular-spinner"></div>
+                    </div>
                 </div>
             </div>
-        </section>
-        <section class="list">
-            <div class="col" v-for="album in albums" :key="album.id">
-                <album :album-id=album.id :album=album :key="album.id"></album>
-            </div>
-        </section>
+        </div>
     </article>
 
 </template>
@@ -57,23 +72,25 @@
           this.$store.dispatch('artists/loadArtist', this.id)
         }
         this.$store.dispatch('artists/viewArtist', this.id)
-
-      }
+      },
+      storedAlbum (albumId) {
+        return this.$store.getters['albums/getAlbumById'](albumId)
+      },
     },
     computed: {
       genres () {
-        return this.artist.genres.reduce(function(prevVal, elem ,index, array) {
-          if(array.length - 1 > index) {
-            return prevVal + elem.name + ", "
+        return this.artist.genres.reduce(function (prevVal, elem, index, array) {
+          if (array.length - 1 > index) {
+            return prevVal + elem.name + ', '
           }
           return prevVal + elem.name
-        }, '');
+        }, '')
       },
       logo () {
         return this.$store.getters['artists/getLogoForArtist'](this.id)
       },
       cover () {
-        if(this.$store.getters['artists/getThumbForArtist'](this.id)) {
+        if (this.$store.getters['artists/getThumbForArtist'](this.id)) {
           return this.$store.getters['artists/getThumbForArtist'](this.id)
         }
         if (this.artist.image !== '') {
@@ -83,7 +100,7 @@
 
       },
       background () {
-        if(this.$store.getters['artists/getBackgroundForArtist'](this.id)) {
+        if (this.$store.getters['artists/getBackgroundForArtist'](this.id)) {
           return this.$store.getters['artists/getBackgroundForArtist'](this.id)
         }
         return this.artist.albumArt

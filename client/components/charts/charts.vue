@@ -1,8 +1,15 @@
 <template>
     <article class="charts">
-        <h3 class="charts__title">
-            Donuts and pies!
-        </h3>
+        <div class="album-backdrop no-image">
+            <div class="info-bar album media">
+                <!--<img class="info-bar-image" :src="cover"/>-->
+                <div class="info-bar-content media-body">
+                    <div class="info-bar-content__header">
+                        <h1 class="album-name">Donuts and Pies!</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
         <ul class="nav nav-tabs active" id="searchTabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active"

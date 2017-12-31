@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import artists from 'root/store/modules/artists/artists'
 
 const state = {
   genres: [],
@@ -41,8 +42,13 @@ const actions = {
 
 const mutations = {
   ADD_GENRES: (state, { genres }) => {
+    for (const genre of genres) {
+      if (state.genres[genre.id] == null || state.genres[genre.id].albums == null) {
+        genre.fullyLoaded = false
+        Vue.set(state.genres, genre.id, genre)
+      }
+    }
     state.fetchedOverview = true
-    state.genres = genres.filter(Boolean)
     state.sortedList = state.genres.map(genre => ({
       id: genre.id,
       name: genre.slug,
@@ -51,15 +57,14 @@ const mutations = {
     //remove first value is null
     state.sortedList.splice(0, 1)
     state.sortedList.sort((a, b) => {
-      if (a.name < b.name) return -1
-      if (a.name > b.name) return 1
-      return 0
+      return a.name.localeCompare(b.name)
     })
     if (state.sortBy === 'recent') {
       state.sortedList.sort((a, b) => b.date - a.date)
     }
   },
   ADD_GENRE: (state, { genre, index }) => {
+    genre.fullyLoaded = true
     Vue.set(state.genres, index, genre)
   },
   SET_CURRENT_GENRE: (state, { index }) => {
@@ -74,9 +79,7 @@ const mutations = {
         state.sortedList.sort((a, b) => b.date - a.date)
       } else {
         state.sortedList.sort((a, b) => {
-          if (a.name < b.name) return -1
-          if (a.name > b.name) return 1
-          return 0
+          return a.name.localeCompare(b.name)
         })
       }
       state.sortBy = sort
@@ -90,6 +93,12 @@ const getters = {
   },
   totalGenres: state => {
     return state.genres.length
+  },
+  getGenresByLetter: (state) => (letter) => {
+    console.log(letter)
+    return state.genres.filter((genre) => {
+      return genre.name[0].toLowerCase() === letter
+    })
   },
   getGenres: (state) => {
     if (state.genres.length >= 50) {

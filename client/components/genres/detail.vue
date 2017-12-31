@@ -70,10 +70,8 @@
     },
     props: ['id'],
     created: function () {
-      console.log(this.id);
       this.$store.dispatch('genres/loadGenre', this.id)
       this.$store.dispatch('genres/viewGenre', this.id)
-      console.log(this.id)
     },
     methods: {
       storedAlbum(albumId) {

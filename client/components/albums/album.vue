@@ -84,7 +84,7 @@
         return this.album.fullyLoaded
       },
       detailLink () {
-        if (this.loadedAlbum) {
+        if (this.album && this.album.fullyLoaded) {
           return {
             name: 'detail_album',
             params: { artist: this.album.artist.name, album: this.album.slug, id: this.album.id },
