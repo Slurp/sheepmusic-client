@@ -1,7 +1,9 @@
 .player {
   z-index: 4;
   display: flex;
-  background-color: $player-bg-color;
+
+  background-color: rgba($player-bg-color,0.5);
+
 
   height: $footer-fixed-height;
   border-top: 1px solid $player-border-color;

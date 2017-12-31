@@ -7,6 +7,10 @@
   }
 }
 .navbar {
+  background-image: url("#{$backgrounds}/1920x1080.jpg");
+  background-position: center;
+  background-size: cover;
+  background-color: rgba($player-bg-color,0.8);
   .navbar-collapse {
     @extend .justify-content-end;
   }

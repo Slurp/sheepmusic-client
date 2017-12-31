@@ -7,7 +7,7 @@
   top: 50px;
   left: 0;
   right: auto;
-  bottom: 0;
+  bottom: $footer-fixed-height;
   transition: all 0.3s linear;
   z-index: $zindex-fixed;
   // Visibility.
