@@ -105,25 +105,25 @@ const getters = {
     }
   },
   getLogoForArtist: (state) => (artistId) => {
-    if (state.artists && state.artists[artistId] && state.artists[artistId].logo !== 'undefined') {
+    if (state.artists && state.artists[artistId] && typeof state.artists[artistId].logo !== 'undefined' && state.artists[artistId].logo.length > 0) {
       return state.artists[artistId].logo[Math.max(Math.floor(Math.random() * state.artists[artistId].logo.length), state.artists[artistId].logo.length - 1)]
     }
     return null
   },
   getBackgroundForArtist: (state) => (artistId) => {
-    if (state.artists && state.artists[artistId] && state.artists[artistId].background !== 'undefined') {
+    if (state.artists && state.artists[artistId] && typeof state.artists[artistId].background !== 'undefined' && state.artists[artistId].background.length > 0) {
       return state.artists[artistId].background[Math.max(Math.floor(Math.random() * state.artists[artistId].background.length), state.artists[artistId].background.length - 1)]
     }
     return null
   },
   getBannerForArtist: (state) => (artistId) => {
-    if (state.artists && state.artists[artistId] && state.artists[artistId].banner !== 'undefined') {
+    if (state.artists && state.artists[artistId] && typeof state.artists[artistId].banner !== 'undefined' && state.artists[artistId].banner.length > 0) {
       return state.artists[artistId].banner[Math.max(Math.floor(Math.random() * state.artists[artistId].banner.length), state.artists[artistId].banner.length - 1)]
     }
     return null
   },
   getThumbForArtist: (state) => (artistId) => {
-    if (state.artists && state.artists[artistId] && state.artists[artistId].thumbs !== 'undefined') {
+    if (state.artists && state.artists[artistId] && typeof state.artists[artistId].thumbs !== 'undefined' && state.artists[artistId].thumbs.length > 0) {
       return state.artists[artistId].thumbs[Math.max(Math.floor(Math.random() * state.artists[artistId].thumbs.length), state.artists[artistId].thumbs.length - 1)]
     }
     return null
@@ -138,7 +138,7 @@ const getters = {
     }
   },
   getImportedByMonth: (state) => {
-    if (state.artists.length > 0) {
+    if (state.artists && state.artists.length > 0) {
       const year = (new Date()).getFullYear()
       const groups = state.artists.reduce((r, o) => {
         const date = new Date(o.createdAt.date)
@@ -147,16 +147,16 @@ const getters = {
           (r[m]) ? r[m]++ : r[m] = 1
         }
         return r
-      }, arrayFunctions.initializeArrayWithValues(12, 0))
+      }, Array(12).fill(0))
       for (let i = 1; i < 12; i++) {
         groups[i] = groups[i] + groups[i - 1]
       }
       return groups
     }
-    return []
+    return Array(12).fill(0)
   },
   getUpdatedByMonth: (state) => {
-    if (state.artists.length > 0) {
+    if (state.artists && state.artists.length > 0) {
       const year = (new Date()).getFullYear()
       const groups = state.artists.reduce((r, o) => {
         const date = new Date(o.updatedAt.date)
@@ -165,11 +165,10 @@ const getters = {
           (r[m]) ? r[m]++ : r[m] = 1
         }
         return r
-      }, arrayFunctions.initializeArrayWithValues(12, 0))
+      }, Array(12).fill(0))
       return groups
-
     }
-    return []
+    return Array(12).fill(0)
   }
 }
 

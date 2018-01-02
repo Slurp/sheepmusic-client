@@ -98,6 +98,7 @@
     height: 100%;
     background: transparent;
     z-index: 3;
+
     a {
       text-align: center;
       float: right;
@@ -154,7 +155,8 @@
 
 .playlist-actions {
   border-top:1px solid rgba(0, 0, 0, 0.1);
-  padding: 5px 0 1.5rem;
+  padding: 5px 0 5px;
+  //padding-right: 3.75rem;
   margin: 0 10px;
   position: absolute;
   bottom: 0px;
@@ -163,7 +165,17 @@
   background: $playlist-bg-color;
   z-index: 999;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
+  .duration {
+    margin-top: -12px;
+    font-size: 0.8rem;
+    color: lighten($playlist-txt-color, 30%);
+    line-height: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
   a {
     @extend .btn;
     @extend .btn-sm;
@@ -176,7 +188,9 @@
       @extend .btn-light;
     }
     &.REPEAT_ALL {
-
+    }
+    &:last-child {
+      margin-right: 3.75rem;
     }
   }
 }

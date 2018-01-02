@@ -115,7 +115,7 @@ const getters = {
   detailLink: (state) => (album) => {
     return {
       name: 'detail_album',
-      params: { artist: album.name, id: album.id }
+      params: { artist: album.artist.name, album: album.name, id: album.id }
     }
   },
   getImportedByMonth: (state) => {
@@ -128,29 +128,23 @@ const getters = {
           (r[m]) ? r[m]++ : r[m] = 1
         }
         return r
-      }, arrayFunctions.initializeArrayWithValues(12,0));
+      }, Array(12).fill(0));
       for(let i =1; i < 12; i++) {
         groups[i] = groups[i] + groups[i -1];
       }
       return groups
     }
-    return []
+    return Array(12).fill(0)
   },
-  getUpdatedByMonth: (state) => {
+  getLosslessCollection: (state) => {
     if (state.albums.length > 0) {
-      const year = (new Date()).getFullYear()
-      const groups = state.albums.reduce((r, o) => {
-        const date = new Date(o.updatedAt.date)
-        let m = date.getMonth();
-        if(year === date.getFullYear()) {
-          (r[m]) ? r[m]++ : r[m] = 1
-        }
-        return r
-      }, arrayFunctions.initializeArrayWithValues(12,0))
-      return groups;
-
+      let data = Array()
+      let losslessCount = state.albums.reduce((counter, album) => (album.lossless ? counter + 1 : counter + 0), 0)
+      data.push(losslessCount)
+      data.push(state.albums.length - losslessCount)
+      return data
     }
-    return []
+    return Array(2).fill(0)
   }
 }
 

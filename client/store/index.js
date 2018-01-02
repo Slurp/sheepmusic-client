@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import modules from './modules'
-import { CLEAR, TOGGLE_LOADING, TOGGLE_PLAYLIST } from './mutations'
+import { CLEAR, TOGGLE_LOADING, TOGGLE_PLAYLIST, CHANGE_IDLE } from './mutations'
 
 Vue.use(Vuex)
 
@@ -9,7 +9,8 @@ const store = new Vuex.Store({
   modules,
   state: {
     showPlaylist: true,
-    loadingScreen: false
+    loadingScreen: false,
+    isIdle: false
   },
 
   actions: {
@@ -33,7 +34,8 @@ const store = new Vuex.Store({
      * @param commit
      */
     togglePlaylist: ({ commit }) => commit(TOGGLE_PLAYLIST),
-    toggleLoading: ({ commit }) => commit(TOGGLE_LOADING)
+    toggleLoading: ({ commit }) => commit(TOGGLE_LOADING),
+    changeIdle: ({ commit }, isIdle) => commit(CHANGE_IDLE, isIdle)
   },
 
   mutations: {
@@ -42,7 +44,11 @@ const store = new Vuex.Store({
     },
     [TOGGLE_LOADING]: (state) => {
       state.loadingScreen = !state.loadingScreen
+    },
+    [CHANGE_IDLE]: (state, isIdle) => {
+      state.isIdle = isIdle
     }
+
   },
   getters: {
     loading: state => {
@@ -50,6 +56,9 @@ const store = new Vuex.Store({
     },
     showPlaylist: state => {
       return state.showPlaylist
+    },
+    isIdle: state => {
+      return state.isIdle
     }
   }
 })

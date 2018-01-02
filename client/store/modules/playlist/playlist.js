@@ -77,6 +77,7 @@ const mutations = {
     state.songs = []
     state.currentIndex = null
     state.currentRepeatMode = 'REPEAT_ALL'
+    state.name = null
   },
   PREV: (state) => {
     if (state.repeatMode !== 'REPEAT_ONE') {

@@ -8,16 +8,19 @@
         </div>
         <div class="stats__charts">
             <bar :chart-data="datacollection"></bar>
+            <pie :chart-data="losslessCollection"></pie>
         </div>
     </div>
 
 </template>
 <script>
   import bar from './charts/bar'
+  import pie from './charts/pie'
 
   export default {
     components: {
-      bar
+      bar,
+      pie
     },
     computed: {
       datacollection () {
@@ -32,17 +35,23 @@
               type: 'line',
               steppedLine: 'before',
             },
+          ]
+        }
+      },
+      losslessCollection () {
+        return {
+          labels: ['Lossless', 'lossy'],
+          datasets: [
             {
-              label: 'Updated',
-              backgroundColor: '#f50057',
-              data: this.$store.getters['albums/getUpdatedByMonth'],
+              label: 'What HD?',
+              data: this.$store.getters['albums/getLosslessCollection'],
+              backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)']
             },
-
           ]
         }
       },
       totalAlbums () {
-        return this.$store.getters['albums/totalAlbums'];
+        return this.$store.getters['albums/totalAlbums']
       }
     }
   }

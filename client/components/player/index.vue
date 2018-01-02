@@ -156,7 +156,10 @@
       },
       detailAlbum () {
         if (this.song) {
-          return this.$store.getters['albums/detailLink'](this.song.album)
+          return {
+            name: 'detail_album',
+            params: { artist: this.song.artist.name, album: this.song.album.name, id: this.song.album.id }
+          }
         }
         return '/'
       },

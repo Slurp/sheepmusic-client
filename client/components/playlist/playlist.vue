@@ -1,7 +1,10 @@
 <template>
     <div class="playlist">
         <div class="playlist-dropup">
-            <h5 class="playlist-header" data-playlistheader="">Current Playlist</h5>
+            <h5 class="playlist-header">
+                Current Playlist<span v-if="playlistName">: {{ playlistName }}</span>
+
+            </h5>
             <div class="playlist-wrapper">
                 <ul>
                     <li class="playlist-item" v-if="isEmpty">
@@ -24,10 +27,12 @@
                 </ul>
             </div>
             <div v-if="isEmpty == false" class="playlist-actions" role="group">
+
                 <a href="#" class='btn' v-on:click.stop.prevent="shuffle">
                     <i class="material-icons">shuffle</i>
                 </a>
-                <a href="#" class='btn' v-bind:class="repeatMode" v-bind:title="repeatStatus" v-on:click.stop.prevent="changeRepeatMode">
+                <a href="#" class='btn' v-bind:class="repeatMode" v-bind:title="repeatStatus"
+                   v-on:click.stop.prevent="changeRepeatMode">
                     <i v-if="repeatMode == 'REPEAT_ONE'" class="material-icons">repeat_one</i>
                     <i v-if="repeatMode == 'NO_REPEAT'" class="material-icons">repeat</i>
                     <i v-if="repeatMode == 'REPEAT_ALL'" class="material-icons">repeat</i>
@@ -35,6 +40,7 @@
                 <a href="#" class='btn' data-toggle="modal" data-target="#playlistModal">
                     <i class="material-icons">save</i>
                 </a>
+                <div class="duration" v-if="playlistDuration"><i class="material-icons">av_timer</i>{{ playlistDuration }}</div>
 
             </div>
         </div>
@@ -42,7 +48,7 @@
 </template>
 <script>
   import songItem from './song'
-
+  import { secondsToHis } from 'services/time'
 
   export default {
     name: 'playlist',
@@ -66,7 +72,7 @@
       },
       changeRepeatMode () {
         this.$store.dispatch('playlist/setRepeatMode', this.repeatMode)
-      }
+      },
     },
     computed: {
       playing () {
@@ -86,7 +92,16 @@
       },
       repeatMode () {
         return this.repeatStatus = this.$store.getters['playlist/repeatMode']
-      }
+      },
+      playlistName () {
+        return this.$store.getters['playlist/name']
+      },
+      playlistDuration () {
+        if (this.isEmpty === false) {
+          return this.duration = secondsToHis(this.list.map(song => song.length).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
+        }
+        return null;
+      },
     },
   }
 </script>
