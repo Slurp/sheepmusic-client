@@ -51,11 +51,13 @@
       },
       album () {
         if (this.song) {
+          console.log(this.song.album.id);
           return this.$store.getters['albums/getAlbumById'](this.song.album.id)
         }
       },
       artist () {
         if (this.song) {
+          this.$store.dispatch('artists/loadArtist',this.song.artist.id)
           return this.$store.getters['artists/getArtistById'](this.song.artist.id)
         }
       },

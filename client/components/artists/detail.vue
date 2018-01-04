@@ -1,24 +1,28 @@
 <template>
-    <article class="artist-detail" :id="artist.id">
+    <article class="artist-detail" :id="id">
         <div v-if="artist && artist.fullyLoaded">
             <breadcrumbs :artist="artist"></breadcrumbs>
             <section class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }">
                 <div class="info-bar artist media">
                     <img class="info-bar-image" :src="cover"/>
-                    <div class="info-bar-content media-body">
+                    <div class="info-bar-content">
                         <div class="info-bar-content__header">
                             <h1 class="artist-name" v-if="logo == null">{{ artist.name }}</h1>
                             <h1 class="artist-name" v-if="logo != null"><img :src="logo"></h1>
                             <play_btn :artist=artist></play_btn>
                             <queue_btn :artist=artist></queue_btn>
+                            <edit_btn :artist=artist></edit_btn>
                         </div>
-                        <ul class="info">
-                            <li><span>Albums:</span>{{ artist.albums.length }}</li>
-                            <li><span>Genres:</span>{{ genres }}</li>
-                        </ul>
-
-
-                        <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
+                    
+                        <div class="meta">
+                            <i class="material-icons">album</i>{{ artist.albums.length }}</li>
+                        </div>
+                        <div class="meta">
+                            <i class="material-icons" v-if="genres">receipt</i>{{ genres }}</li>
+                        </div>
+                        <div class="meta">
+                        <i class="material-icons">info</i><truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -52,6 +56,7 @@
   import truncate from './bio'
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
+  import edit_btn from './edit-btn'
 
   export default {
     components: {
@@ -60,7 +65,8 @@
       album,
       truncate,
       play_btn,
-      queue_btn
+      queue_btn,
+      edit_btn
     },
     props: ['id'],
     created () {

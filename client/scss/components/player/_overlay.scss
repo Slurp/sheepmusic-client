@@ -1,6 +1,7 @@
 .playing-overlay {
+
   position: fixed;
-  top:0;
+  top:56px;
   left: 0; //$navdrawer-width;
   bottom: $footer-fixed-height;
   width: 100%; //calc(100% - #{$navdrawer-width});
@@ -11,6 +12,9 @@
     position: absolute;
     top: $grid-gutter-width-base;
     right: $grid-gutter-width-base;
+    height: 1.4rem;
+    line-height: 1.2rem;
+    width: 1.4rem;
   }
   #bars {
     position: absolute;
@@ -28,6 +32,9 @@
     }
   }
   .background-image {
+    animation-name: slideInUp;
+    animation-duration: 0.5s;
+    transition: all 0.5s ease;
     position: absolute;
     top: 0;
     right: 0;
@@ -40,6 +47,9 @@
     z-index: 1;
   }
   &__content {
+    animation-name: slideInUp;
+    animation-duration: 0.5s;
+    transition: all 0.5s ease;
     position: absolute;
     top: 0;
     right: 0;

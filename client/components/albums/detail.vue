@@ -1,5 +1,5 @@
 <template>
-    <div class="album-detail" :id="album.id">
+    <div class="album-detail" :id="id">
         <div v-if="album && album.fullyLoaded">
             <breadcrumbs :album="album"></breadcrumbs>
             <div class="album-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + album.cover + ')' }">
@@ -19,17 +19,18 @@
 
                             <play_btn :album=album></play_btn>
                             <queue_btn :album=album></queue_btn>
+
                         </div>
                         <h3 class="album-name">
                             {{ album.name }}
                         </h3>
-                        <ul class="info">
-                            <li><span>Played:</span>{{ this.album.playCount}} times</li>
-                            <li><span>Year:</span>{{ this.album.year}}</li>
-                            <li><span>Songs:</span>{{ this.album.songs.length }}</li>
-                            <li><span>Duration:</span>{{ lengthAlbum }}</li>
-                            <li><span>Genre:</span>{{ this.album.genre.name}}</li>
-                        </ul>
+                        <div class="meta">
+                            <i class="material-icons">hearing</i>{{ album.playCount}} times
+                            <i class="material-icons">date_range</i>{{ album.year}}
+                            <i class="material-icons">queue_music</i>{{ album.songs.length }} songs
+                            <i class="material-icons">av_timer</i>{{ lengthAlbum }}
+                            <i class="material-icons" v-if="album.genre.name">receipt</i>{{ album.genre.name}}
+                        </div>
 
                     </div>
                 </div>
@@ -74,7 +75,7 @@
       }
     },
     created: function () {
-      if (this.album == null || typeof this.album.songs == 'undefined') {
+      if (this.album == null || this.album.fullyLoaded === false) {
         this.$store.dispatch('albums/loadAlbum', this.id)
       }
       this.$store.dispatch('albums/viewAlbum', this.id)
@@ -97,12 +98,10 @@
       },
       artist () {
         if (typeof this.album !== 'undefined' && this.album.fullyLoaded === true) {
-          console.log(this.album.artist.id)
           const artist = this.$store.getters['artists/getArtistById'](this.album.artist.id)
           if (typeof artist !== 'undefined' && artist.fullyLoaded === true) {
             return artist
           } else {
-            console.log(this.album.artist.id)
             this.$store.dispatch('artists/loadArtist', this.album.artist.id)
             return null
           }

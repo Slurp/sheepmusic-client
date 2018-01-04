@@ -53,7 +53,8 @@ const mutations = {
         Vue.set(state.albums, album.id, album)
       }
     }
-    state.sortedList = state.albums.map(album => ({
+
+    state.sortedList = state.albums.filter(Boolean).map(album => ({
       id: album.id,
       name: album.name,
       playCount: album.playCount,

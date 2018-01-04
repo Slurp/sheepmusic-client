@@ -136,7 +136,7 @@
   width: 100%;
   h5, h6 {
     line-height: 1;
-    width: 180px;
+    width: calc(100% - 2rem);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

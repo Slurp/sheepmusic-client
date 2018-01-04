@@ -3,6 +3,7 @@
   @include make-gutters();
   color: map_get(theme-color('light'), color);
   width: 100%;
+  flex-wrap: wrap;
   .info-bar-image {
     @include img-fluid();
     @extend .d-flex;
@@ -58,17 +59,31 @@
       display: flex;
     }
   }
-  ~ .song-list {
-    padding-top: 20px;
-    margin-top: -20px;
+  .info-bar-meta {
+    flex: 1 0 100%;
   }
-  .info {
+  ~ .song-list {
+    padding-top: 1.5rem;
+    margin-top: -1.5rem;
+  }
+  .meta {
     list-style: none;
     margin: 0;
     padding: 0;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    color: map_get(theme-color('light'),darker);
+    i {
+      margin: 0.2rem;
+      &:first-child {
+        margin-left: 0;
+      }
+    }
     li {
       margin: 0;
       padding: 0;
+      flex: 1 0 100%;
     }
     span {
       display: inline-block;

@@ -103,7 +103,7 @@
         })
       },
       watchIdle(){
-        const idleTime = 10 * 1000
+        const idleTime = 60 * 1000
         const keepTracking = true
         const startAtIdle = false
         const idle = new IdleJs({
