@@ -1,9 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
 import modules from './modules'
 import { CLEAR, TOGGLE_LOADING, TOGGLE_PLAYLIST, CHANGE_IDLE } from './mutations'
 
 Vue.use(Vuex)
+
+const badMutations = [
+  'playlist/PLAYING'
+]
+
+const vuexLocal = new VuexPersistence({
+  storage: window.localStorage,
+  modules: ['playlist'],
+  filter: mutation => (badMutations.indexOf(mutation.type) === -1)
+})
 
 const store = new Vuex.Store({
   modules,
@@ -60,7 +71,8 @@ const store = new Vuex.Store({
     isIdle: state => {
       return state.isIdle
     }
-  }
+  },
+  plugins: [vuexLocal.plugin]
 })
 
 export default store

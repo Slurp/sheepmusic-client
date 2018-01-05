@@ -20,9 +20,7 @@
                         <div class="meta">
                             <i class="material-icons" v-if="genres">receipt</i>{{ genres }}</li>
                         </div>
-                        <div class="meta">
-                        <i class="material-icons">info</i><truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
-                        </div>
+                        <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
                     </div>
                 </div>
             </section>
@@ -86,10 +84,14 @@
     computed: {
       genres () {
         return this.artist.genres.reduce(function (prevVal, elem, index, array) {
-          if (array.length - 1 > index) {
-            return prevVal + elem.name + ', '
+          console.log(index)
+          if(index < 5) {
+            if (array.length - 1 > index && index < 4) {
+              return prevVal + elem.name + ', '
+            }
+            return prevVal + elem.name
           }
-          return prevVal + elem.name
+          return prevVal
         }, '')
       },
       logo () {
