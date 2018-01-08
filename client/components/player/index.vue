@@ -1,7 +1,21 @@
 <template>
     <footer id='mainFooter' class='footer-player'>
+
         <div class='player'>
-            <audio controls preload></audio>
+            <div class="plyr plyr--audio plyr--ready" v-bind:class="{ 'plyr--playing': playing }">
+                <div class="plyr__controls">
+                    <div class="plyr__progress">
+                        <label for="seek8558" class="plyr__sr-only">Seek</label>
+                        <input id="seek8558" class="plyr__progress--seek" type="range" min="0" max="100" step="0.1"
+                               value="0"
+                               data-plyr="seek">
+                        <progress class="plyr__progress--played" max="100" value="1.85" role="presentation"></progress>
+                        <progress class="plyr__progress--buffer" max="100" value="38.78"><span>38.78</span>% buffered
+                        </progress>
+                        <span class="plyr__tooltip" style="left: 54.2175%;">03:53</span>
+                    </div>
+                </div>
+            </div>
             <div class="player-row">
                 <div class='player-controls'>
                     <div class='row'>
@@ -75,7 +89,6 @@
 </template>
 <script>
   import BlackSheepPlayer from 'components/BSAudioSuite/player'
-  import Notifications from 'services/notifications'
   import Toaster from 'services/toast'
 
   export default {
@@ -96,41 +109,41 @@
       /**
        * Listen to 'error' event on the audio player and play the next song if any.
        */
-      this.blackSheepPlayer.player.on('error', () => this.playNext(), true)
-      /**
-       * Listen to 'ended' event on the audio player and play the next song in the queue.
-       */
-      this.blackSheepPlayer.player.on('ended', () => {
+      //this.blackSheepPlayer.player.on('playerror', () => this.playNext(), true)
+      // /**
+      //  * Listen to 'ended' event on the audio player and play the next song in the queue.
+      //  */
+      this.blackSheepPlayer.on('end', () => {
         this.$store.dispatch('songs/playedSong', this.song)
         this.playNext()
       })
-
-      this.blackSheepPlayer.player.on('play', () => {
-        document.title = `${this.currentSong.title} ♫ sheepMusic`
-        Notifications.notifySong(this.song)
-        this.$store.dispatch('songs/announceSong', this.song)
-      })
+      //
+      // this.blackSheepPlayer.player.on('play', () => {
+      //   document.title = `${this.currentSong.title} ♫ sheepMusic`
+      //   Notifications.notifySong(this.song)
+      //   this.$store.dispatch('songs/announceSong', this.song)
+      // })
 
       /**
        * Attempt to preload the next song.
        */
-      this.blackSheepPlayer.player.on('canplaythrough', e => {
-        if (!this.nextSong || this.nextSong.preloaded) {
-
-          this.nextSong = this.$store.getters['playlist/getPreloadSong']
-          if (!this.nextSong || this.nextSong.preloaded) {
-            // Don't preload if
-            // - there's no next song
-            // - next song has already been preloaded
-            return
-          }
-          const audio = document.createElement('audio')
-          audio.setAttribute('src', this.nextSong.src)
-          audio.setAttribute('preload', 'auto')
-          audio.load()
-          this.nextSong.preloaded = true
-        }
-      })
+      // this.blackSheepPlayer.player.on('canplaythrough', e => {
+      //   if (!this.nextSong || this.nextSong.preloaded) {
+      //
+      //     this.nextSong = this.$store.getters['playlist/getPreloadSong']
+      //     if (!this.nextSong || this.nextSong.preloaded) {
+      //       // Don't preload if
+      //       // - there's no next song
+      //       // - next song has already been preloaded
+      //       return
+      //     }
+      //     const audio = document.createElement('audio')
+      //     audio.setAttribute('src', this.nextSong.src)
+      //     audio.setAttribute('preload', 'auto')
+      //     audio.load()
+      //     this.nextSong.preloaded = true
+      //   }
+      // })
     },
     computed: {
       playing () {
