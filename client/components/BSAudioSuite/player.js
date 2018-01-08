@@ -1,63 +1,56 @@
-import jQuery from 'jquery'
-import plyr from 'plyr'
+import { Howl } from 'howler'
 import config from 'config/index'
 
 export default class BlackSheepPlayer {
 
   constructor () {
-    this.initialized = false
     this.player = null
     this.nextSong = null
     this.currentSong = null
     this.playlist = null
-    this.init()
   }
 
-  /**
-   * Init the module
-   */
-  init () {
-    // We don't need to init this service twice, or the media events will be duplicated.
-    if (this.initialized) {
-      return
-    }
-
-    this.player = plyr.setup(
-      {
-        controls: ['progress'],
-        loadSprite: false,
-        debug: false
-      }
-    )[0]
-    this.initialized = true
-  };
-
   updateAudioElement (src) {
-    this.player.source({
+    if (this.player) {
+      this.stop()
+    }
+    this.player = new Howl({
       type: 'audio',
       title: '-',
-      sources: [{
-        src: config.baseUrl + src,
-        type: 'audio/mp3'
-      }]
+      src: [config.baseUrl + src],
+      format: ['mp3'],
+      html5: true,
+      onend: this.onEnded,
+      onload: () => {
+        this.duration = this.player.duration()
+      }
+      // onloaderror: () => this.handleAudioResourceError(),
+      // onplay: () => requestAnimationFrame(this.updateSeek),
     })
   };
+
+  onEnded () {
+    this.dispatchEvent(new Event('end'))
+  }
 
   playSong (song) {
     this.nextSong = null
     this.currentSong = song
     this.updateAudioElement(this.currentSong.src)
-    jQuery('.plyr audio').attr('title', `${this.currentSong.artist.name} - ${this.currentSong.title}`)
     this.restart()
   };
 
   restart () {
-    this.player.restart(0)
-    this.player.play()
+    if (this.player) {
+      this.player.seek(0)
+      this.player.play()
+    }
   };
 
   pause () {
-    this.player.pause()
+    if (this.player.playing()) {
+      this.player.pause()
+    }
   };
 
   resume () {
@@ -65,20 +58,30 @@ export default class BlackSheepPlayer {
   };
 
   isPaused () {
-    this.player.isPaused()
+    console.log(this.player)
+    return (this.player !== null && !this.player.playing())
   };
 
   stop () {
-    this.nextSong = null
-    this.player.stop()
+    if (this.player) {
+      this.nextSong = null
+      this.player.stop()
+      this.player = null
+    }
   };
 
   forward () {
-    this.player.forward()
+    if (this.player && this.player.playing()) {
+      console.log(Math.min(this.player._duration, this.player.seek() + 5))
+      this.player.seek(Math.max(this.player._duration, this.player.seek() + 5))
+    }
   };
 
   rewind () {
-    this.player.rewind()
+    if (this.player && this.player.playing()) {
+      console.log(Math.min(0, this.player.seek() - 5))
+      this.player.seek(Math.min(0, this.player.seek() - 5))
+    }
   };
 
   /**
@@ -87,6 +90,6 @@ export default class BlackSheepPlayer {
    * @param {Number}     volume   0-10
    */
   setVolume (volume) {
-    this.player.setVolume(volume)
+    this.player.volume(volume / 10)
   };
 }
