@@ -1710,9 +1710,9 @@ d@1:
   dependencies:
     es5-ext "^0.10.9"
 
-daemonite-material@^4.0.0-beta:
+"daemonite-material@https://github.com/Daemonite/material.git#backfilling-bootstrap-v4.0.0-beta.3":
   version "4.0.0-beta"
-  resolved "https://registry.yarnpkg.com/daemonite-material/-/daemonite-material-4.0.0-beta.tgz#0aa48e520532c94b4a91fd04da74b64b9e75d75e"
+  resolved "https://github.com/Daemonite/material.git#45a7c0a8c9189b6281e1cda51aa4032523b3bce1"
   dependencies:
     jquery "^3.0.0"
     popper.js "^1.12.3"

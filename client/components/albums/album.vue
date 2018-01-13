@@ -78,7 +78,7 @@
     },
     computed: {
       hasCover () {
-        return (this.loaded && this.album.cover)
+        return (this.loaded && this.loadedAlbum && this.album.cover)
       },
       loadedAlbum () {
         return this.album.fullyLoaded

@@ -44,7 +44,7 @@
     "babel-runtime": "^6.18.0",
     "bootstrap": "^4.0.0-beta",
     "chart.js": "^2.7.1",
-    "daemonite-material": "^4.0.0-beta",
+    "daemonite-material": "https://github.com/Daemonite/material.git#backfilling-bootstrap-v4.0.0-beta.3",
     "eslint": "^4.7.0",
     "howler": "^2.0.7",
     "html5shiv": "^3.7.3",

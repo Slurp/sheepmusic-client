@@ -52,10 +52,10 @@
                     </div>
                 </transition-group>
             </div>
-            <div class="tab-pane fade" id="albums" role="tabpanel" v-if="albums" aria-labelledby="albums-tab">
+            <div class="tab-pane fade " id="albums" role="tabpanel" v-if="albums" aria-labelledby="albums-tab">
                 <transition-group name="list" tag="section" class="list" >
                     <div class="col" v-for="album in albums" :key="album.id" :name="album.id">
-                        <album :album-id=album.id :album=album></album>
+                        <album :album-id=album.id></album>
                     </div>
                 </transition-group>
             </div>
@@ -118,19 +118,19 @@
         if (this.searchResults) {
           return this.$store.getters['albums/search'](this.searchResults.albums)
         }
-        return null
+        return false
       },
       artists () {
         if (this.searchResults) {
           return this.$store.getters['artists/search'](this.searchResults.artists)
         }
-        return null
+        return false
       },
       songs () {
         if (this.searchResults) {
           return this.searchResults.songs
         }
-        return null
+        return false
       }
     }
   }

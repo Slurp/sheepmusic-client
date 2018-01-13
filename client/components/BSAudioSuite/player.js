@@ -42,19 +42,20 @@ export default class BlackSheepPlayer {
       src: [config.baseUrl + src],
       format: ['mp3'],
       html5: true,
-      onend: () => this.onEnded(),
+      onend: () => {
+        this.stop()
+        this.raiseEvent('end', null)
+      },
       onload: () => {
-        this.loaded()
         this.duration = this.player.duration()
+        this.raiseEvent('loaded', this.duration)
       },
       onloaderror: () => this.handleAudioResourceError(),
-      onplay: () => requestAnimationFrame(self.playing.bind(self))
+      onplay: () => {
+        requestAnimationFrame(self.seekUpdate.bind(self))
+        this.raiseEvent('play')
+      }
     })
-  }
-
-  loaded () {
-    this.duration = this.player.duration()
-    this.raiseEvent('loaded', this.duration)
   }
 
   handleAudioResourceError () {
@@ -63,11 +64,10 @@ export default class BlackSheepPlayer {
     }
     // Stop the music
     this.stop()
-
     this.raiseEvent('playerror', null)
   }
 
-  playing () {
+  seekUpdate () {
     var self = this
     if (self.player !== null) {
       // Fix for howl.seek() returning the howl instance
@@ -76,9 +76,9 @@ export default class BlackSheepPlayer {
       } else {
         self.seek = self.player.seek()
       }
-      self.raiseEvent('playingUpdate', self.seek)
+      self.raiseEvent('seekUpdate', self.seek)
       if (self.player.playing()) {
-        requestAnimationFrame(self.playing.bind(self))
+        requestAnimationFrame(self.seekUpdate.bind(self))
       }
     } else {
       self.seek = 0
@@ -88,8 +88,7 @@ export default class BlackSheepPlayer {
 
   // give notice that we ended
   onEnded () {
-    this.stop()
-    this.raiseEvent('end', null)
+
   }
 
   playSong (song) {
@@ -140,6 +139,13 @@ export default class BlackSheepPlayer {
     if (this.player && this.player.playing()) {
       console.log(Math.min(0, this.player.seek() - 5))
       this.player.seek(Math.min(0, this.player.seek() - 5))
+    }
+  }
+
+  setSeekPosition (value) {
+    console.log(value)
+    if (this.player) {
+      this.player.seek(value)
     }
   }
 
