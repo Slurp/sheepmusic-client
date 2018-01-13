@@ -131,14 +131,14 @@ export default class BlackSheepPlayer {
   forward () {
     if (this.player && this.player.playing()) {
       console.log(Math.min(this.player._duration, this.player.seek() + 5))
-      this.player.seek(Math.max(this.player._duration, this.player.seek() + 5))
+      this.player.seek(Math.min(this.player._duration, this.player.seek() + 5))
     }
   }
 
   rewind () {
     if (this.player && this.player.playing()) {
       console.log(Math.min(0, this.player.seek() - 5))
-      this.player.seek(Math.min(0, this.player.seek() - 5))
+      this.player.seek(Math.max(0, this.player.seek() - 5))
     }
   }
 
