@@ -23,8 +23,15 @@
         <div class="progress" v-if="!loaded">
             <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
         </div>
-        <div class="card-block">
+        <div class="card-block" v-else>
             <h4 class="card-title">{{playlist.name}}</h4>
+            <h6 class="card-subtitle text-muted">
+                {{playlist.songs.length}} songs
+                <span v-if="playlistDuration">
+                    <i class="material-icons">av_timer</i>
+                    {{ playlistDuration }}
+                </span>
+            </h6>
         </div>
     </router-link>
 </template>
@@ -33,6 +40,7 @@
   import config from 'config/index'
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
+  import { secondsToHis } from 'services/time'
 
   export default {
     name: 'playlistList',
@@ -74,6 +82,12 @@
           name: 'detail_playlists',
           params: { id: this.playlistId },
         }
+      },
+      playlistDuration () {
+        if (this.loaded && this.playlist) {
+          return secondsToHis(this.playlist.songs.map(song => song.length).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
+        }
+        return null
       },
     },
 

@@ -21,7 +21,7 @@
       queue: function (event) {
         if (event) event.preventDefault()
         for (const album of this.artist.albums) {
-          this.$store.dispatch('playlist/queueAlbum', album)
+          this.$store.dispatch('playlist/queueAlbum', this.$store.getters['albums/getAlbumById'](album.id))
           this.toast.toast(`${album.name} added to your playlist`);
         }
       }

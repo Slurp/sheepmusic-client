@@ -6,25 +6,29 @@
 
             </h5>
             <div class="playlist-wrapper">
-                <ul>
-                    <li class="playlist-item" v-if="isEmpty">
+                <ul v-if="isEmpty">
+                    <li class="playlist-item" >
                         <i class="material-icons">queue_music</i>
                         <div class="playlist-item-info">
                             <h5 class="mt-0">NO NO NO</h5>
                             <h6>There is no playlist</h6>
                         </div>
                     </li>
-                    <song-item
-                            v-if="isEmpty == false"
-                            v-for="(song, index) in list"
-                            :song="song"
-                            :index="index"
-                            class="playlist-item"
-                            v-bind:class="{ playing: isActive(index) }"
-                            :key="song.id"
-                            :name="index">
-                    </song-item>
                 </ul>
+                <draggable v-model="list" v-else>
+                    <transition-group name="playlist-list" tag="ul">
+                        <song-item
+                                v-for="(song, index) in list"
+                                :song="song"
+                                :index="index"
+                                class="playlist-item"
+                                v-bind:class="{ playing: isActive(index) }"
+                                :key="song.id"
+                                :name="index">
+                        </song-item>
+
+                    </transition-group>
+                </draggable>
             </div>
             <div v-if="isEmpty == false" class="playlist-actions" role="group">
 
@@ -40,7 +44,9 @@
                 <a href="#" class='btn' data-toggle="modal" data-target="#playlistModal">
                     <i class="material-icons">save</i>
                 </a>
-                <div class="duration" v-if="playlistDuration"><i class="material-icons">av_timer</i>{{ playlistDuration }}</div>
+                <div class="duration" v-if="playlistDuration"><i class="material-icons">av_timer</i>{{ playlistDuration
+                    }}
+                </div>
 
             </div>
         </div>
@@ -49,11 +55,13 @@
 <script>
   import songItem from './song'
   import { secondsToHis } from 'services/time'
+  import draggable from 'vuedraggable'
 
   export default {
     name: 'playlist',
     components: {
-      songItem
+      songItem,
+      draggable,
     },
     data () {
       return {
@@ -87,8 +95,13 @@
       isEmpty () {
         return (this.list.length === 0)
       },
-      list () {
-        return this.$store.getters['playlist/list']
+      list: {
+        get () {
+          return this.$store.getters['playlist/list']
+        },
+        set (value) {
+          this.$store.dispatch('playlist/updateList', value)
+        }
       },
       repeatMode () {
         return this.repeatStatus = this.$store.getters['playlist/repeatMode']
@@ -100,7 +113,7 @@
         if (this.isEmpty === false) {
           return this.duration = secondsToHis(this.list.map(song => song.length).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
         }
-        return null;
+        return null
       },
     },
   }

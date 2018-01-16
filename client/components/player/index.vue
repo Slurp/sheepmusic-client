@@ -116,12 +116,25 @@
     },
     mounted () {
       this.$store.dispatch('playlist/setPlayingStatus', false)
-      this.$store.dispatch('playlist/setPlayingStatus', false)
       this.blackSheepPlayer = new BlackSheepPlayer(this)
 
       this.blackSheepPlayer.on('loaded', (duration) => {
-        console.log('loaded')
         this.duration = duration
+          // if (!this.nextSong || this.nextSong.preloaded) {
+          //
+          //   this.nextSong = this.$store.getters['playlist/getPreloadSong']
+          //   if (!this.nextSong || this.nextSong.preloaded) {
+          //     // Don't preload if
+          //     // - there's no next song
+          //     // - next song has already been preloaded
+          //     return
+          //   }
+          //   const audio = document.createElement('audio')
+          //   audio.setAttribute('src', this.nextSong.src)
+          //   audio.setAttribute('preload', 'auto')
+          //   audio.load()
+          //   this.nextSong.preloaded = true
+          // }
       })
       /**
        * Listen to 'error' event on the audio player and play the next song if any.
@@ -154,13 +167,6 @@
 
       window.addEventListener('mousemove', this.onMouseMove);
       window.addEventListener('mouseup', this.onMouseUp);
-
-      /**
-       * Attempt to preload the next song.
-       */
-      // this.blackSheepPlayer.player.on('canplaythrough', e => {
-
-      // })
     },
     computed: {
       playing () {
@@ -207,11 +213,8 @@
       currentSong (newSong, oldSong) {
         this.nextSong = null
         if (oldSong == null || newSong.id !== oldSong.id || this.song == null) {
-          console.log(newSong)
           this.song = newSong
         }
-
-        console.log(this.song)
         this.cover = 'media/general/default.png'
         if (this.song.album.cover !== null) {
           this.cover = this.song.album.cover

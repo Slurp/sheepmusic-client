@@ -55,7 +55,7 @@
             <div class="tab-pane fade " id="albums" role="tabpanel" v-if="albums" aria-labelledby="albums-tab">
                 <transition-group name="list" tag="section" class="list" >
                     <div class="col" v-for="album in albums" :key="album.id" :name="album.id">
-                        <album :album-id=album.id></album>
+                        <album :album-id=album.id :album="album"></album>
                     </div>
                 </transition-group>
             </div>

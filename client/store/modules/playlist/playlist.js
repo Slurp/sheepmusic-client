@@ -69,6 +69,9 @@ const actions = {
       return (e)
     })
 
+  },
+  async updateList({ commit} , sortedList) {
+    commit('UPDATE_LIST', { list: sortedList })
   }
 }
 
@@ -136,17 +139,15 @@ const mutations = {
         state.currentIndex = i
       }
     }
-    // for (let i = state.songs.length; i; i--) {
-    //   console.log('shuffle')
-    //   const j = Math.floor(Math.random() * i);
-    //   [state.songs[i - 1], state.songs[j]] = [state.songs[j], state.songs[i - 1]]
-    // }
   },
   PLAYING: (state, { playing }) => {
     state.isPlaying = playing
   },
   SAVE: (state, { title }) => {
     state.name = title
+  },
+  UPDATE_LIST : (state, { list }) => {
+    state.songs = list
   },
   SET_REPEAT_MODE: (state, { mode }) => {
     if (state.repeatModes.includes(mode)) {
