@@ -9,30 +9,30 @@ const state = {
 }
 
 const actions = {
-  loadPlaylists: function ({ commit }) {
-    Vue.axios.get(`/api/playlist_list`).then((response) => {
+  loadPlaylists ({ commit }) {
+    Vue.axios.get(`/api/playlist_list`).then(response => {
       commit('ADD_PLAYLISTS', { playlists: response.data })
-    }, (err) => {
+    }, err => {
       console.log(err)
     })
   },
-  loadPlaylist: function ({ commit, state }, playlistId) {
+  loadPlaylist ({ commit, state }, playlistId) {
     if (state.playlists[playlistId] == null || state.playlists[playlistId].songs == null) {
-      Vue.axios.get(`/api/playlist/` + state.playlists[playlistId].id).then((response) => {
+      Vue.axios.get(`/api/playlist/` + state.playlists[playlistId].id).then(response => {
         commit('ADD_PLAYLIST', { playlist: response.data, index: playlistId })
-      }, (err) => {
+      }, err => {
         console.log(err)
       })
     }
   },
-  viewPlaylist: function ({ commit }, playlistId) {
+  viewPlaylist ({ commit }, playlistId) {
     commit('SET_CURRENT_PLAYLIST', { index: playlistId })
   },
-  paginate: function ({ commit }, page) {
-    commit('PAGINATE', { page: page })
+  paginate ({ commit }, page) {
+    commit('PAGINATE', { page })
   },
-  sortBy: function ({ commit }, sort) {
-    commit('SORT_BY', { 'sort': sort })
+  sortBy ({ commit }, sort) {
+    commit('SORT_BY', { sort })
   }
 }
 
@@ -72,14 +72,14 @@ const getters = {
   totalPlaylists: state => {
     return state.playlists.length
   },
-  getPlaylists: (state) => {
+  getPlaylists: state => {
     if (state.playlists.length >= 12) {
       const start = (12 * (state.page - 1)) + 1
       return state.sortedList.slice(start, start + 12).map(playlist => state.playlists[playlist.id])
     }
     return state.playlists
   },
-  getPlaylistById: (state) => (playlistId) => {
+  getPlaylistById: state => playlistId => {
     return state.playlists[playlistId]
   }
 }

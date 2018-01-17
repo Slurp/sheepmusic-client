@@ -3,7 +3,7 @@ const state = {
 }
 
 const actions = {
-  login: function ({ commit, state }) {
+  login ({ commit, state }) {
   }
 }
 

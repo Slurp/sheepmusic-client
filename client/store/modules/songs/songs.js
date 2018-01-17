@@ -5,20 +5,20 @@ const state = {
 }
 
 const actions = {
-  announceSong: function ({ dispatch, commit, state }, song) {
+  announceSong ({ dispatch, commit, state }, song) {
     Vue.axios.get(song.events.now_playing).then(() => {
       dispatch('albums/loadAlbum', song.album.id, { root: true })
       dispatch('artists/loadArtist', song.artist.id, { root: true })
-    }, (err) => {
+    }, err => {
       console.log(err)
     })
   },
-  playedSong: function ({ dispatch, commit, state }, song) {
+  playedSong ({ dispatch, commit, state }, song) {
     Vue.axios.get(song.events.played).then(() => {
       dispatch('albums/loadAlbum', song.album.id, { root: true })
       dispatch('artists/loadArtist', song.artist.id, { root: true })
       console.log('announced song')
-    }, (err) => {
+    }, err => {
       console.log(err)
     })
   }
@@ -26,18 +26,18 @@ const actions = {
 
 const mutations = {
   ADD_SONGALBUM: (state, { songs }) => {
-    for (let song of songs) {
+    for (const song of songs) {
       Vue.set(state.songs, song.id, song)
     }
   }
 }
 
 const getters = {
-  songs: (state) => {
+  songs: state => {
     return state.songs
   },
-  getSongsAlbumById: (state, getters) => (albumId) => {
-    return state.songs.filter((song) => song.album.id === albumId)
+  getSongsAlbumById: (state, getters) => albumId => {
+    return state.songs.filter(song => song.album.id === albumId)
   }
 }
 

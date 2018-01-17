@@ -9,41 +9,41 @@ const state = {
 }
 
 const actions = {
-  loadArtists: function ({ commit }) {
+  loadArtists ({ commit }) {
     return new Promise((resolve, reject) => {
-      Vue.axios.get(`/api/artist_list`).then((response) => {
+      Vue.axios.get(`/api/artist_list`).then(response => {
         commit('ADD_ARTISTS', { artists: response.data })
         resolve()
-      }, (err) => {
+      }, err => {
         reject(err)
         console.log(err)
       })
     })
   },
-  loadArtist: function ({ commit, state }, artistId) {
+  loadArtist ({ commit, state }, artistId) {
     if (state.artists[artistId] == null || state.artists[artistId].fullyLoaded === false) {
-      Vue.axios.get(`app_dev.php/api/artist/` + artistId).then((response) => {
+      Vue.axios.get(`app_dev.php/api/artist/` + artistId).then(response => {
         commit('ADD_ARTIST', { artist: response.data, index: artistId })
-      }, (err) => {
+      }, err => {
         console.log(err)
       })
     }
   },
-  updateArtist: function ({ commit, state }, artistId) {
-    Vue.axios.get(`app_dev.php/api/artist/update/` + artistId).then((response) => {
+  updateArtist ({ commit, state }, artistId) {
+    Vue.axios.get(`app_dev.php/api/artist/update/` + artistId).then(response => {
       commit('ADD_ARTIST', { artist: response.data, index: artistId })
-    }, (err) => {
+    }, err => {
       console.log(err)
     })
   },
-  viewArtist: function ({ commit }, artistId) {
+  viewArtist ({ commit }, artistId) {
     commit('SET_CURRENT_ARTIST', { index: artistId })
   },
-  paginate: function ({ commit }, page) {
-    commit('PAGINATE', { page: page })
+  paginate ({ commit }, page) {
+    commit('PAGINATE', { page })
   },
-  sortBy: function ({ commit }, sort) {
-    commit('SORT_BY', { 'sort': sort })
+  sortBy ({ commit }, sort) {
+    commit('SORT_BY', { sort })
   }
 }
 
@@ -98,57 +98,57 @@ const getters = {
   totalArtists: state => {
     return state.artists.length
   },
-  artists: (state) => {
+  artists: state => {
     if (state.artists.length >= 12) {
       const start = (12 * (state.page - 1))
       return state.sortedList.slice(start, start + 12).map(artist => state.artists[artist.id])
     }
     return state.artists.slice
   },
-  getArtistById: (state) => (artistId) => {
+  getArtistById: state => artistId => {
     if (state.artists) {
       return state.artists[artistId]
     }
   },
-  getLogoForArtist: (state) => (artistId) => {
+  getLogoForArtist: state => artistId => {
     if (state.artists && state.artists[artistId] && typeof state.artists[artistId].logo !== 'undefined' && state.artists[artistId].logo.length > 0) {
       return state.artists[artistId].logo[Math.max(Math.floor(Math.random() * state.artists[artistId].logo.length), state.artists[artistId].logo.length - 1)]
     }
     return null
   },
-  getBackgroundForArtist: (state) => (artistId) => {
+  getBackgroundForArtist: state => artistId => {
     if (state.artists && state.artists[artistId] && typeof state.artists[artistId].background !== 'undefined' && state.artists[artistId].background.length > 0) {
       return state.artists[artistId].background[Math.max(Math.floor(Math.random() * state.artists[artistId].background.length), state.artists[artistId].background.length - 1)]
     }
     return null
   },
-  getBannerForArtist: (state) => (artistId) => {
+  getBannerForArtist: state => artistId => {
     if (state.artists && state.artists[artistId] && typeof state.artists[artistId].banner !== 'undefined' && state.artists[artistId].banner.length > 0) {
       return state.artists[artistId].banner[Math.max(Math.floor(Math.random() * state.artists[artistId].banner.length), state.artists[artistId].banner.length - 1)]
     }
     return null
   },
-  getThumbForArtist: (state) => (artistId) => {
+  getThumbForArtist: state => artistId => {
     if (state.artists && state.artists[artistId] && typeof state.artists[artistId].thumbs !== 'undefined' && state.artists[artistId].thumbs.length > 0) {
       return state.artists[artistId].thumbs[Math.max(Math.floor(Math.random() * state.artists[artistId].thumbs.length), state.artists[artistId].thumbs.length - 1)]
     }
     return null
   },
-  search: (state) => (artists) => {
+  search: state => artists => {
     return artists.map(artist => state.artists[artist.id])
   },
-  detailLink: (state) => (artist) => {
+  detailLink: state => artist => {
     return {
       name: 'detail_artist',
       params: { artist: artist.name, id: artist.id }
     }
   },
-  getImportedByMonth: (state) => {
+  getImportedByMonth: state => {
     if (state.artists && state.artists.length > 0) {
       const year = (new Date()).getFullYear()
       const groups = state.artists.reduce((r, o) => {
         const date = new Date(o.createdAt.date)
-        let m = date.getMonth()
+        const m = date.getMonth()
         if (year === date.getFullYear()) {
           (r[m]) ? r[m]++ : r[m] = 1
         }
@@ -161,12 +161,12 @@ const getters = {
     }
     return Array(12).fill(0)
   },
-  getUpdatedByMonth: (state) => {
+  getUpdatedByMonth: state => {
     if (state.artists && state.artists.length > 0) {
       const year = (new Date()).getFullYear()
       const groups = state.artists.reduce((r, o) => {
         const date = new Date(o.updatedAt.date)
-        let m = date.getMonth()
+        const m = date.getMonth()
         if (year === date.getFullYear()) {
           (r[m]) ? r[m]++ : r[m] = 1
         }

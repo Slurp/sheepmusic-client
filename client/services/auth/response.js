@@ -1,6 +1,6 @@
 export default {
 
-  request: function (req, token) {
+  request (req, token) {
     token = token.split(';')
     if (req.url.indexOf('refresh') > -1 && token[1] !== 'undefined') {
       req.url += '?refresh_token=' + token[1]
@@ -8,7 +8,7 @@ export default {
     this.options.http._setHeaders.call(this, req, { Authorization: 'Bearer ' + token[0] })
   },
 
-  response: function (res) {
+  response (res) {
     const headers = this.options.http._getHeaders.call(this, res)
     let token = headers.Authorization || headers.authorization
     const data = this.options.http._httpData.call(this, res)

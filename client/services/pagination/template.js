@@ -2,19 +2,18 @@
 
 module.exports = function () {
   return function (h) {
+    const items = []
 
-    var items = []
-
-    this.pages.map(function (page) {
+    this.pages.map(page => {
       items.push(h(
         'li',
-        { 'class': 'page-item ' + this.activeClass(page) },
+        { class: 'page-item ' + this.activeClass(page) },
         [h(
           'a',
           {
-            'class': 'page-link', attrs: {
+            class: 'page-link', attrs: {
               role: 'button',
-              href: "#"
+              href: '#'
             },
             on: {
               click: this.setPage.bind(this, page)
@@ -23,11 +22,11 @@ module.exports = function () {
           [page]
         )]
       ))
-    }.bind(this))
+    })
 
     return h(
       'div',
-      { 'class': 'pager' },
+      { class: 'pager' },
       [h(
         'ul',
         {
@@ -36,45 +35,45 @@ module.exports = function () {
             value: this.totalPages > 1
           }],
 
-          'class': 'pagination'
+          class: 'pagination'
         },
         [h(
           'li',
-          { 'class': ' page-item prev-chunk ' + this.allowedChunkClass(-1) },
+          { class: ' page-item prev-chunk ' + this.allowedChunkClass(-1) },
           [h(
             'a',
             {
-              'class': 'page-link', attrs: {
+              class: 'page-link', attrs: {
                 href: 'javascript:void(0);'
               },
               on: {
                 click: this.setChunk.bind(this, -1)
               }
             },
-            [h('i', { 'class': 'material-icons' }, 'first_page')]
+            [h('i', { class: 'material-icons' }, 'first_page')]
           )]
         ), h(
           'li',
-          { 'class': ' page-item prev-page ' + this.allowedPageClass(this.page - 1) },
+          { class: ' page-item prev-page ' + this.allowedPageClass(this.page - 1) },
           [h(
             'a',
             {
-              'class': 'page-link', attrs: {
+              class: 'page-link', attrs: {
                 href: 'javascript:void(0);'
               },
               on: {
                 click: this.prev.bind(this)
               }
             },
-            [h('i', { 'class': 'material-icons' }, 'chevron_left')]
+            [h('i', { class: 'material-icons' }, 'chevron_left')]
           )]
         ), items, h(
           'li',
-          { 'class': ' page-item next-page ' + this.allowedPageClass(this.page + 1) },
+          { class: ' page-item next-page ' + this.allowedPageClass(this.page + 1) },
           [h(
             'a',
             {
-              'class': 'page-link',
+              class: 'page-link',
               attrs: {
                 href: 'javascript:void(0);'
               },
@@ -82,22 +81,22 @@ module.exports = function () {
                 click: this.next.bind(this)
               }
             },
-            [h('i', { 'class': 'material-icons' }, 'chevron_right')]
+            [h('i', { class: 'material-icons' }, 'chevron_right')]
           )]
         ), h(
           'li',
-          { 'class': ' page-item next-chunk ' + this.allowedChunkClass(1) },
+          { class: ' page-item next-chunk ' + this.allowedChunkClass(1) },
           [h(
             'a',
             {
-              'class': 'page-link', attrs: {
+              class: 'page-link', attrs: {
                 href: 'javascript:void(0);'
               },
               on: {
                 click: this.setChunk.bind(this, 1)
               }
             },
-            [[h('i', { 'class': 'material-icons' }, 'last_page')]]
+            [[h('i', { class: 'material-icons' }, 'last_page')]]
           )]
         )]
       ), h(
@@ -108,7 +107,7 @@ module.exports = function () {
             value: parseInt(this.records)
           }],
 
-          'class': 'count'
+          class: 'count'
         },
         [this.count]
       )]

@@ -165,7 +165,7 @@ export default new VueRouter({
       props: true,
       meta: { auth: true }
     },
-    // not found handler
+    // Not found handler
     {
       path: '*',
       component: NotFound

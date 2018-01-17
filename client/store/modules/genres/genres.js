@@ -11,32 +11,32 @@ const state = {
 }
 
 const actions = {
-  loadGenres: function ({ commit, state }) {
+  loadGenres ({ commit, state }) {
     if (state.fetchedOverview === false) {
-      Vue.axios.get(`/api/genre_list`).then((response) => {
+      Vue.axios.get(`/api/genre_list`).then(response => {
         commit('ADD_GENRES', { genres: response.data })
-      }, (err) => {
+      }, err => {
         console.log(err)
       })
     }
   },
-  loadGenre: function ({ commit, state }, genreId) {
+  loadGenre ({ commit, state }, genreId) {
     if (state.genres[genreId] == null || state.genres[genreId].songs == null) {
-      Vue.axios.get(`app_dev.php/api/genre/` + genreId).then((response) => {
+      Vue.axios.get(`app_dev.php/api/genre/` + genreId).then(response => {
         commit('ADD_GENRE', { genre: response.data, index: genreId })
-      }, (err) => {
+      }, err => {
         console.log(err)
       })
     }
   },
-  viewGenre: function ({ commit }, genreId) {
+  viewGenre ({ commit }, genreId) {
     commit('SET_CURRENT_GENRE', { index: genreId })
   },
-  paginate: function ({ commit }, page) {
-    commit('PAGINATE', { page: page })
+  paginate ({ commit }, page) {
+    commit('PAGINATE', { page })
   },
-  sortBy: function ({ commit }, sort) {
-    commit('SORT_BY', { 'sort': sort })
+  sortBy ({ commit }, sort) {
+    commit('SORT_BY', { sort })
   }
 }
 
@@ -54,7 +54,7 @@ const mutations = {
       name: genre.slug,
       date: new Date(genre.createdAt.date)
     }))
-    //remove first value is null
+    // Remove first value is null
     state.sortedList.splice(0, 1)
     state.sortedList.sort((a, b) => {
       return a.name.localeCompare(b.name)
@@ -94,20 +94,20 @@ const getters = {
   totalGenres: state => {
     return state.genres.length
   },
-  getGenresByLetter: (state) => (letter) => {
+  getGenresByLetter: state => letter => {
     console.log(letter)
-    return state.genres.filter((genre) => {
+    return state.genres.filter(genre => {
       return genre.name[0].toLowerCase() === letter
     })
   },
-  getGenres: (state) => {
+  getGenres: state => {
     if (state.genres.length >= 50) {
       const start = (50 * (state.page - 1))
       return state.sortedList.slice(start, start + 50).map(genre => state.genres[genre.id]).filter(Boolean)
     }
     return state.genres
   },
-  getGenreById: (state) => (genreId) => {
+  getGenreById: state => genreId => {
     return state.genres[genreId]
   }
 }

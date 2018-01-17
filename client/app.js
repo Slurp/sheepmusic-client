@@ -23,7 +23,7 @@ Vue.use(Auth, {
     enabled: true,
     interval: 30
   },
-  parseUserData: function (data) {
+  parseUserData (data) {
     return data
   }
 })
@@ -41,5 +41,5 @@ const app = new Vue({
   ...App
 })
 
-// ship it!
+// Ship it!
 export { app, router, store }

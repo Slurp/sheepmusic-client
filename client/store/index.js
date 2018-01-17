@@ -33,7 +33,7 @@ const store = new Vuex.Store({
      *
      * @param commit
      */
-    clearStore: ({ commit }) => Object.keys(modules).forEach((key) => {
+    clearStore: ({ commit }) => Object.keys(modules).forEach(key => {
       if (modules[key].mutations && modules[key].mutations[CLEAR]) {
         commit(`${key}/${CLEAR}`)
       }
@@ -50,10 +50,10 @@ const store = new Vuex.Store({
   },
 
   mutations: {
-    [TOGGLE_PLAYLIST]: (state) => {
+    [TOGGLE_PLAYLIST]: state => {
       state.showPlaylist = !state.showPlaylist
     },
-    [TOGGLE_LOADING]: (state) => {
+    [TOGGLE_LOADING]: state => {
       state.loadingScreen = !state.loadingScreen
     },
     [CHANGE_IDLE]: (state, isIdle) => {

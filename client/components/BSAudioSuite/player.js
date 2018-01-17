@@ -70,12 +70,12 @@ export default class BlackSheepPlayer {
   }
 
   /**
-   * preload a song when needed
+   * Preload a song when needed
    * @param song
    */
   preloadSong (song) {
     if (this.nextSong === null) {
-      this.nextSong = { 'id': song.id, 'player': this.createHowl(song.src) }
+      this.nextSong = { id: song.id, player: this.createHowl(song.src) }
       if (process.env.NODE_ENV !== 'production') {
         console.log('preloaded song')
       }
@@ -88,7 +88,7 @@ export default class BlackSheepPlayer {
    */
   playSong (song) {
     this.stop()
-    // check for preloaded song
+    // Check for preloaded song
     if (this.nextSong && this.nextSong.id === song.id) {
       this.currentSong = this.nextSong.id
       this.player = this.nextSong.player
@@ -100,7 +100,7 @@ export default class BlackSheepPlayer {
       this.player = this.createHowl(song.src)
     }
     this.nextSong = null
-    // attach events for the player
+    // Attach events for the player
     this.player.on('end', () => {
       if (process.env.NODE_ENV !== 'production') {
         console.log('song ended')
