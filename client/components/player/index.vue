@@ -7,7 +7,8 @@
                     <div class="plyr__progress" v-on:mouseover="hoverProgress = true"
                          v-on:mouseout="hoverProgress = false">
                         <label for="seek" class="plyr__sr-only">Seek</label>
-                        <input id="seek" ref="seekerElement" class="plyr__progress--seek" type="range" min="0" max="100" step="0.1"
+                        <input id="seek" ref="seekerElement" class="plyr__progress--seek" type="range" min="0" max="100"
+                               step="0.1"
                                :value="progress" @mousedown="onSeekerMousedown">
                         <progress class="plyr__progress--played" max="100" :value="progress"
                                   role="presentation"></progress>
@@ -119,22 +120,28 @@
       this.blackSheepPlayer = new BlackSheepPlayer(this)
 
       this.blackSheepPlayer.on('loaded', (duration) => {
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('loaded')
+        }
         this.duration = duration
-          // if (!this.nextSong || this.nextSong.preloaded) {
-          //
-          //   this.nextSong = this.$store.getters['playlist/getPreloadSong']
-          //   if (!this.nextSong || this.nextSong.preloaded) {
-          //     // Don't preload if
-          //     // - there's no next song
-          //     // - next song has already been preloaded
-          //     return
-          //   }
-          //   const audio = document.createElement('audio')
-          //   audio.setAttribute('src', this.nextSong.src)
-          //   audio.setAttribute('preload', 'auto')
-          //   audio.load()
-          //   this.nextSong.preloaded = true
-          // }
+        // grab next song.
+        if (process.env.NODE_ENV !== 'production') {
+          console.log(!this.nextSong || this.nextSong.preloaded)
+        }
+        if (!this.nextSong || this.nextSong.preloaded) {
+
+          this.nextSong = this.$store.getters['playlist/getPreloadSong']
+          if (!this.nextSong) {
+            // Don't preload if
+            // - there's no next song
+            return
+          }
+          if (process.env.NODE_ENV !== 'production') {
+            console.log('preload song')
+          }
+          this.blackSheepPlayer.preloadSong(this.nextSong)
+          this.nextSong.preloaded = true
+        }
       })
       /**
        * Listen to 'error' event on the audio player and play the next song if any.
@@ -147,7 +154,7 @@
       //  * Listen to 'ended' event on the audio player and play the next song in the queue.
       //  */
       this.blackSheepPlayer.on('end', () => {
-        document.title = `sheepMusic ♫`
+        document.title = `BSM ♫`
         console.log('ended')
         this.$store.dispatch('songs/playedSong', this.song)
         this.seek = 0
@@ -156,7 +163,7 @@
       })
       //
       this.blackSheepPlayer.on('play', () => {
-        document.title = `${this.currentSong.title} ♫ sheepMusic`
+        document.title = `BSM ♫ ${this.currentSong.title}`
         Notifications.notifySong(this.song)
         this.$store.dispatch('songs/announceSong', this.song)
       })
@@ -165,8 +172,8 @@
         this.seek = seek
       })
 
-      window.addEventListener('mousemove', this.onMouseMove);
-      window.addEventListener('mouseup', this.onMouseUp);
+      window.addEventListener('mousemove', this.onMouseMove)
+      window.addEventListener('mouseup', this.onMouseUp)
     },
     computed: {
       playing () {
@@ -239,7 +246,7 @@
         }
       },
       pause () {
-        document.title = `Paused: ♫ sheepMusic`
+        document.title = `BSM ♫ Paused`
         this.$store.dispatch('playlist/setPlayingStatus', false)
         this.blackSheepPlayer.pause()
       },
@@ -250,6 +257,7 @@
         this.$store.dispatch('playlist/prevSong')
       },
       playNext () {
+        this.nextSong = null
         if (this.repeatMode === 'REPEAT_ONE') {
           return this.play()
         }
@@ -283,7 +291,7 @@
       onMouseUp (event) {
         if (this.mouseDownProgress === true) {
           this.mouseDownProgress = false
-          console.log();
+          console.log()
           this.blackSheepPlayer.setSeekPosition((this.$refs.seekerElement.value * this.duration) / 100)
         }
       },

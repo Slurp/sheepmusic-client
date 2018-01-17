@@ -162,6 +162,7 @@ const mutations = {
 
 const getters = {
   getPreloadSong: (state) => {
+    console.log(state.currentIndex)
     if (state.currentIndex !== null) {
       return state.songs[state.currentIndex + 1]
     }

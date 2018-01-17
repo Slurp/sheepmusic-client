@@ -1,8 +1,7 @@
 <template>
     <router-link :to="detailLink"
                  class="card card__overview">
-        <img class="card-img-top" v-if="hasCover" :src="cover" :alt="playlist.name"/>
-        <img class="card-img-top" v-else src="/media/general/default.png"/>
+        <img class="card-img-top" :src="cover" :alt="playlist.name"/>
         <div class="card-body has-sheet">
             <div class="fixed-action-btn"
                  :class="{ active: openSheet }"
@@ -76,6 +75,7 @@
         if (this.hasCover) {
           return config.baseUrl+"/"+this.playlist.cover
         }
+        return '/media/general/default.png'
       },
       detailLink () {
         return {

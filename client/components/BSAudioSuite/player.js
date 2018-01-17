@@ -2,7 +2,6 @@ import { Howl } from 'howler'
 import config from 'config/index'
 
 export default class BlackSheepPlayer {
-
   constructor () {
     this.player = null
     this.nextSong = null
@@ -20,7 +19,7 @@ export default class BlackSheepPlayer {
     this.events[eventName].push(handler)
   }
 
-  raiseEvent (eventName, args) {
+  dispatchEvent (eventName, args) {
     const currentEvents = this.events[eventName]
     if (!currentEvents) return
 
@@ -31,30 +30,14 @@ export default class BlackSheepPlayer {
     }
   }
 
-  updateAudioElement (src) {
-    if (this.player) {
-      this.stop()
-    }
-    const self = this
-    this.player = new Howl({
+  createHowl (src) {
+    return new Howl({
       type: 'audio',
       title: '-',
       src: [config.baseUrl + src],
       format: ['mp3'],
       html5: true,
-      onend: () => {
-        this.stop()
-        this.raiseEvent('end', null)
-      },
-      onload: () => {
-        this.duration = this.player.duration()
-        this.raiseEvent('loaded', this.duration)
-      },
-      onloaderror: () => this.handleAudioResourceError(),
-      onplay: () => {
-        requestAnimationFrame(self.seekUpdate.bind(self))
-        this.raiseEvent('play')
-      }
+      preload: true
     })
   }
 
@@ -64,11 +47,11 @@ export default class BlackSheepPlayer {
     }
     // Stop the music
     this.stop()
-    this.raiseEvent('playerror', null)
+    this.dispatchEvent('playerror')
   }
 
   seekUpdate () {
-    var self = this
+    const self = this
     if (self.player !== null) {
       // Fix for howl.seek() returning the howl instance
       if (typeof self.player.seek() !== 'number') {
@@ -76,7 +59,7 @@ export default class BlackSheepPlayer {
       } else {
         self.seek = self.player.seek()
       }
-      self.raiseEvent('seekUpdate', self.seek)
+      self.dispatchEvent('seekUpdate', self.seek)
       if (self.player.playing()) {
         requestAnimationFrame(self.seekUpdate.bind(self))
       }
@@ -86,15 +69,59 @@ export default class BlackSheepPlayer {
     }
   }
 
-  // give notice that we ended
-  onEnded () {
-
+  /**
+   * preload a song when needed
+   * @param song
+   */
+  preloadSong (song) {
+    if (this.nextSong === null) {
+      this.nextSong = { 'id': song.id, 'player': this.createHowl(song.src) }
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('preloaded song')
+      }
+    }
   }
 
+  /**
+   * Play a song boy!
+   * @param song
+   */
   playSong (song) {
+    this.stop()
+    // check for preloaded song
+    if (this.nextSong && this.nextSong.id === song.id) {
+      this.currentSong = this.nextSong.id
+      this.player = this.nextSong.player
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('use preloaded song')
+      }
+    } else {
+      this.currentSong = song.id
+      this.player = this.createHowl(song.src)
+    }
     this.nextSong = null
-    this.currentSong = song
-    this.updateAudioElement(this.currentSong.src)
+    // attach events for the player
+    this.player.on('end', () => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('song ended')
+      }
+      this.stop()
+      this.dispatchEvent('end', null)
+    })
+    this.player.on('load', () => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('song loaded')
+      }
+      this.duration = this.player.duration()
+      this.dispatchEvent('loaded', this.duration)
+    })
+    this.player.on('loaderror', () => this.handleAudioResourceError())
+    this.player.on('play', () => {
+      const self = this
+      this.dispatchEvent('play')
+      requestAnimationFrame(self.seekUpdate.bind(self))
+    })
+
     this.restart()
   }
 
@@ -122,22 +149,20 @@ export default class BlackSheepPlayer {
 
   stop () {
     if (this.player) {
-      this.nextSong = null
-      this.player.stop()
+      this.player.stop().off().unload()
       this.player = null
+      this.currentSong = null
     }
   }
 
   forward () {
     if (this.player && this.player.playing()) {
-      console.log(Math.min(this.player._duration, this.player.seek() + 5))
       this.player.seek(Math.min(this.player._duration, this.player.seek() + 5))
     }
   }
 
   rewind () {
     if (this.player && this.player.playing()) {
-      console.log(Math.min(0, this.player.seek() - 5))
       this.player.seek(Math.max(0, this.player.seek() - 5))
     }
   }
@@ -157,5 +182,4 @@ export default class BlackSheepPlayer {
   setVolume (volume) {
     this.player.volume(volume / 10)
   }
-
 }
