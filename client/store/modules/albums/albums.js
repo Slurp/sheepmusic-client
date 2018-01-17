@@ -1,6 +1,5 @@
 import Vue from 'vue'
 
-import arrayFunctions from 'services/array-helper'
 
 const state = {
   albums: [],

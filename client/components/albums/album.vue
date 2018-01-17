@@ -78,13 +78,13 @@
     },
     computed: {
       hasCover () {
-        return (this.loaded && this.album.cover)
+        return (this.loadedAlbum && this.album.cover)
       },
       loadedAlbum () {
-        return this.album.fullyLoaded
+        return (this.loaded && (this.album !== null && this.album.fullyLoaded))
       },
       detailLink () {
-        if (this.album && this.album.fullyLoaded) {
+        if (this.loadedAlbum) {
           return {
             name: 'detail_album',
             params: { artist: this.album.artist.name, album: this.album.slug, id: this.album.id },

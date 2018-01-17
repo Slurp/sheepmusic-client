@@ -8,7 +8,6 @@ const arrayFunctions = {
   alphabetRange: (start = 'a', end = 'z') => {
     return new Array(end.charCodeAt(0) + 1 - start.charCodeAt(0)).fill().map((d, i) => String.fromCharCode(i + start.charCodeAt(0)))
   }
-
 }
 export default arrayFunctions
 

@@ -1,85 +1,178 @@
-import jQuery from 'jquery'
-import plyr from 'plyr'
+import { Howl } from 'howler'
 import config from 'config/index'
 
 export default class BlackSheepPlayer {
-
   constructor () {
-    this.initialized = false
     this.player = null
     this.nextSong = null
     this.currentSong = null
     this.playlist = null
-    this.init()
+    this.events = []
+    this.seek = 0
+    this.duration = 0
+  }
+
+  on (eventName, handler) {
+    if (!(eventName in this.events)) {
+      this.events[eventName] = []
+    }
+    this.events[eventName].push(handler)
+  }
+
+  dispatchEvent (eventName, args) {
+    const currentEvents = this.events[eventName]
+    if (!currentEvents) return
+
+    for (let i = 0; i < currentEvents.length; i++) {
+      if (typeof currentEvents[i] === 'function') {
+        currentEvents[i](args)
+      }
+    }
+  }
+
+  createHowl (src) {
+    return new Howl({
+      type: 'audio',
+      title: '-',
+      src: [config.baseUrl + src],
+      format: ['mp3'],
+      html5: true,
+      preload: true
+    })
+  }
+
+  handleAudioResourceError () {
+    if (process.env.NODE_ENV !== 'production') {
+      console.warn('[Player] Error while loading audio resource.')
+    }
+    // Stop the music
+    this.stop()
+    this.dispatchEvent('playerror')
+  }
+
+  seekUpdate () {
+    const self = this
+    if (self.player !== null) {
+      // Fix for howl.seek() returning the howl instance
+      if (typeof self.player.seek() !== 'number') {
+        self.seek = 0
+      } else {
+        self.seek = self.player.seek()
+      }
+      self.dispatchEvent('seekUpdate', self.seek)
+      if (self.player.playing()) {
+        requestAnimationFrame(self.seekUpdate.bind(self))
+      }
+    } else {
+      self.seek = 0
+      self.duration = 0
+    }
   }
 
   /**
-   * Init the module
+   * preload a song when needed
+   * @param song
    */
-  init () {
-    // We don't need to init this service twice, or the media events will be duplicated.
-    if (this.initialized) {
-      return
-    }
-
-    this.player = plyr.setup(
-      {
-        controls: ['progress'],
-        loadSprite: false,
-        debug: false
+  preloadSong (song) {
+    if (this.nextSong === null) {
+      this.nextSong = { 'id': song.id, 'player': this.createHowl(song.src) }
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('preloaded song')
       }
-    )[0]
-    this.initialized = true
-  };
+    }
+  }
 
-  updateAudioElement (src) {
-    this.player.source({
-      type: 'audio',
-      title: '-',
-      sources: [{
-        src: config.baseUrl + src,
-        type: 'audio/mp3'
-      }]
-    })
-  };
-
+  /**
+   * Play a song boy!
+   * @param song
+   */
   playSong (song) {
+    this.stop()
+    // check for preloaded song
+    if (this.nextSong && this.nextSong.id === song.id) {
+      this.currentSong = this.nextSong.id
+      this.player = this.nextSong.player
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('use preloaded song')
+      }
+    } else {
+      this.currentSong = song.id
+      this.player = this.createHowl(song.src)
+    }
     this.nextSong = null
-    this.currentSong = song
-    this.updateAudioElement(this.currentSong.src)
-    jQuery('.plyr audio').attr('title', `${this.currentSong.artist.name} - ${this.currentSong.title}`)
+    // attach events for the player
+    this.player.on('end', () => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('song ended')
+      }
+      this.stop()
+      this.dispatchEvent('end', null)
+    })
+    this.player.on('load', () => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('song loaded')
+      }
+      this.duration = this.player.duration()
+      this.dispatchEvent('loaded', this.duration)
+    })
+    this.player.on('loaderror', () => this.handleAudioResourceError())
+    this.player.on('play', () => {
+      const self = this
+      this.dispatchEvent('play')
+      requestAnimationFrame(self.seekUpdate.bind(self))
+    })
+
     this.restart()
-  };
+  }
 
   restart () {
-    this.player.restart(0)
-    this.player.play()
-  };
+    if (this.player) {
+      this.player.seek(0)
+      this.player.play()
+    }
+  }
 
   pause () {
-    this.player.pause()
-  };
+    if (this.player.playing()) {
+      this.player.pause()
+    }
+  }
 
   resume () {
     this.player.play()
-  };
+  }
 
   isPaused () {
-    this.player.isPaused()
-  };
+    console.log(this.player)
+    return (this.player !== null && !this.player.playing())
+  }
 
   stop () {
-    this.nextSong = null
-    this.player.stop()
-  };
+    if (this.player) {
+      this.player.stop().off().unload()
+      this.player = null
+      this.currentSong = null
+    }
+  }
 
   forward () {
-    this.player.forward()
-  };
+    if (this.player && this.player.playing()) {
+      this.player.seek(Math.min(this.player._duration, this.player.seek() + 5))
+    }
+  }
 
   rewind () {
-    this.player.rewind()
-  };
+    if (this.player && this.player.playing()) {
+      this.player.seek(Math.max(0, this.player.seek() - 5))
+    }
+  }
+
+  setSeekPosition (value) {
+    console.log(value)
+    if (this.player) {
+      this.player.seek(value)
+    }
+  }
 
   /**
    * Set the volume level.
@@ -87,6 +180,6 @@ export default class BlackSheepPlayer {
    * @param {Number}     volume   0-10
    */
   setVolume (volume) {
-    this.player.setVolume(volume)
-  };
+    this.player.volume(volume / 10)
+  }
 }

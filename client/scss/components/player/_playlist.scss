@@ -51,6 +51,7 @@
     height: calc(100vh - 190px);
     padding-bottom: 50px;
     align-content: flex-start;
+    width: 100%;
     &::-webkit-scrollbar {
       display: none;
     }
@@ -66,6 +67,7 @@
   font-size: 14px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   position: relative;
+  transition: all 1s;
   img {
     width: 32px;
     height: auto;
@@ -129,6 +131,10 @@
   }
 }
 
+
+.playlist-list-enter, .playlist-list-leave-active {
+  opacity: 0;
+}
 .playlist-item-info {
   position: relative;
   margin-left: 5px;

@@ -9,6 +9,8 @@
    ========================================================================== */
 @import '~daemonite-material/assets/sass/colours';
 @import '~daemonite-material/assets/sass/functions';
+$yiq-text-light: $light-theme-1;
+$yiq-text-dark: $dark-theme-1;
 @import '~bootstrap/scss/functions';
 @import "general/colors";
 @import "vendors/bootstrap-vars";

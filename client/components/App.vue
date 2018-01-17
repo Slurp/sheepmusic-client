@@ -1,8 +1,8 @@
 <template>
     <div v-bind:class="loginScreen">
         <navbar v-if="$auth.check()"></navbar>
-        <sidebar v-if="$auth.check() && loaded"></sidebar>
-        <div class="container-fluid">
+        <sidebar v-if="$auth.check() && loaded && !loading"></sidebar>
+        <div class="container-fluid" v-if="!loading">
             <main class="router-view" role="main">
                 <div class="left-column">
                     <router-view></router-view>
@@ -58,10 +58,10 @@
       },
       isLoggedIn()
       {
-        if(this.$auth.check() == false) {
-          this.loaded == false;
+        if(this.$auth.check() === false) {
+          this.loaded = false;
         }
-        if(this.$auth.check() && this.loaded == false) {
+        if(this.$auth.check() && this.loaded === false) {
           console.log('loading')
           this.$store.dispatch('toggleLoading')
           this.$store.dispatch('albums/loadAlbums').then(() => {

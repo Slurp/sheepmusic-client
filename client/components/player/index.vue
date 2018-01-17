@@ -1,7 +1,24 @@
 <template>
     <footer id='mainFooter' class='footer-player'>
+
         <div class='player'>
-            <audio controls preload></audio>
+            <div class="plyr plyr--audio plyr--ready" v-bind:class="{ 'plyr--playing': playing }">
+                <div class="plyr__controls">
+                    <div class="plyr__progress" v-on:mouseover="hoverProgress = true"
+                         v-on:mouseout="hoverProgress = false">
+                        <label for="seek" class="plyr__sr-only">Seek</label>
+                        <input id="seek" ref="seekerElement" class="plyr__progress--seek" type="range" min="0" max="100"
+                               step="0.1"
+                               :value="progress" @mousedown="onSeekerMousedown">
+                        <progress class="plyr__progress--played" max="100" :value="progress"
+                                  role="presentation"></progress>
+                        <progress class="plyr__progress--buffer" max="100" value="100"><span>100</span>% buffered
+                        </progress>
+                        <span class="plyr__tooltip" v-bind:class="{ 'plyr__tooltip--visible': hoverProgress }"
+                              v-bind:style="{ left: progress + '%' }">{{ position }}</span>
+                    </div>
+                </div>
+            </div>
             <div class="player-row">
                 <div class='player-controls'>
                     <div class='row'>
@@ -77,6 +94,7 @@
   import BlackSheepPlayer from 'components/BSAudioSuite/player'
   import Notifications from 'services/notifications'
   import Toaster from 'services/toast'
+  import { secondsToHis } from 'services/time'
 
   export default {
     name: 'player',
@@ -88,49 +106,74 @@
         toast: new Toaster(),
         muted: false,
         cover: '/media/general/default.png',
-        appTitle: document.title
+        appTitle: document.title,
+        loaded: 0,
+        seek: 0,
+        duration: 0,
+        hoverProgress: false,
+        mouseDownProgress: false,
+        variableSeek: 0,
       }
     },
     mounted () {
-      this.blackSheepPlayer = new BlackSheepPlayer()
+      this.$store.dispatch('playlist/setPlayingStatus', false)
+      this.blackSheepPlayer = new BlackSheepPlayer(this)
+
+      this.blackSheepPlayer.on('loaded', (duration) => {
+        if (process.env.NODE_ENV !== 'production') {
+          console.log('loaded')
+        }
+        this.duration = duration
+        // grab next song.
+        if (process.env.NODE_ENV !== 'production') {
+          console.log(!this.nextSong || this.nextSong.preloaded)
+        }
+        if (!this.nextSong || this.nextSong.preloaded) {
+
+          this.nextSong = this.$store.getters['playlist/getPreloadSong']
+          if (!this.nextSong) {
+            // Don't preload if
+            // - there's no next song
+            return
+          }
+          if (process.env.NODE_ENV !== 'production') {
+            console.log('preload song')
+          }
+          this.blackSheepPlayer.preloadSong(this.nextSong)
+          this.nextSong.preloaded = true
+        }
+      })
       /**
        * Listen to 'error' event on the audio player and play the next song if any.
        */
-      this.blackSheepPlayer.player.on('error', () => this.playNext(), true)
-      /**
-       * Listen to 'ended' event on the audio player and play the next song in the queue.
-       */
-      this.blackSheepPlayer.player.on('ended', () => {
-        this.$store.dispatch('songs/playedSong', this.song)
+      this.blackSheepPlayer.on('playerror', () => {
+        console.log('playerrror')
         this.playNext()
       })
-
-      this.blackSheepPlayer.player.on('play', () => {
-        document.title = `${this.currentSong.title} ♫ sheepMusic`
+      // /**
+      //  * Listen to 'ended' event on the audio player and play the next song in the queue.
+      //  */
+      this.blackSheepPlayer.on('end', () => {
+        document.title = `BSM ♫`
+        console.log('ended')
+        this.$store.dispatch('songs/playedSong', this.song)
+        this.seek = 0
+        this.duration = 0
+        this.playNext()
+      })
+      //
+      this.blackSheepPlayer.on('play', () => {
+        document.title = `BSM ♫ ${this.currentSong.title}`
         Notifications.notifySong(this.song)
         this.$store.dispatch('songs/announceSong', this.song)
       })
 
-      /**
-       * Attempt to preload the next song.
-       */
-      this.blackSheepPlayer.player.on('canplaythrough', e => {
-        if (!this.nextSong || this.nextSong.preloaded) {
-
-          this.nextSong = this.$store.getters['playlist/getPreloadSong']
-          if (!this.nextSong || this.nextSong.preloaded) {
-            // Don't preload if
-            // - there's no next song
-            // - next song has already been preloaded
-            return
-          }
-          const audio = document.createElement('audio')
-          audio.setAttribute('src', this.nextSong.src)
-          audio.setAttribute('preload', 'auto')
-          audio.load()
-          this.nextSong.preloaded = true
-        }
+      this.blackSheepPlayer.on('seekUpdate', (seek) => {
+        this.seek = seek
       })
+
+      window.addEventListener('mousemove', this.onMouseMove)
+      window.addEventListener('mouseup', this.onMouseUp)
     },
     computed: {
       playing () {
@@ -163,11 +206,20 @@
         }
         return '/'
       },
+      progress () {
+        if (this.mouseDownProgress) {
+          return this.variableSeek * 100
+        }
+        return (this.duration === 0 ? 0 : this.seek / this.duration) * 100
+      },
+      position () {
+        return secondsToHis(this.seek)
+      }
     },
     watch: {
       currentSong (newSong, oldSong) {
         this.nextSong = null
-        if (oldSong == null || newSong.id !== oldSong.id) {
+        if (oldSong == null || newSong.id !== oldSong.id || this.song == null) {
           this.song = newSong
         }
         this.cover = 'media/general/default.png'
@@ -194,7 +246,7 @@
         }
       },
       pause () {
-        document.title = `Paused: ♫ sheepMusic`
+        document.title = `BSM ♫ Paused`
         this.$store.dispatch('playlist/setPlayingStatus', false)
         this.blackSheepPlayer.pause()
       },
@@ -205,6 +257,7 @@
         this.$store.dispatch('playlist/prevSong')
       },
       playNext () {
+        this.nextSong = null
         if (this.repeatMode === 'REPEAT_ONE') {
           return this.play()
         }
@@ -219,6 +272,32 @@
 
       togglePlaylist () {
         this.$store.dispatch('togglePlaylist')
+      },
+      changeSeek (e) {
+        console.log((this.duration / 100 * e.target.value))
+        console.log((this.duration * (e.target.value / 100)))
+        this.blackSheepPlayer.setSeekPosition((this.duration / 100 * e.target.value))
+      },
+      onSeekerMousedown () {
+        if (this.duration > 0) {
+          this.mouseDownProgress = true
+        }
+      },
+      onMouseMove (event) {
+        if (this.mouseDownProgress === true) {
+          this.variableSeek = this.calculatePercentage(event.clientX, this.$refs.seekerElement)
+        }
+      },
+      onMouseUp (event) {
+        if (this.mouseDownProgress === true) {
+          this.mouseDownProgress = false
+          console.log()
+          this.blackSheepPlayer.setSeekPosition((this.$refs.seekerElement.value * this.duration) / 100)
+        }
+      },
+
+      calculatePercentage (xPos, element) {
+        return Math.min(1, Math.max(0, (xPos - element.getBoundingClientRect().left) / element.scrollWidth))
       },
 
       setVolume (e) {
@@ -237,7 +316,6 @@
         this.muted = false
         return this.blackSheepPlayer.unmute()
       },
-
     }
   }
 </script>
