@@ -2,7 +2,7 @@
 import * as Push from 'push.js'
 
 export default class Notification {
-  static notifySong (song) {
+  static notifySong(song) {
     Push.clear()
     const promise = Push.create(`♫ ${song.title}`, {
       body: `${song.album.name} – ${song.artist.name}`,

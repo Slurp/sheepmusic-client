@@ -9,14 +9,14 @@ const state = {
 }
 
 const actions = {
-  loadPlaylists ({ commit }) {
+  loadPlaylists({ commit }) {
     Vue.axios.get(`/api/playlist_list`).then(response => {
       commit('ADD_PLAYLISTS', { playlists: response.data })
     }, err => {
       console.log(err)
     })
   },
-  loadPlaylist ({ commit, state }, playlistId) {
+  loadPlaylist({ commit, state }, playlistId) {
     if (state.playlists[playlistId] == null || state.playlists[playlistId].songs == null) {
       Vue.axios.get(`/api/playlist/` + state.playlists[playlistId].id).then(response => {
         commit('ADD_PLAYLIST', { playlist: response.data, index: playlistId })
@@ -25,13 +25,13 @@ const actions = {
       })
     }
   },
-  viewPlaylist ({ commit }, playlistId) {
+  viewPlaylist({ commit }, playlistId) {
     commit('SET_CURRENT_PLAYLIST', { index: playlistId })
   },
-  paginate ({ commit }, page) {
+  paginate({ commit }, page) {
     commit('PAGINATE', { page })
   },
-  sortBy ({ commit }, sort) {
+  sortBy({ commit }, sort) {
     commit('SORT_BY', { sort })
   }
 }

@@ -1,6 +1,6 @@
 export default class Toaster {
 
-  constructor () {
+  constructor() {
     this.view = document.getElementById('kebab')
     // Create toast container if it does not exist
     if (this.view === null) {
@@ -14,14 +14,14 @@ export default class Toaster {
     this.hideBound = this.hide.bind(this)
   }
 
-  toast (message) {
+  toast(message) {
     this.view.textContent = message
     this.view.classList.add('toast-view--visible')
     clearTimeout(this.hideTimeout)
     this.hideTimeout = setTimeout(this.hideBound, 5000)
   }
 
-  hide () {
+  hide() {
     this.view.classList.remove('toast-view--visible')
   }
 }

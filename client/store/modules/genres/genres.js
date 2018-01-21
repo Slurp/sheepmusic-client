@@ -11,7 +11,7 @@ const state = {
 }
 
 const actions = {
-  loadGenres ({ commit, state }) {
+  loadGenres({ commit, state }) {
     if (state.fetchedOverview === false) {
       Vue.axios.get(`/api/genre_list`).then(response => {
         commit('ADD_GENRES', { genres: response.data })
@@ -20,7 +20,7 @@ const actions = {
       })
     }
   },
-  loadGenre ({ commit, state }, genreId) {
+  loadGenre({ commit, state }, genreId) {
     if (state.genres[genreId] == null || state.genres[genreId].songs == null) {
       Vue.axios.get(`app_dev.php/api/genre/` + genreId).then(response => {
         commit('ADD_GENRE', { genre: response.data, index: genreId })
@@ -29,13 +29,13 @@ const actions = {
       })
     }
   },
-  viewGenre ({ commit }, genreId) {
+  viewGenre({ commit }, genreId) {
     commit('SET_CURRENT_GENRE', { index: genreId })
   },
-  paginate ({ commit }, page) {
+  paginate({ commit }, page) {
     commit('PAGINATE', { page })
   },
-  sortBy ({ commit }, sort) {
+  sortBy({ commit }, sort) {
     commit('SORT_BY', { sort })
   }
 }

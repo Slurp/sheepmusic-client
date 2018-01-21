@@ -2,7 +2,7 @@
  * Convert a duration in seconds into H:i:s format.
  * If H is 0, it will be ommited.
  */
-export function secondsToHis (d) {
+export function secondsToHis(d) {
   d = ~~d
 
   let s = d % 60

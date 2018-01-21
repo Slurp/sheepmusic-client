@@ -2,7 +2,7 @@ import { Howl } from 'howler'
 import config from 'config/index'
 
 export default class BlackSheepPlayer {
-  constructor () {
+  constructor() {
     this.player = null
     this.nextSong = null
     this.currentSong = null
@@ -12,14 +12,14 @@ export default class BlackSheepPlayer {
     this.duration = 0
   }
 
-  on (eventName, handler) {
+  on(eventName, handler) {
     if (!(eventName in this.events)) {
       this.events[eventName] = []
     }
     this.events[eventName].push(handler)
   }
 
-  dispatchEvent (eventName, args) {
+  dispatchEvent(eventName, args) {
     const currentEvents = this.events[eventName]
     if (!currentEvents) return
 
@@ -30,7 +30,7 @@ export default class BlackSheepPlayer {
     }
   }
 
-  createHowl (src) {
+  createHowl(src) {
     return new Howl({
       type: 'audio',
       title: '-',
@@ -41,7 +41,7 @@ export default class BlackSheepPlayer {
     })
   }
 
-  handleAudioResourceError () {
+  handleAudioResourceError() {
     if (process.env.NODE_ENV !== 'production') {
       console.warn('[Player] Error while loading audio resource.')
     }
@@ -50,7 +50,7 @@ export default class BlackSheepPlayer {
     this.dispatchEvent('playerror')
   }
 
-  seekUpdate () {
+  seekUpdate() {
     const self = this
     if (self.player !== null) {
       // Fix for howl.seek() returning the howl instance
@@ -73,7 +73,7 @@ export default class BlackSheepPlayer {
    * Preload a song when needed
    * @param song
    */
-  preloadSong (song) {
+  preloadSong(song) {
     if (this.nextSong === null) {
       this.nextSong = { id: song.id, player: this.createHowl(song.src) }
       if (process.env.NODE_ENV !== 'production') {
@@ -86,7 +86,7 @@ export default class BlackSheepPlayer {
    * Play a song boy!
    * @param song
    */
-  playSong (song) {
+  playSong(song) {
     this.stop()
     // Check for preloaded song
     if (this.nextSong && this.nextSong.id === song.id) {
@@ -125,29 +125,29 @@ export default class BlackSheepPlayer {
     this.restart()
   }
 
-  restart () {
+  restart() {
     if (this.player) {
       this.player.seek(0)
       this.player.play()
     }
   }
 
-  pause () {
+  pause() {
     if (this.player.playing()) {
       this.player.pause()
     }
   }
 
-  resume () {
+  resume() {
     this.player.play()
   }
 
-  isPaused () {
+  isPaused() {
     console.log(this.player)
     return (this.player !== null && !this.player.playing())
   }
 
-  stop () {
+  stop() {
     if (this.player) {
       this.player.stop().off().unload()
       this.player = null
@@ -155,19 +155,19 @@ export default class BlackSheepPlayer {
     }
   }
 
-  forward () {
+  forward() {
     if (this.player && this.player.playing()) {
       this.player.seek(Math.min(this.player._duration, this.player.seek() + 5))
     }
   }
 
-  rewind () {
+  rewind() {
     if (this.player && this.player.playing()) {
       this.player.seek(Math.max(0, this.player.seek() - 5))
     }
   }
 
-  setSeekPosition (value) {
+  setSeekPosition(value) {
     console.log(value)
     if (this.player) {
       this.player.seek(value)
@@ -179,7 +179,7 @@ export default class BlackSheepPlayer {
    *
    * @param {Number}     volume   0-10
    */
-  setVolume (volume) {
+  setVolume(volume) {
     this.player.volume(volume / 10)
   }
 }

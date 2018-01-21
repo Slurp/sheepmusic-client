@@ -1,11 +1,11 @@
 module.exports = {
-  _init () {
+  _init() {
     if (!this.options.Vue.axios) {
       return 'axios.js : Vue.axios must be set.'
     }
   },
 
-  _interceptor (req, res) {
+  _interceptor(req, res) {
     const _this = this
 
     if (req) {
@@ -35,25 +35,25 @@ module.exports = {
   /**
    * Override to logout with wrong token
    */
-  _invalidToken (res) {
+  _invalidToken(res) {
     if (res.status === 401 && res.data.message === 'Bad credentials') {
       this.options.logoutProcess.call(this, res, { redirect: this.options.authRedirect })
     }
   },
 
-  _httpData (res) {
+  _httpData(res) {
     return res.data || {}
   },
 
-  _http (data) {
+  _http(data) {
     this.options.Vue.axios(data).then(data.success, data.error)
   },
 
-  _getHeaders (res) {
+  _getHeaders(res) {
     return res.headers
   },
 
-  _setHeaders (req, headers) {
+  _setHeaders(req, headers) {
     req.headers.common = Object.assign(req.headers.common, headers)
   }
 }

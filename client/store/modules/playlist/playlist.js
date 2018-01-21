@@ -11,78 +11,76 @@ const state = {
 }
 
 const actions = {
-  async nextSong ({ commit }) {
+  async nextSong({ commit }) {
     commit('NEXT')
   },
-  async prevSong ({ commit }) {
+  async prevSong({ commit }) {
     commit('PREV')
   },
-  async clearPlaylist ({ commit }) {
+  async clearPlaylist({ commit }) {
     commit('CLEAR')
   },
-  async queueAlbum ({ commit }, album) {
-    commit('ADD_ALBUM', { album: album })
+  async queueAlbum({ commit }, album) {
+    commit('ADD_ALBUM', { album })
   },
-  async playAlbum ({ dispatch, commit }, album) {
+  async playAlbum({ dispatch, commit }, album) {
     await dispatch('clearPlaylist')
-    commit('ADD_ALBUM', { album: album })
+    commit('ADD_ALBUM', { album })
     commit('NEXT')
   },
-  async queueSong ({ commit }, song) {
-    commit('ADD_SONG', { song: song })
+  async queueSong({ commit }, song) {
+    commit('ADD_SONG', { song })
   },
-  async playSong ({ dispatch, commit }, song) {
+  async playSong({ dispatch, commit }, song) {
     await dispatch('clearPlaylist')
-    commit('ADD_SONG', { song: song })
+    commit('ADD_SONG', { song })
   },
-  async selectSong ({ commit }, index) {
-    commit('SELECT_SONG', { index: index })
+  async selectSong({ commit }, index) {
+    commit('SELECT_SONG', { index })
   },
-  removeSong ({ commit }, index) {
-    commit('REMOVE_SONG', { index: index })
+  removeSong({ commit }, index) {
+    commit('REMOVE_SONG', { index })
   },
-  shuffle ({ commit }) {
+  shuffle({ commit }) {
     commit('SHUFFLE')
   },
-  setPlayingStatus ({ commit }, playing) {
-    commit('PLAYING', { playing: playing })
+  setPlayingStatus({ commit }, playing) {
+    commit('PLAYING', { playing })
   },
-  setTitle ({ commit }, title) {
+  setTitle({ commit }, title) {
     console.log(title)
-    commit('SAVE', { title: title })
+    commit('SAVE', { title })
   },
-  setRepeatMode ({ commit }, mode) {
-    commit('SET_REPEAT_MODE', { mode: mode })
+  setRepeatMode({ commit }, mode) {
+    commit('SET_REPEAT_MODE', { mode })
   },
-  async savePlaylist ({ commit }, title) {
+  async savePlaylist({ commit }, title) {
     const data = new FormData()
     data.append('name', title)
-    for(const song of state.songs) {
+    for (const song of state.songs) {
       data.append('songs[]', song.id)
     }
 
-
     return Vue.axios.post(`app_dev.php/api/save/playlist`, data).then(response => {
       commit('SAVE', { title: response.name })
-      return response;
+      return response
     }).catch(e => {
       return (e)
     })
-
   },
-  async updateList({ commit} , sortedList) {
+  async updateList({ commit }, sortedList) {
     commit('UPDATE_LIST', { list: sortedList })
   }
 }
 
 const mutations = {
-  CLEAR: (state) => {
+  CLEAR: state => {
     state.songs = []
     state.currentIndex = null
     state.currentRepeatMode = 'REPEAT_ALL'
     state.name = null
   },
-  PREV: (state) => {
+  PREV: state => {
     if (state.repeatMode !== 'REPEAT_ONE') {
       if (state.currentIndex === null || state.currentIndex === 0) {
         state.currentIndex = state.songs.length
@@ -91,7 +89,7 @@ const mutations = {
     }
     state.currentSong = state.songs[state.currentIndex]
   },
-  NEXT: (state) => {
+  NEXT: state => {
     if (state.repeatMode !== 'REPEAT_ONE') {
       if (state.currentIndex !== null) {
         state.currentIndex++
@@ -107,7 +105,6 @@ const mutations = {
     } else {
       state.currentSong = state.songs[state.currentIndex]
     }
-
   },
   ADD_ALBUM: (state, { album }) => {
     for (const song of album.songs) {
@@ -128,9 +125,8 @@ const mutations = {
       state.currentSong = state.songs[state.currentIndex]
     }
   },
-  SHUFFLE: (state) => {
+  SHUFFLE: state => {
     for (let i = state.songs.length - 1; i >= 0; i--) {
-
       const randomIndex = Math.floor(Math.random() * (i + 1))
       const itemAtIndex = state.songs[randomIndex]
       Vue.set(state.songs, randomIndex, state.songs[i])
@@ -146,7 +142,7 @@ const mutations = {
   SAVE: (state, { title }) => {
     state.name = title
   },
-  UPDATE_LIST : (state, { list }) => {
+  UPDATE_LIST: (state, { list }) => {
     state.songs = list
   },
   SET_REPEAT_MODE: (state, { mode }) => {
@@ -161,31 +157,31 @@ const mutations = {
 }
 
 const getters = {
-  getPreloadSong: (state) => {
+  getPreloadSong: state => {
     console.log(state.currentIndex)
     if (state.currentIndex !== null) {
       return state.songs[state.currentIndex + 1]
     }
   },
-  getCurrentSong: (state) => {
+  getCurrentSong: state => {
     return state.currentSong
   },
-  getCurrentSelectedItem: (state) => {
+  getCurrentSelectedItem: state => {
     return state.currentIndex
   },
-  list: (state) => {
+  list: state => {
     return state.songs
   },
-  isPlaying: (state) => {
+  isPlaying: state => {
     return state.isPlaying
   },
-  name: (state) => {
+  name: state => {
     return state.name
   },
-  repeatModes: (state) => {
+  repeatModes: state => {
     return state.repeatModes
   },
-  repeatMode: (state) => {
+  repeatMode: state => {
     return state.repeatMode
   }
 }

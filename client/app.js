@@ -23,7 +23,7 @@ Vue.use(Auth, {
     enabled: true,
     interval: 30
   },
-  parseUserData (data) {
+  parseUserData(data) {
     return data
   }
 })

@@ -9,7 +9,7 @@ const state = {
 }
 
 const actions = {
-  loadArtists ({ commit }) {
+  loadArtists({ commit }) {
     return new Promise((resolve, reject) => {
       Vue.axios.get(`/api/artist_list`).then(response => {
         commit('ADD_ARTISTS', { artists: response.data })
@@ -20,7 +20,7 @@ const actions = {
       })
     })
   },
-  loadArtist ({ commit, state }, artistId) {
+  loadArtist({ commit, state }, artistId) {
     if (state.artists[artistId] == null || state.artists[artistId].fullyLoaded === false) {
       Vue.axios.get(`app_dev.php/api/artist/` + artistId).then(response => {
         commit('ADD_ARTIST', { artist: response.data, index: artistId })
@@ -29,20 +29,20 @@ const actions = {
       })
     }
   },
-  updateArtist ({ commit, state }, artistId) {
+  updateArtist({ commit, state }, artistId) {
     Vue.axios.get(`app_dev.php/api/artist/update/` + artistId).then(response => {
       commit('ADD_ARTIST', { artist: response.data, index: artistId })
     }, err => {
       console.log(err)
     })
   },
-  viewArtist ({ commit }, artistId) {
+  viewArtist({ commit }, artistId) {
     commit('SET_CURRENT_ARTIST', { index: artistId })
   },
-  paginate ({ commit }, page) {
+  paginate({ commit }, page) {
     commit('PAGINATE', { page })
   },
-  sortBy ({ commit }, sort) {
+  sortBy({ commit }, sort) {
     commit('SORT_BY', { sort })
   }
 }

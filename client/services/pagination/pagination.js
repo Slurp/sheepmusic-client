@@ -35,44 +35,44 @@ module.exports =
       default: true
     }
   },
-  created () {
+  created() {
     if (!this.vuex) return
 
     if (!this.for) {
       throw new Error('vue-pagination-2: The "for" prop is required when using vuex')
     }
   },
-  data () {
+  data() {
     return {
       Page: 1
     }
   },
   computed: {
-    page: function page () {
+    page: function page() {
       return this.$store.state[this.for].page
     },
-    pages () {
+    pages() {
       if (!this.records) {
         return []
       }
       return range(this.paginationStart, this.pagesInCurrentChunk)
     },
-    totalPages () {
+    totalPages() {
       return this.records ? Math.ceil(this.records / this.perPage) : 1
     },
-    totalChunks () {
+    totalChunks() {
       return Math.ceil(this.totalPages / this.chunk)
     },
-    currentChunk () {
+    currentChunk() {
       return Math.ceil(this.page / this.chunk)
     },
-    paginationStart () {
+    paginationStart() {
       return ((this.currentChunk - 1) * this.chunk) + 1
     },
-    pagesInCurrentChunk () {
+    pagesInCurrentChunk() {
       return this.paginationStart + this.chunk <= this.totalPages ? this.chunk : this.totalPages - this.paginationStart + 1
     },
-    count () {
+    count() {
       const from = ((this.page - 1) * this.perPage) + 1
       const to = this.page == (this.totalPages) ? this.records : from + this.perPage - 1
       const parts = this.countText.split('|')
@@ -84,46 +84,46 @@ module.exports =
     }
   },
   methods: {
-    setPage (page) {
+    setPage(page) {
       if (this.allowedPage(page)) {
         this.paginate(page)
       }
     },
-    paginate: function paginate (page) {
+    paginate: function paginate(page) {
       this.$store.dispatch(this.for + '/paginate', page)
     },
-    next () {
+    next() {
       return this.setPage(this.page + 1)
     },
-    prev () {
+    prev() {
       return this.setPage(this.page - 1)
     },
-    nextChunk () {
+    nextChunk() {
       return this.setChunk(1)
     },
-    prevChunk () {
+    prevChunk() {
       return this.setChunk(-1)
     },
-    setChunk (direction) {
+    setChunk(direction) {
       this.setPage((((this.currentChunk - 1) + direction) * this.chunk) + 1)
     },
-    allowedPage (page) {
+    allowedPage(page) {
       return page >= 1 && page <= this.totalPages
     },
-    allowedChunk (direction) {
+    allowedChunk(direction) {
       return (direction == 1 && this.currentChunk < this.totalChunks) ||
           (direction == -1 && this.currentChunk > 1)
     },
-    allowedPageClass (direction) {
+    allowedPageClass(direction) {
       return this.allowedPage(direction) ? '' : 'disabled'
     },
-    allowedChunkClass (direction) {
+    allowedChunkClass(direction) {
       return this.allowedChunk(direction) ? '' : 'disabled'
     },
-    activeClass (page) {
+    activeClass(page) {
       return this.page == page ? 'active' : ''
     },
-    formatNumber (num) {
+    formatNumber(num) {
       if (!this.format) return num
 
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
@@ -131,7 +131,7 @@ module.exports =
   }
 }
 
-function range (start, count) {
+function range(start, count) {
   return Array.apply(0, Array(count))
     .map((element, index) => {
       return index + start
