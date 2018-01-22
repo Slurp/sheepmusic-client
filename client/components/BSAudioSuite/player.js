@@ -99,15 +99,7 @@ export default class BlackSheepPlayer {
       this.currentSong = song.id
       this.player = this.createHowl(song.src)
     }
-    this.nextSong = null
     // Attach events for the player
-    this.player.on('end', () => {
-      if (process.env.NODE_ENV !== 'production') {
-        console.log('song ended')
-      }
-      this.stop()
-      this.dispatchEvent('end', null)
-    })
     this.player.on('load', () => {
       if (process.env.NODE_ENV !== 'production') {
         console.log('song loaded')
@@ -115,12 +107,24 @@ export default class BlackSheepPlayer {
       this.duration = this.player.duration()
       this.dispatchEvent('loaded', this.duration)
     })
-    this.player.on('loaderror', () => this.handleAudioResourceError())
     this.player.on('play', () => {
+      if (this.nextSong && this.nextSong.id === song.id) {
+        this.duration = this.player.duration()
+        this.dispatchEvent('loaded', this.duration)
+      }
       const self = this
       this.dispatchEvent('play')
       requestAnimationFrame(self.seekUpdate.bind(self))
     })
+    this.player.on('end', () => {
+      if (process.env.NODE_ENV !== 'production') {
+        console.log('song ended')
+      }
+      this.stop()
+      this.dispatchEvent('end', null)
+    })
+    this.player.on('loaderror', () => this.handleAudioResourceError())
+    this.nextSong = null
 
     this.restart()
   }
