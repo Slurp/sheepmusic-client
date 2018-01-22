@@ -13,7 +13,7 @@
             </li>
         </ul>
 
-        <transition-group name="list" tag="div" class="list">
+        <transition-group name="list" tag="div" class="list" v-if="playlistPage">
             <div class="col" v-for="(playlist, index) in playlistPage" :key="playlist.id" :name="playlist.id">
                 <playlist :playlist-id=index :playlist=playlist :key="playlist.id"></playlist>
             </div>

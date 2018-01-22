@@ -24,7 +24,7 @@
         </div>
         <div class="card-block" v-else>
             <h4 class="card-title">{{playlist.name}}</h4>
-            <h6 class="card-subtitle text-muted">
+            <h6 class="card-subtitle text-muted" v-if="playlist.songs">
                 {{playlist.songs.length}} songs
                 <span v-if="playlistDuration">
                     <i class="material-icons">av_timer</i>
@@ -84,8 +84,8 @@
         }
       },
       playlistDuration () {
-        if (this.loaded && this.playlist) {
-          return secondsToHis(this.playlist.songs.map(song => song.length).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
+        if (this.loaded && this.playlist && this.playlist.songs) {
+          return secondsToHis(this.playlist.songs.map(song => song ? song.length:0).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
         }
         return null
       },
