@@ -221,10 +221,13 @@
         this.nextSong = null
         if (oldSong == null || newSong.id !== oldSong.id || this.song == null) {
           this.song = newSong
-        }
-        this.cover = 'media/general/default.png'
-        if (this.song.album.cover !== null) {
-          this.cover = this.song.album.cover
+          this.cover = 'media/general/default.png'
+          if (this.song.album.cover !== null) {
+            this.cover = this.song.album.cover
+          }
+          if(this.playing) {
+            this.stop();
+          }
         }
         this.play()
       }
@@ -249,6 +252,9 @@
         document.title = `BSM ♫ Paused`
         this.$store.dispatch('playlist/setPlayingStatus', false)
         this.blackSheepPlayer.pause()
+      },
+      stop () {
+        this.blackSheepPlayer.stop()
       },
       playPrev () {
         if (this.repeatMode === 'REPEAT_ONE') {
