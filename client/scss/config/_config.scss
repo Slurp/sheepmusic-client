@@ -7,8 +7,8 @@
 
 /* General
    ========================================================================== */
-@import '~daemonite-material/assets/sass/colours';
-@import '~daemonite-material/assets/sass/functions';
+@import '~daemonite-material/assets/scss/colours';
+@import '~daemonite-material/assets/scss/functions';
 $yiq-text-light: $light-theme-1;
 $yiq-text-dark: $dark-theme-1;
 @import '~bootstrap/scss/functions';
@@ -16,8 +16,8 @@ $yiq-text-dark: $dark-theme-1;
 @import "vendors/bootstrap-vars";
 
 
-@import '~daemonite-material/assets/sass/mixins';
-@import '~daemonite-material/assets/sass/variables';
+@import '~daemonite-material/assets/scss/mixins';
+@import '~daemonite-material/assets/scss/variables';
 
 
 @import "general/general";
