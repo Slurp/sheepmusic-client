@@ -22,7 +22,7 @@
                                 :song="song"
                                 :index="index"
                                 class="playlist-item"
-                                v-bind:class="{ playing: isActive(index) }"
+                                v-bind:class="{ isplaying: isPlaying(index), 'ispaused': isPaused(index)  }"
                                 :key="song.id"
                                 :name="index">
                         </song-item>
@@ -69,8 +69,14 @@
       }
     },
     methods: {
-      isActive (index) {
+      isPlaying (index) {
         if (this.playing && this.currentSong !== null) {
+          return (this.currentIndex === index)
+        }
+        return false
+      },
+      isPaused (index) {
+        if (this.paused && this.currentSong !== null) {
           return (this.currentIndex === index)
         }
         return false
@@ -85,6 +91,9 @@
     computed: {
       playing () {
         return this.$store.getters['playlist/isPlaying']
+      },
+      paused () {
+        return this.$store.getters['playlist/isPaused']
       },
       currentIndex () {
         return this.$store.getters['playlist/getCurrentSelectedItem']

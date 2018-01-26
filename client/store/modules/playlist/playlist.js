@@ -7,6 +7,7 @@ const state = {
   currentIndex: null,
   currentSong: null,
   isPlaying: false,
+  isPaused: false,
   name: ''
 }
 
@@ -75,6 +76,7 @@ const actions = {
 
 const mutations = {
   CLEAR: state => {
+    console.log('clear')
     state.songs = []
     state.currentIndex = null
     state.currentRepeatMode = 'REPEAT_ALL'
@@ -138,6 +140,7 @@ const mutations = {
   },
   PLAYING: (state, { playing }) => {
     state.isPlaying = playing
+    state.isPaused = !playing
   },
   SAVE: (state, { title }) => {
     state.name = title
@@ -174,6 +177,9 @@ const getters = {
   },
   isPlaying: state => {
     return state.isPlaying
+  },
+  isPaused: state => {
+    return state.isPaused
   },
   name: state => {
     return state.name

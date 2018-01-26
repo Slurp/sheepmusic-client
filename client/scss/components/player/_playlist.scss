@@ -74,7 +74,11 @@
     position: relative;
     z-index: 1;
   }
-  &.playing {
+  .pause {
+    display: none;
+  }
+  &.ispaused,
+  &.isplaying {
     position: relative;
     &:after {
       position: absolute;
@@ -86,6 +90,23 @@
       height: 40px;
       display: block;
       background: url('#{$general}/now-playing.gif') rgba($player-txt-color, 0.6);
+    }
+    .play {
+      display: none;
+    }
+    .pause {
+      display: initial;
+    }
+  }
+  &.ispaused {
+    &:after {
+      background-image: none;
+      font-family: 'Material Icons';
+      content: "\E034";
+      font-size: 21px;
+      text-align: center;
+      left:1px;
+      top:4px;
     }
   }
 
