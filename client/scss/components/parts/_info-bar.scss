@@ -4,9 +4,6 @@
   color: map_get(theme-color('light'), color);
   width: 100%;
   flex-wrap: wrap;
-  > * {
-    border:1px solid;
-  }
   .info-bar-image {
     @include img-fluid();
     @extend .d-flex;
