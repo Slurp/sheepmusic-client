@@ -1,29 +1,30 @@
 <template>
-    <div class="album-detail" :id="id">
+    <div class="library-detail album-detail" :id="id">
         <div v-if="album && album.fullyLoaded">
             <breadcrumbs :album="album"></breadcrumbs>
-            <div class="album-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + album.cover + ')' }">
-                <div class="info-bar album media">
-                    <img class="info-bar-image" :src="album.cover"/>
-                    <div class="info-bar-content media-body">
-                        <div class="info-bar-content__header">
-
-                            <h1 class="artist-name">
-                                <router-link
-                                        :to="{ name: 'detail_artist', params: { artist: this.album.artist.name, id: this.album.artist.id }}">
-                                    <span v-if="logo == null">{{this.album.artist.name}}</span>
-                                    <img :src="logo" v-if="logo != null">
-                                </router-link>
-                            </h1>
-
-
-                            <play_btn :album=album></play_btn>
-                            <queue_btn :album=album></queue_btn>
-
-                        </div>
-                        <h3 class="album-name">
-                            {{ album.name }}
+            <div class="backdrop">
+                <div class="image-backdrop album-backdrop" v-bind:style="{ 'background-image': 'url(' + album.cover + ')' }"></div>
+            </div>
+            <section>
+                <div class="actions">
+                    <play_btn :album=album></play_btn>
+                    <queue_btn :album=album></queue_btn>
+                </div>
+                <div class="detail-info-wrapper">
+                    <div class="detail-art">
+                        <img :src="album.cover">
+                    </div>
+                    <div class="detail-info">
+                        <h3 class="artist-name">
+                            <router-link
+                                    :to="{ name: 'detail_artist', params: { artist: this.album.artist.name, id: this.album.artist.id }}">
+                                <span v-if="logo == null">{{this.album.artist.name}}</span>
+                                <img :src="logo" v-if="logo != null">
+                            </router-link>
                         </h3>
+                        <h1 class="detail-name">
+                            {{ album.name }}
+                        </h1>
                         <div class="meta">
                             <i class="material-icons">hearing</i>{{ album.playCount}} times
                             <i class="material-icons">date_range</i>{{ album.year}}
@@ -31,11 +32,10 @@
                             <i class="material-icons">av_timer</i>{{ lengthAlbum }}
                             <i class="material-icons" v-if="album.genre.name">receipt</i>{{ album.genre.name}}
                         </div>
-
                     </div>
                 </div>
-            </div>
-            <song-list :songs="album.songs"></song-list>
+                    <song-list :songs="album.songs"></song-list>
+            </section>
         </div>
         <div class="progress-circular progress-circular-secondary" v-else>
             <div class="progress-circular-wrapper">

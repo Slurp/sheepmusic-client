@@ -26,7 +26,6 @@ const actions = {
     if (state.albums[albumId] == null || state.albums[albumId].songs == null) {
       Vue.axios.get(`/api/album/` + albumId).then(response => {
         commit('ADD_ALBUM', { album: response.data, index: albumId })
-        // commit('songs/ADD_SONGALBUM', { songs: response.data.songs }, { root: true })
       }, err => {
         console.log(err)
       })
@@ -129,7 +128,7 @@ const getters = {
         return r
       }, Array(12).fill(0))
       for (let i = 1; i < 12; i++) {
-        groups[i] = groups[i] + groups[i - 1]
+        groups[i] += groups[i - 1]
       }
       return groups
     }
@@ -137,7 +136,7 @@ const getters = {
   },
   getLosslessCollection: state => {
     if (state.albums.length > 0) {
-      const data = Array()
+      const data = []
       const losslessCount = state.albums.reduce((counter, album) => (album.lossless ? counter + 1 : counter + 0), 0)
       data.push(losslessCount)
       data.push(state.albums.length - losslessCount)

@@ -7,11 +7,11 @@
                 <div class="left-column">
                     <router-view></router-view>
                 </div>
-                <playlist v-show="$auth.check()"></playlist>
+                <playlist v-show="$auth.check() && !loading"></playlist>
             </main>
             <player-overlay v-if="(isPlaying && isAppIdle)"></player-overlay>
         </div>
-        <player v-show="$auth.check()"></player>
+        <player v-show="$auth.check() && !loading"></player>
         <overlay v-if="(!$auth.ready() && !loaded ) || loading"></overlay>
         <modal-screens></modal-screens>
     </div>
@@ -62,7 +62,6 @@
           this.loaded = false;
         }
         if(this.$auth.check() && this.loaded === false) {
-          console.log('loading')
           this.$store.dispatch('toggleLoading')
           this.$store.dispatch('albums/loadAlbums').then(() => {
             this.$store.dispatch('artists/loadArtists').then(() => {

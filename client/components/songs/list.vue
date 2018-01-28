@@ -10,7 +10,10 @@
         </div>
         <div class="song-list-item" v-for="song in songs" v-bind:class="{ playing: isActive(song.id) }">
             <div class="col col-track action">
-                <span class="track-number">
+                <span class="track-number" v-if="song.position">
+                    {{ song.position }}
+                </span>
+                <span class="track-number" v-else>
                     {{ song.track }}
                 </span>
                 <a v-on:click.stop.prevent="play(song)">

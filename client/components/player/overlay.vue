@@ -5,7 +5,7 @@
             <a class="btn btn-secondary btn-sm btn-float btn-close" v-on:click.stop.prevent="close"><i class="material-icons">close</i></a>
             <h1>Now playing</h1>
             <div class="album-cover">
-                <img :src="song.album.cover">
+                <img :src="album.cover">
             </div>
             <div class="info">
                 <h3><img :src="logo" v-if="logo"><span v-else>{{ artist.name }}</span></h3>
@@ -16,23 +16,6 @@
                     <i class="material-icons" v-if="song.audio.lossless">hd</i>
                 </p>
             </div>
-
-            <!--<div id="bars">-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-                <!--<div class="bar"></div>-->
-            <!--</div>-->
         </div>
     </div>
 </template>

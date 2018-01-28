@@ -8,6 +8,7 @@
   display: block;
   z-index: $zindex-popover;
   background-color: rgba(map-get(theme-color('dark'), darker),1);
+
   .btn-close {
     position: absolute;
     top: $grid-gutter-width-base;
@@ -45,6 +46,7 @@
     background-repeat: no-repeat;
     background-position: center;
     z-index: 1;
+    box-shadow: inset 0px -37vw 30vw -10vw rgba(map_get(theme-color('primary'), 'darker'),0.9);
   }
   &__content {
     animation-name: slideInUp;
@@ -64,8 +66,23 @@
     flex-wrap: wrap;
     color: map-get(theme-color('light'), darker);
     padding: $grid-gutter-width-base;
+    h3 {
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      img {
+        margin-right: 10px;
+        width: 50%;
+      }
+      + h1 {
+        font-weight: 300;
+        word-wrap: break-word;
+      }
+    }
     h1 {
-      text-shadow: 1px 1px map-get(theme-color('dark'), darker);
+      font-size: 4rem;
+      text-transform: capitalize;
       flex: 1 1 100%;
     }
     .info {

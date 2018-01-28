@@ -28,46 +28,6 @@
     }
     z-index: 3;
     transition: all 0.9s ease;
-    &.pin-top {
-      top: auto !important;
-    }
-    &.pinned,
-    &.pin-bottom {
-      z-index: 1050;
-      background-color: rgba(map_get(theme-color(),color),1.0);
-      position: fixed;
-      left: 50%;
-      right:100px;
-      top: 0;
-      bottom: initial;
-      margin-left: -20px;
-      margin-top: 0px;
-
-      .info-bar-image {
-        position: static;
-        width: 40px;
-        min-width: 40px;
-        border-width: 2px;
-        margin-top: 5px;
-        margin-bottom: 5px;
-      }
-      .info-bar-content {
-        display: none;
-      }
-      .artist-name,
-      .album-name {
-        float: left;
-        line-height: 50px;
-        margin-bottom: 0;
-        font-size: 40px;
-      }
-      .album-name  {
-        margin-left: 15px;
-      }
-      .label {
-        display: none;
-      }
-    }
   }
 
   ~ * {

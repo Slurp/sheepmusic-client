@@ -1,0 +1,128 @@
+.library-detail {
+  position: static;
+  .progress,
+  .progress-circular {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+  }
+  .backdrop {
+    background: map_get(theme-color('light'),'color');
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    z-index:-1;
+    @include make-gutters(margin);
+    + section {
+      margin-top: 40vmin;
+      background: transparent;
+      z-index: 1;
+    }
+    .image-backdrop {
+      width: 100%;
+      height: 56.25vw;
+
+      position: absolute;
+      top: 0;
+      z-index:-1;
+      left:0;
+      background-position: top;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      box-shadow: inset 0px -27vw 20vw -10vw map_get(theme-color('light'), 'color');
+      @include media-breakpoint-up(sm) {
+        box-shadow: inset 0px -27vw 20vw -2vh map_get(theme-color('light'), 'color');
+      }
+    }
+  }
+
+
+  section {
+    padding: 20px 36px;
+    .detail-info-wrapper {
+      display: flex;
+      padding: 0 20px;
+      flex-direction: column;
+      @include media-breakpoint-up(sm) {
+        flex-direction: row;
+      }
+    }
+    .detail-art {
+      flex: 0 0 220px;
+      width: 220px;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    .detail-details {
+      > * {
+        padding: 10px 0;
+      }
+    }
+    h3 {
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      text-shadow: 1px 1px map_get(theme-color('primary'), 'color');
+      img {
+        margin-right: 10px;
+        width: 50%;
+      }
+      + h1 {
+        font-weight: 300;
+        word-wrap: break-word;
+      }
+    }
+    h1 {
+      font-size: 4rem;
+      color: map_get(theme-color('primary'), 'color');
+      text-shadow: 1px 1px map_get(theme-color('light'), 'color');
+      text-transform: capitalize;
+    }
+    @include media-breakpoint-down(xs) {
+      margin: 100px 20px 20px 20px;
+      padding: 20px 16px;
+
+      .detail-art {
+        width: 100%;
+        flex: 1 0 100%;
+        img {
+          width: auto;
+          max-width: 100%;
+          margin: -100px auto 10px auto;
+          display: block;
+        }
+      }
+      .detail-info {
+        float: left;
+        max-width: 100%;
+      }
+    }
+  }
+  .actions {
+    display: flex;
+    flex: 1 1 100%;
+    justify-content: flex-end;
+    .btn-float {
+      height: 2rem;
+      line-height: 1.75rem;
+      width: 2rem;
+      margin-left:0.25rem;
+      @include media-breakpoint-up(sm) {
+        height: 3.0rem;
+        line-height: 3.0rem;
+        min-width: 3.0rem;
+        padding: 0;
+        width: 3.0rem;
+        i {
+          font-size: 1.75rem;
+        }
+      }
+    }
+  }
+}

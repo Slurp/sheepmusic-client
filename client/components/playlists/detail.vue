@@ -1,19 +1,30 @@
 <template>
-    <div class="album-detail" :id="playlist.id" v-if="playlist && playlist.songs">
+    <div class="library-detail" :id="playlist.id" v-if="playlist && playlist.songs">
         <breadcrumbs></breadcrumbs>
-        <div class="album-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + cover + ')' }">
-            <div class="info-bar album media">
-                <img class="info-bar-image" :src="cover"/>
-                <div class="info-bar-content media-body">
-                    <div class="info-bar-content__header">
-                        <h1 class="album-name">{{ playlist.name }}</h1>
-                        <play_btn :playlist=playlist></play_btn>
-                        <queue_btn :playlist=playlist></queue_btn>
+        <div class="backdrop">
+            <div class="image-backdrop" v-bind:style="{ 'background-image': 'url(' + cover + ')' }"></div>
+        </div>
+        <section>
+            <div class="detail-info-wrapper">
+                <div class="detail-art">
+                    <img :src="cover">
+                </div>
+                <div class="detail-info">
+                    <h1>{{ playlist.name }}</h1>
+                    <div class="meta">
+                        <span v-if="playlistDuration">
+                            <i class="material-icons">av_timer</i>
+                            {{ playlistDuration }}
+                        </span>
                     </div>
                 </div>
+                <div class="actions">
+                    <play_btn :playlist=playlist></play_btn>
+                    <queue_btn :playlist=playlist></queue_btn>
+                </div>
             </div>
-        </div>
-        <song-list :songs="playlist.songs"></song-list>
+        </section>
+        <song-list v-if="playlist.songs" :songs="playlist.songs"></song-list>
     </div>
 </template>
 
@@ -23,6 +34,7 @@
   import breadcrumbs from 'components/misc/breadcrumbs'
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
+  import { secondsToHis } from 'services/time'
 
   export default {
     name: 'playlist-detail',
@@ -45,7 +57,13 @@
       },
       playlist () {
         return this.$store.getters['playlists/getPlaylistById'](this.id)
-      }
+      },
+      playlistDuration () {
+        if (this.playlist && this.playlist.songs) {
+          return secondsToHis(this.playlist.songs.map(song => song ? song.length:0).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
+        }
+        return null
+      },
     },
   }
 </script>

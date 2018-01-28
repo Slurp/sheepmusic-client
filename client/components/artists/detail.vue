@@ -1,23 +1,25 @@
 <template>
-    <article class="artist-detail" :id="id">
+    <article class="library-detail artist-detail" :id="id">
         <div v-if="artist && artist.fullyLoaded">
             <breadcrumbs :artist="artist"></breadcrumbs>
-            <section class="artist-backdrop backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }">
-                <div class="info-bar artist media">
-                    <img class="info-bar-image" :src="cover"/>
-                    <div class="info-bar-content">
-                        <div class="info-bar-content__header">
-                            <h1 class="artist-name" v-if="logo == null">{{ artist.name }}</h1>
-                            <h1 class="artist-name" v-if="logo != null"><img :src="logo"></h1>
-                            <play_btn :artist=artist></play_btn>
-                            <queue_btn :artist=artist></queue_btn>
-                            <edit_btn :artist=artist></edit_btn>
-                        </div>
-                    
+            <div class="backdrop">
+                <div class="image-backdrop artist-backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }"></div>
+            </div>
+            <section>
+                <div class="actions">
+                    <play_btn :artist=artist></play_btn>
+                    <queue_btn :artist=artist></queue_btn>
+                    <edit_btn :artist=artist></edit_btn>
+                </div>
+                <div class="detail-info-wrapper">
+                    <div class="detail-art">
+                        <img :src="cover">
+                    </div>
+                    <div class="detail-info">
+                        <h1 class="artist-name" v-if="logo == null">{{ artist.name }}</h1>
+                        <h1 class="artist-name" v-if="logo != null"><img :src="logo"></h1>
                         <div class="meta">
                             <i class="material-icons">album</i>{{ artist.albums.length }}</li>
-                        </div>
-                        <div class="meta">
                             <i class="material-icons" v-if="genres">receipt</i>{{ genres }}</li>
                         </div>
                         <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
