@@ -15,7 +15,7 @@
     z-index:-1;
     @include make-gutters(margin);
     + section {
-      margin-top: 40vmin;
+      margin-top: 30vmin;
       background: transparent;
       z-index: 1;
     }
@@ -58,7 +58,8 @@
         height: auto;
       }
     }
-    .detail-details {
+    .detail-info {
+      flex: 1 1 calc(100% - 220px);
       > * {
         padding: 10px 0;
       }
@@ -83,6 +84,9 @@
       color: map_get(theme-color('primary'), 'color');
       text-shadow: 1px 1px map_get(theme-color('light'), 'color');
       text-transform: capitalize;
+      img {
+        width: 100%;
+      }
     }
     @include media-breakpoint-down(xs) {
       margin: 100px 20px 20px 20px;
@@ -122,6 +126,18 @@
         i {
           font-size: 1.75rem;
         }
+      }
+    }
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    margin: 0.25rem 0;
+    > i {
+      margin: 0 0.25rem;
+      color: map_get(theme-color('secondary'),'color');
+      &:first-child {
+        margin-left: 0;
       }
     }
   }

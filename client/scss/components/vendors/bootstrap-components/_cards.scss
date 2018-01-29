@@ -2,7 +2,7 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   text-decoration: none;
-  color: $body-color;
+  color: map_get(theme-color('primary'),'color');
   &::after {
     content: '';
     position: absolute;
@@ -29,7 +29,7 @@
     padding: 0.5rem;
   }
   .card-block {
-    padding: 0 0.5rem;
+    padding: 0 0.5rem 0.5rem;
   }
   .card-subtitle,
   .card-title {
@@ -43,12 +43,15 @@
     }
   }
   .card-title {
+    font-size: 1rem;
     @extend .text-truncate;
     @extend .align-top;
+    color: map_get(theme-color('primary'),'color');
   }
   .card-subtitle {
-    padding-top: 0;
-    padding-bottom: 0.5rem;
+    color: map_get(theme-color('primary'),'lighter');
+    display: flex;
+    align-items: center;
   }
 
 }

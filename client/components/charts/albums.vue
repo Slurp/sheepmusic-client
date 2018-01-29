@@ -1,7 +1,6 @@
 <template>
     <div class="stats">
         <div class="stats__data">
-            <h3></h3>
             <ul>
                 <li><strong>Total Albums:</strong>{{ totalAlbums }}</li>
             </ul>

@@ -1,18 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-
-// Promised based routing
-// Is really buggy at the moment..
-// const AlbumOverview = () => import('components/albums/overview')
-// const ArtistOverview = () => import('components/artists/overview')
-// const PlaylistOverview = () => import('components/playlists/overview')
-// const AlbumDetail = () => import('components/albums/detail')
-// const ArtistDetail = () => import('components/artists/detail')
-// const PlaylistDetail = () => import('components/playlists/detail')
-// const SearchResults = () => import('components/search/search-results')
-// const UserProfile = () => import('components/user/profile')
-// const Charts = () => import('components/charts/charts')
-
 import AlbumOverview from 'components/albums/overview'
 import ArtistOverview from 'components/artists/overview'
 import PlaylistOverview from 'components/playlists/overview'
@@ -27,6 +14,18 @@ import Charts from 'components/charts/charts'
 
 import Login from 'components/pages/login'
 import NotFound from 'components/not-found.vue'
+
+// Promised based routing
+// Is really buggy at the moment..
+// const AlbumOverview = () => import('components/albums/overview')
+// const ArtistOverview = () => import('components/artists/overview')
+// const PlaylistOverview = () => import('components/playlists/overview')
+// const AlbumDetail = () => import('components/albums/detail')
+// const ArtistDetail = () => import('components/artists/detail')
+// const PlaylistDetail = () => import('components/playlists/detail')
+// const SearchResults = () => import('components/search/search-results')
+// const UserProfile = () => import('components/user/profile')
+// const Charts = () => import('components/charts/charts')
 
 Vue.use(VueRouter)
 
@@ -170,5 +169,16 @@ export default new VueRouter({
       path: '*',
       component: NotFound
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    }
+    if (to.hash) {
+      return {
+        selector: to.hash
+      }
+    }
+    return { x: 0, y: 0 }
+  }
 })

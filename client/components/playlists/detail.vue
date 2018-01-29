@@ -1,5 +1,5 @@
 <template>
-    <div class="library-detail" :id="playlist.id" v-if="playlist && playlist.songs">
+    <div class="library-detail" :id="playlist.id" v-if="playlist">
         <breadcrumbs></breadcrumbs>
         <div class="backdrop">
             <div class="image-backdrop" v-bind:style="{ 'background-image': 'url(' + cover + ')' }"></div>
@@ -24,7 +24,7 @@
                 </div>
             </div>
         </section>
-        <song-list v-if="playlist.songs" :songs="playlist.songs"></song-list>
+        <song-list :songs="playlist.songs"></song-list>
     </div>
 </template>
 
@@ -59,7 +59,7 @@
         return this.$store.getters['playlists/getPlaylistById'](this.id)
       },
       playlistDuration () {
-        if (this.playlist && this.playlist.songs) {
+        if (this.playlist && this.playlist.songs !== 'undefined') {
           return secondsToHis(this.playlist.songs.map(song => song ? song.length:0).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
         }
         return null

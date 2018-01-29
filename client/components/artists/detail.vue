@@ -19,8 +19,8 @@
                         <h1 class="artist-name" v-if="logo == null">{{ artist.name }}</h1>
                         <h1 class="artist-name" v-if="logo != null"><img :src="logo"></h1>
                         <div class="meta">
-                            <i class="material-icons">album</i>{{ artist.albums.length }}</li>
-                            <i class="material-icons" v-if="genres">receipt</i>{{ genres }}</li>
+                            <i class="material-icons">album</i>{{ artist.albums.length }}
+                            <i class="material-icons" v-if="genres">receipt</i>{{ genres }}
                         </div>
                         <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
                     </div>
