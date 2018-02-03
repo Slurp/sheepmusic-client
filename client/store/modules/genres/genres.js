@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import artists from 'root/store/modules/artists/artists'
 
 const state = {
   genres: [],
@@ -43,7 +42,7 @@ const actions = {
 const mutations = {
   ADD_GENRES: (state, { genres }) => {
     for (const genre of genres) {
-      if (state.genres[genre.id] == null || state.genres[genre.id].albums == null) {
+      if (!state.genres[genre.id] || state.genres[genre.id].fullyLoaded === false) {
         genre.fullyLoaded = false
         Vue.set(state.genres, genre.id, genre)
       }
@@ -97,7 +96,7 @@ const getters = {
   getGenresByLetter: state => letter => {
     console.log(letter)
     return state.genres.filter(genre => {
-      return genre.name[0].toLowerCase() === letter
+      return (genre.name[0] && genre.name[0].toLowerCase() === letter)
     })
   },
   getGenres: state => {

@@ -2,9 +2,7 @@
 
     <router-link :to="detailLink"
                  class="card card__overview">
-        <img class="card-img-top" v-if="hasCover" :src="cover" :alt="album.name"/>
-        <img class="card-img-top" v-else src="/media/general/default.png"/>
-
+        <img class="card-img-top"  :src="cover" :alt="album.name"/>
         <div class="card-body has-sheet">
             <div class="fixed-action-btn"
                  v-bind:class="{ active: openSheet }">

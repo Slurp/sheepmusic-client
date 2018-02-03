@@ -95,6 +95,7 @@
   import Notifications from 'services/notifications'
   import Toaster from 'services/toast'
   import { secondsToHis } from 'services/time'
+  import config from 'config/index';
 
   export default {
     name: 'player',
@@ -105,7 +106,6 @@
         blackSheepPlayer: null,
         toast: new Toaster(),
         muted: false,
-        cover: '/media/general/default.png',
         appTitle: document.title,
         loaded: 0,
         seek: 0,
@@ -155,7 +155,6 @@
       //  */
       this.blackSheepPlayer.on('end', () => {
         document.title = `BSM ♫`
-        console.log('ended')
         this.$store.dispatch('songs/playedSong', this.song)
         this.seek = 0
         this.duration = 0
@@ -197,6 +196,12 @@
         }
         return '/'
       },
+      cover() {
+        if (this.song && this.song.album.cover) {
+          return new URL(this.song.album.cover,config.baseUrl);
+        }
+        return config.defaultCover;
+      },
       detailAlbum () {
         if (this.song) {
           return {
@@ -221,10 +226,6 @@
         this.nextSong = null
         if (oldSong == null || newSong.id !== oldSong.id || this.song == null) {
           this.song = newSong
-          this.cover = 'media/general/default.png'
-          if (this.song.album.cover !== null) {
-            this.cover = this.song.album.cover
-          }
           if(this.playing) {
             this.stop();
           }
