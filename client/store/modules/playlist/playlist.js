@@ -62,7 +62,7 @@ const actions = {
       data.append('songs[]', song.id)
     }
 
-    return Vue.axios.post(`app_dev.php/api/save/playlist`, data).then(response => {
+    return Vue.axios.post(`/api/save/playlist`, data).then(response => {
       commit('SAVE', { title: response.name })
       return response
     }).catch(e => {

@@ -2,7 +2,7 @@
     <div v-bind:class="loginScreen">
         <navbar v-if="$auth.check()"></navbar>
         <sidebar v-if="$auth.check() && loaded && !loading"></sidebar>
-        <div class="container-fluid" v-if="!loading">
+        <div class="container-fluid" v-if="loaded && !loading">
             <main class="router-view" role="main">
                 <div class="left-column">
                     <router-view></router-view>

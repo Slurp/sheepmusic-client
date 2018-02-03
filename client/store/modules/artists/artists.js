@@ -22,7 +22,7 @@ const actions = {
   },
   loadArtist({ commit, state }, artistId) {
     if (state.artists[artistId] == null || state.artists[artistId].fullyLoaded === false) {
-      Vue.axios.get(`app_dev.php/api/artist/` + artistId).then(response => {
+      Vue.axios.get(`/api/artist/` + artistId).then(response => {
         commit('ADD_ARTIST', { artist: response.data, index: artistId })
       }, err => {
         console.log(err)
@@ -30,7 +30,7 @@ const actions = {
     }
   },
   updateArtist({ commit, state }, artistId) {
-    Vue.axios.get(`app_dev.php/api/artist/update/` + artistId).then(response => {
+    Vue.axios.get(`/api/artist/update/` + artistId).then(response => {
       commit('ADD_ARTIST', { artist: response.data, index: artistId })
     }, err => {
       console.log(err)
