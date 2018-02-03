@@ -1,6 +1,6 @@
 <template>
     <li>
-        <img :src="song.album.cover">
+        <cover :id="song.album.id"></cover>
         <div class="playlist-item-info">
             <h5>{{ song.title }}</h5>
             <h6>{{ song.artist.name }} - {{ song.album.name }}</h6>
@@ -16,8 +16,12 @@
     </li>
 </template>
 <script>
+  import cover from 'components/albums/cover'
   export default {
     props: ['song','index'],
+    components: {
+      cover,
+    },
     methods: {
       select: function (event) {
         this.$store.dispatch('playlist/selectSong', this.index)

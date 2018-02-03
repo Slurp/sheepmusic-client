@@ -21,7 +21,7 @@ Vue.use(Auth, {
     url: 'api/token/refresh',
     method: 'GET',
     enabled: true,
-    interval: 30
+    interval: 28
   },
   parseUserData(data) {
     return data

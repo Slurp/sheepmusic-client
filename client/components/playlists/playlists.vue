@@ -75,7 +75,7 @@
         if (this.hasCover) {
           return config.baseUrl+"/"+this.playlist.cover
         }
-        return '/media/general/default.png'
+        return config.defaultCover
       },
       detailLink () {
         return {
