@@ -2,7 +2,7 @@
 
     <router-link :to="detailLink"
                  class="card card__overview">
-        <img class="card-img-top" v-if="hasCover" :src="album.cover" :alt="album.name"/>
+        <img class="card-img-top" v-if="hasCover" :src="cover" :alt="album.name"/>
         <img class="card-img-top" v-else src="/media/general/default.png"/>
 
         <div class="card-body has-sheet">
@@ -36,6 +36,7 @@
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
   import Toaster from 'services/toast'
+  import config from 'config/index'
 
   export default {
     props: ['album', 'albumId'],
@@ -79,6 +80,12 @@
     computed: {
       hasCover () {
         return (this.loadedAlbum && this.album.cover)
+      },
+      cover() {
+        if (this.hasCover) {
+          return new URL(this.album.cover,config.baseUrl);
+        }
+        return config.defaultCover;
       },
       loadedAlbum () {
         return (this.loaded && (this.album !== null && this.album.fullyLoaded))

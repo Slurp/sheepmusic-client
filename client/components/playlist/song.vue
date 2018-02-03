@@ -1,6 +1,6 @@
 <template>
     <li>
-        <img :src="song.album.cover">
+        <img :src="cover">
         <div class="playlist-item-info">
             <h5>{{ song.title }}</h5>
             <h6>{{ song.artist.name }} - {{ song.album.name }}</h6>
@@ -16,6 +16,7 @@
     </li>
 </template>
 <script>
+    import config from 'config/index';
   export default {
     props: ['song','index'],
     methods: {
@@ -25,7 +26,16 @@
       remove: function (event) {
         this.$store.dispatch('playlist/removeSong', this.index)
       }
+    },
+    computed: {
+      cover() {
+        if (this.song.album.cover) {
+          return new URL(this.song.album.cover,config.baseUrl);
+        }
+        return config.defaultCover;
+      }
     }
+
   }
 </script>
 <style>
