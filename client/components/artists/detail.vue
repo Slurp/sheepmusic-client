@@ -103,12 +103,10 @@
         if (this.$store.getters['artists/getThumbForArtist'](this.id)) {
           return this.$store.getters['artists/getThumbForArtist'](this.id)
         }
-        if (this.artist.image && this.artist.image !== '') {
+        if (this.artist.image !== '') {
           return this.artist.image
         }
-        if (this.artist.albumArt) {
-          return this.artist.albumArt
-        }
+        return this.artist.albumArt
 
       },
       background () {

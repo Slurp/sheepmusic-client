@@ -52,7 +52,7 @@
                 </div>
                 <div class="player-info">
 
-                    <cover :song="song" class='song-image'></cover>
+                    <img :src="cover" class='song-image'>
                     <div class="now-playing">
                         <h3 class="title" v-if="song">{{ song.title }}</h3>
                         <p class="meta" v-if="song">
@@ -92,16 +92,12 @@
 </template>
 <script>
   import BlackSheepPlayer from 'components/BSAudioSuite/player'
-  import cover from 'components/albums/cover'
   import Notifications from 'services/notifications'
   import Toaster from 'services/toast'
   import { secondsToHis } from 'services/time'
 
   export default {
     name: 'player',
-    components: {
-      cover,
-    },
     data () {
       return {
         song: null,

@@ -1,7 +1,7 @@
 <template>
     <section class="user-profile__lastfm">
         <div class="card">
-            <ul class="list-group list-group-flush">
+            <ul class="list-group list-group-flush" v-if="lastfm.user_name">
                 <li class="list-group-item"><strong>Username:</strong>{{ lastfm.user_name }}</li>
                 <li class="list-group-item"><strong>Token:</strong>{{ lastfm.token }}</li>
             </ul>
@@ -52,7 +52,8 @@
     },
     methods: {
       getTokenLastFm (refresh) {
-        this.axios.get(`/api/lastfm/token/${refresh}`).then((response) => {
+        const url = `/api/lastfm/token/${refresh}`
+        this.axios.get(url).then((response) => {
           console.log(response)
           this.lastFmAuth = response.data
           this.lastFmUrl = `http://www.last.fm/api/auth/?api_key=${this.lastFmAuth.key}&token=${this.lastFmAuth.lastfm_token}`

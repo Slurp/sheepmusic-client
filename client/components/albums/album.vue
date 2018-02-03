@@ -2,7 +2,9 @@
 
     <router-link :to="detailLink"
                  class="card card__overview">
-        <cover :album="album" class='card-img-top'></cover>
+        <img class="card-img-top" v-if="hasCover" :src="album.cover" :alt="album.name"/>
+        <img class="card-img-top" v-else src="/media/general/default.png"/>
+
         <div class="card-body has-sheet">
             <div class="fixed-action-btn"
                  v-bind:class="{ active: openSheet }">
@@ -33,15 +35,13 @@
 <script>
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
-  import cover from 'components/albums/cover'
   import Toaster from 'services/toast'
 
   export default {
     props: ['album', 'albumId'],
     components: {
       play_btn,
-      queue_btn,
-      cover
+      queue_btn
     },
     data () {
       return {
@@ -61,8 +61,7 @@
     },
     methods: {
       getAlbumDetails () {
-        console.log(this.album.fullyLoaded)
-        if (this.album == null || this.album.fullyLoaded === false) {
+        if (this.album == null || this.album.fullyLoaded == false) {
           this.loaded = false
           this.$store.dispatch('albums/loadAlbum', this.albumId).then(() => {
             this.loaded = true

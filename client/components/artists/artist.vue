@@ -82,7 +82,7 @@
       },
       cover () {
         if (this.hasCover) {
-          if (this.artist.image && this.artist.image !== '') {
+          if (this.artist.image !== '') {
             return this.artist.image
           }
           return this.artist.albumArt
