@@ -20,8 +20,29 @@ const actions = {
       })
     })
   },
+  async loadArtistCollection({ commit }, artists) {
+    return new Promise((resolve, reject) => {
+      const collection = artists.filter(artist => (!state.artists[artist.id] || state.artists[artist.id].fullyLoaded === false));
+      if (collection.length > 0) {
+        const data = collection.reduce((formData, object) => {
+          formData.append('objects[]', object.id)
+          return formData
+        }, new FormData())
+        return Vue.axios.post(`app_dev.php/api/artist_collection`, data).then(response => {
+          response.data.forEach((artistData) => commit('ADD_ARTIST', {
+            artist: artistData,
+            index: artistData.id
+          }))
+          resolve()
+        }, err => {
+          reject(err)
+        })
+      }
+      resolve()
+    })
+  },
   loadArtist({ commit, state }, artistId) {
-    if (state.artists[artistId] == null || state.artists[artistId].fullyLoaded === false) {
+    if (!state.artists[artistId] || state.artists[artistId].fullyLoaded === false) {
       Vue.axios.get(`/api/artist/` + artistId).then(response => {
         commit('ADD_ARTIST', { artist: response.data, index: artistId })
       }, err => {

@@ -94,7 +94,6 @@ const getters = {
     return state.genres.length
   },
   getGenresByLetter: state => letter => {
-    console.log(letter)
     return state.genres.filter(genre => {
       return (genre.name[0] && genre.name[0].toLowerCase() === letter)
     })
