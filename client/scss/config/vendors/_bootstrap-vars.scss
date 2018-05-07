@@ -28,8 +28,8 @@ $grid-gutter-widths: (
 
 $theme-color-interval: 8% !default;
 
-$link-color: map_get(theme-color('secondary'),color);
-$link-hover-color : map_get(theme-color('secondary'),'scondary');
+$link-color: theme-color('secondary');
+$link-hover-color : theme-color-dark('secondary');
 $link-hover-decoration: none;
 
 $paragraph-margin-bottom : 1rem;
@@ -37,7 +37,7 @@ $paragraph-margin-bottom : 1rem;
 $table-cell-padding:            .75rem !default;
 $table-cell-padding-sm:         .3rem !default;
 
-$text-color: map_get(theme-color(),color);
+$text-color: theme-color();
 $hr-color: $gray-200;
 
 $font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
@@ -52,5 +52,5 @@ $navbar-light-toggler-icon-bg: str-replace(url("data:image/svg+xml;charset=utf8,
 $navbar-light-toggler-border-color: rgba($white,.1) !default;
 $navdrawer-width: 3.12rem;
 // Cards
-$card-border-color:        rgba(map_get(theme-color(),color),.25);
+$card-border-color:        rgba(theme-color(),.25);
 

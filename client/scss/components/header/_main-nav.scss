@@ -12,14 +12,14 @@
     background-image: $navbar-light-toggler-icon-bg;
   }
   i {
-    color:map_get(theme-color('secondary'),color);
+    color:theme-color('secondary');
   }
   .navbar-nav {
     margin: 0;
     .nav-item {
       transition: all .4s;
       > .nav-link {
-        color:map_get(theme-color('secondary'),color);
+        color:theme-color('secondary');
         position: relative;
         font-family: $font-family-base;
         font-weight: 600;
@@ -28,7 +28,7 @@
           text-decoration: none;
         }
         &:before {
-          background-color: map_get(theme-color('secondary'),color);
+          background-color: theme-color('secondary');
           content: "";
           height: 3px;
           left: 0;

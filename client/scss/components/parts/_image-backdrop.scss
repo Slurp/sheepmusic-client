@@ -6,10 +6,11 @@
   @include make-row();
   &.no-image {
     .info-bar {
-      color: map_get(theme-color('secondary'),color);
-      text-shadow: -1px -1px 1px rgba(map_get(theme-color('light'),lighter),0.4);
+      color: theme-color('primary');
+      text-shadow: 0 2px $white;
       &:before {
-        background-color: map_get(theme-color('primary'),lighter);
+        border-bottom: 4px solid theme-color('secondary');
+        background: theme-color-light('light');
       }
     }
   }

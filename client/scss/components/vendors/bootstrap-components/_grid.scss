@@ -1,6 +1,19 @@
 // Container widths
-//
+// Make row
+
+@mixin make-row() {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: ($grid-gutter-width / -2);
+  margin-left: ($grid-gutter-width / -2);
+}
+
 // Set the container width, and override it for fixed navbars in media queries.
+@mixin make-gutters() {
+  padding-right: ($grid-gutter-width / 2);
+  padding-left: ($grid-gutter-width / 2);
+
+}
 @mixin make-col-ready() {
   position: relative;
   // Prevent columns from becoming too narrow when at smaller grid tiers by
@@ -49,42 +62,28 @@
 
 .list {
   @include make-row();
-  padding: $grid-gutter-width-base / 2 0;
+  padding: $grid-gutter-width 0;
   .col {
-    transition: opacity, height 1s ease;
+    transition: opacity 0.3s ease;
     display: flex;
     flex-direction: column;
-    @include make-col-ready;
+    @include make-col-ready();
     @include media-breakpoint-up(sm) {
-      @include make-col(12/3);
+      @include make-col(12/2);
     }
     @include media-breakpoint-up(md) {
-      @include make-col(12/4);
+      @include make-col(12/3);
     }
     @include media-breakpoint-up(lg) {
-      @include make-col(12/6);
+      @include make-col(12/4);
     }
     @include media-breakpoint-up(xl) {
-      @include make-col(12/8);
-    }
-    .playlist-show &{
-      @include media-breakpoint-up(sm) {
-        @include make-col(4);
-      }
-      @include media-breakpoint-up(md) {
-        @include make-col(3);
-      }
-      @include media-breakpoint-up(lg) {
-        @include make-col(12/4);
-      }
-      @include media-breakpoint-up(xl) {
-        @include make-col(2);
-      }
+      @include make-col(12/5);
     }
 
     .card {
       flex: 1;
-      margin-bottom: $grid-gutter-width-base;
+      margin-bottom: $grid-gutter-width;
     }
   }
 }
@@ -103,9 +102,15 @@
 }
 .playlist-show {
   .left-column {
-    @include make-col(6);
+    @include make-col(7);
     @include media-breakpoint-up(sm) {
-      @include make-col(9);
+      @include make-col(7.5);
+    }
+    @include media-breakpoint-up(md) {
+      @include make-col(8.5);
+    }
+    @include media-breakpoint-up(lg) {
+      @include make-col(9.5);
     }
   }
 }

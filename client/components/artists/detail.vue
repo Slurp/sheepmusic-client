@@ -6,31 +6,52 @@
                 <div class="image-backdrop artist-backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }"></div>
             </div>
             <section>
-                <div class="actions">
-                    <play_btn :artist=artist></play_btn>
-                    <queue_btn :artist=artist></queue_btn>
-                    <edit_btn :artist=artist></edit_btn>
-                </div>
+
                 <div class="detail-info-wrapper">
                     <div class="detail-art">
-                        <img :src="cover">
+                        <div class="detail-art-img">
+                            <img :src="cover">
+                        </div>
                     </div>
                     <div class="detail-info">
+                        <div class="actions">
+                            <play_btn :artist=artist></play_btn>
+                            <queue_btn :artist=artist></queue_btn>
+                            <edit_btn :artist=artist></edit_btn>
+                        </div>
                         <h1 class="artist-name" v-if="logo == null">{{ artist.name }}</h1>
                         <h1 class="artist-name" v-if="logo != null"><img :src="logo"></h1>
                         <div class="meta">
-                            <i class="material-icons">album</i>{{ artist.albums.length }}
-                            <i class="material-icons" v-if="genres">receipt</i>{{ genres }}
+                            <span class="chip"><span class="chip-icon"><i class="material-icons">album</i></span>{{ artist.albums.length }}</span>
+                            <span class="chip" v-if="genres" v-for="genre in genres">
+                                <span class="chip-icon"><i class="material-icons">receipt</i></span>
+                                <router-link
+                                        :to="{ name: 'detail_genres', params: { genre: genre.name, id: genre.id }}">
+                                    {{ genre.name }}
+                                </router-link>
+                            </span>
                         </div>
                         <truncate clamp="..." :length="90" less="Show Less" :text="artist.biography"></truncate>
                     </div>
                 </div>
+                <section class="list">
+                    <h2 class="section-header">Albums</h2>
+                    <div class="col" v-for="album in albums" :key="album.id">
+                        <album :album-id=album.id :album=storedAlbum(album.id) :key="album.id"></album>
+                    </div>
+                </section>
+
+                <section class="list" v-if="artist.similar">
+                    <h2 class="section-header">Similar Artists</h2>
+                    <div class="col" v-for="similarArtist in artist.similar" :key="similarArtist">
+                        <artist-card :artist-id=similarArtist :artist=storedArtist(similarArtist) :key="similarArtist"></artist-card>
+                    </div>
+                </section>
+
             </section>
-            <section class="list">
-                <div class="col" v-for="album in albums" :key="album.id">
-                    <album :album-id=album.id :album=storedAlbum(album.id) :key="album.id"></album>
-                </div>
-            </section>
+
+
+
         </div>
         <div class="progress-circular progress-circular-secondary" v-else>
             <div class="progress-circular-wrapper">
@@ -53,16 +74,19 @@
   import songList from 'components/songs/list'
   import breadcrumbs from 'components/misc/breadcrumbs'
   import album from 'components/albums/album'
+  import artistCard from 'components/artists/artist'
   import truncate from './bio'
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
   import edit_btn from './edit-btn'
+  import config from 'config/index'
 
   export default {
     components: {
       songList,
       breadcrumbs,
       album,
+      artistCard,
       truncate,
       play_btn,
       queue_btn,
@@ -82,19 +106,15 @@
       storedAlbum (albumId) {
         return this.$store.getters['albums/getAlbumById'](albumId)
       },
+      storedArtist (artistId) {
+        console.log(artistId)
+        console.log(this.$store.getters['artists/getArtistById'](artistId))
+        return this.$store.getters['artists/getArtistById'](artistId)
+      },
     },
     computed: {
       genres () {
-        return this.artist.genres.reduce(function (prevVal, elem, index, array) {
-          console.log(index)
-          if(index < 5) {
-            if (array.length - 1 > index && index < 4) {
-              return prevVal + elem.name + ', '
-            }
-            return prevVal + elem.name
-          }
-          return prevVal
-        }, '')
+        return this.artist.genres
       },
       logo () {
         return this.$store.getters['artists/getLogoForArtist'](this.id)
@@ -103,15 +123,21 @@
         if (this.$store.getters['artists/getThumbForArtist'](this.id)) {
           return this.$store.getters['artists/getThumbForArtist'](this.id)
         }
-        if (this.artist.image !== '') {
-          return this.artist.image
+        if (this.artist.image && this.artist.image !== '') {
+          return new URL(this.artist.image,config.baseUrl)
         }
-        return this.artist.albumArt
+        if (this.artist.albumArt && this.artist.albumArt !== '') {
+          return new URL(this.artist.albumArt, config.baseUrl)
+        }
+        return config.defaultCover;
 
       },
       background () {
         if (this.$store.getters['artists/getBackgroundForArtist'](this.id)) {
           return this.$store.getters['artists/getBackgroundForArtist'](this.id)
+        }
+        if (this.$store.getters['artists/getBannerForArtist'](this.id)) {
+          return this.$store.getters['artists/getBannerForArtist'](this.id)
         }
         return this.artist.albumArt
       },

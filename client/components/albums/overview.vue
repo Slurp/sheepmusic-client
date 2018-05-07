@@ -18,7 +18,7 @@
             </li>
         </ul>
         <transition-group name="list" tag="div" class="list">
-            <div class="col" v-for="album in albumPage" :key="album.id" :name="album.id">
+            <div class="col" v-for="album in albums" :key="album.id" :name="album.id">
                 <album :album-id=album.id :album=album :key="album.id"></album>
             </div>
         </transition-group>
@@ -43,7 +43,7 @@
     },
     data () {
       return {
-        loadAlbums: false,
+        loadedAlbums: false,
         toast: new Toaster(),
       }
     },
@@ -53,7 +53,7 @@
     beforeDestroy () {
       this.toast = null
       delete this.toast
-      delete this.loadAlbums
+      delete this.loadedAlbums
     },
 
     watch: {
@@ -62,7 +62,21 @@
       }
     },
     computed: {
+      albums () {
+        if (this.albumPage) {
+          this.$store.dispatch('albums/loadAlbumCollection', this.albumPage).then(() => {
+            this.loadedAlbums = true
+          }).catch(() => {
+            this.loadedAlbums = true
+          })
+        }
+        if(this.loadedAlbums) {
+          return this.albumPage
+        }
+        return null
+      },
       albumPage () {
+        this.loadedAlbums = false;
         return this.$store.getters['albums/albums']
       },
       totalAlbums () {

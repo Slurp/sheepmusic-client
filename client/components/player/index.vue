@@ -50,20 +50,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="player-info">
-
-                    <img :src="cover" class='song-image'>
-                    <div class="now-playing">
-                        <h3 class="title" v-if="song">{{ song.title }}</h3>
-                        <p class="meta" v-if="song">
-                            <router-link class="artist" :to=detailArtist>{{ song.artist.name }}</router-link>
-                            –
-                            <router-link class="album" :to=detailAlbum>{{ song.album.name }}</router-link>
-                        </p>
-                    </div>
-
-
-                </div>
+                <player-info></player-info>
                 <div class="player-desktop-controls">
                     <button class="player__button" type='button' data-plyr='mute'>
                         <i class='material-icons icon--muted' v-if="muted">volume_off</i>
@@ -71,12 +58,13 @@
                         <span class='plyr__sr-only'>Toggle Mute</span>
                     </button>
                     <span class="plyr__volume">
-                  <label for="volume{id}" class="plyr__sr-only">Volume</label>
-                    <input type="range" id="volumeRange" max="10" step="0.1"
-                           class="plyr__volume__input"
-                           @input="setVolume"
-                    >
-                </span>
+                      <label for="volume{id}" class="plyr__sr-only">Volume</label>
+                        <input type="range" id="volumeRange" max="10" step="0.1"
+                               class="plyr__volume__input"
+                               @input="setVolume"
+                        >
+
+                    </span>
                 </div>
             </div>
         </div>
@@ -95,10 +83,15 @@
   import Notifications from 'services/notifications'
   import Toaster from 'services/toast'
   import { secondsToHis } from 'services/time'
-  import config from 'config/index';
+  import playerInfo from './player-info'
+  import playerVolume from './player-volume'
 
   export default {
     name: 'player',
+    components : {
+      playerInfo,
+      playerVolume
+    },
     data () {
       return {
         song: null,
@@ -190,27 +183,7 @@
       repeatMode () {
         return this.repeatStatus = this.$store.getters['playlist/repeatMode']
       },
-      detailArtist () {
-        if (this.song) {
-          return this.$store.getters['artists/detailLink'](this.song.artist)
-        }
-        return '/'
-      },
-      cover() {
-        if (this.song && this.song.album.cover) {
-          return new URL(this.song.album.cover,config.baseUrl);
-        }
-        return config.defaultCover;
-      },
-      detailAlbum () {
-        if (this.song) {
-          return {
-            name: 'detail_album',
-            params: { artist: this.song.artist.name, album: this.song.album.name, id: this.song.album.id }
-          }
-        }
-        return '/'
-      },
+
       progress () {
         if (this.mouseDownProgress) {
           return this.variableSeek * 100

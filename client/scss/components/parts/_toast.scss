@@ -1,6 +1,6 @@
 .toast-view {
-  background-color: map_get(theme-color('dark'),color);
-  color: map_get(theme-color('light'),color);
+  background-color: theme-color('dark');
+  color: theme-color('light');
   @extend .z-depth-2;
   border-radius: 3px;
   padding: 15px;

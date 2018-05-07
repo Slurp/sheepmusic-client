@@ -17,11 +17,15 @@
   .brand-logo {
     transition: all 0.3s linear;
     display: block;
-    height:32px;
-    width: 32px;
     background: url('#{$general}/logo.svg') no-repeat;
-    background-size: contain;
+    background-size: 32px 32px;
     background-position: center;
+    background-color: theme-color('secondary');
+    margin-left: -1rem;
+    padding:1rem;
+    width: $navdrawer-width;
+    height: 56px;
+    border: 1px solid theme-color('secondary');
   }
 }
 
@@ -34,7 +38,7 @@
   z-index: $zindex-sticky;
   &.navbar {
     transition: all 0.3s linear;
-    background-color: map_get(theme-color(),color);
+    background-color: theme-color();;
     width: 100% !important;
   }
   &.is-sticky {
@@ -51,7 +55,7 @@
     width: 100%;
     border-radius: 0;
     &.navbar {
-      background-color: map_get(theme-color(),color);
+      background-color: theme-color();;
       box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16);
       .navbar-collapse {
         margin-top: 0;
@@ -60,7 +64,7 @@
             padding-top: $nav-link-padding-y;
             color: $link-color;
             &:before {
-              background-color: map_get(theme-color('secondary'),color);
+              background-color: theme-color('secondary');
             }
           }
         }

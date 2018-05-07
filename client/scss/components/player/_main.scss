@@ -100,12 +100,12 @@
       display: flex;
       padding-bottom: 3px;
       a {
-        color: map_get(theme-color('light'), 'color');
+        color: theme-color('light');
         font-size: 13px;
         margin: 0;
       }
       a:hover {
-        color: map_get(theme-color('secondary'), 'color');
+        color: theme-color('secondary');
       }
     }
     .title {
@@ -113,7 +113,7 @@
       text-transform: capitalize;
       flex: 1 1 100%;
       font-size: 1rem;
-      color: map_get(theme-color('light'), 'color');
+      color: theme-color('light');
       margin-bottom: 0;
       line-height: 1.9rem;
     }
@@ -136,7 +136,7 @@
   position: absolute;
   top: -5px;
   left: $navdrawer-width;
-  right: percentage(3 / $grid-columns);
+  right: percentage(2.5 / $grid-columns);
   @include media-breakpoint-up(sm) {
     //right: 5rem;
   }

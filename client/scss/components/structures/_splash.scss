@@ -7,7 +7,7 @@
 }
 
 .splash--primary {
-    background-color: map_get(theme-color('secondary'),color);
+    background-color: theme-color('secondary');
 }
 
 .splash--gray-lighter {

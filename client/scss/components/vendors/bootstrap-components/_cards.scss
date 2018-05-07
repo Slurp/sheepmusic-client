@@ -2,7 +2,7 @@
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   text-decoration: none;
-  color: map_get(theme-color('primary'),'color');
+  color: theme-color('primary');
   &::after {
     content: '';
     position: absolute;
@@ -13,7 +13,7 @@
     opacity: 0;
     border-radius: 5px;
     @extend .z-depth-1-half;
-    transition: opacity 0.5s ease;
+    transition: all 0.5s ease;
   }
   &:hover {
     &::after {
@@ -21,37 +21,69 @@
     }
   }
   .card-img-top {
-    border-bottom:1px solid $card-border-color;
     height: auto;
     width: 100%;
   }
   .card-body {
-    padding: 0.5rem;
+    padding: 1rem;
+    display: flex;
+
   }
   .card-block {
-    padding: 0 0.5rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
   }
   .card-subtitle,
   .card-title {
+    flex: 1;
     text-decoration: none;
-    font-size: 0.8rem;
-    line-height: 1;
-    padding: 0.25rem;
-    margin: 0;
     &:hover {
       text-decoration: none;
     }
   }
   .card-title {
     font-size: 1rem;
-    @extend .text-truncate;
-    @extend .align-top;
-    color: map_get(theme-color('primary'),'color');
+    color: theme-color-dark('primary');
+    margin-bottom: 0.1rem;
   }
   .card-subtitle {
-    color: map_get(theme-color('primary'),'lighter');
+    font-size: 0.8rem;
+    color: theme-color-light('primary');
     display: flex;
     align-items: center;
+    margin-top: 0;
   }
+  .card-img-overlay.has-sheet {
+    position: absolute;
+    top:0;
+    padding: 0rem;
+    border-top: none;
+    display: flex;
+    .card-block {
+      width: 100%;
+      background: rgba(theme-color('light'),0.5);
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      margin-top: auto;
+      padding-right: 32px;
+    }
+    .card-title {
+      margin-top: auto;
+      color: theme-color('primary');
+    }
+    .card-subtitle {
+      color: theme-color('secondary');
 
+    }
+    .fixed-action-btn {
+      top:auto;
+      bottom: 5px;
+      padding: 0 5px;
+    }
+  }
 }

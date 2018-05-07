@@ -1,14 +1,14 @@
 .info-bar {
   @extend .media;
   @include make-gutters();
-  color: map_get(theme-color('light'), color);
+  color: theme-color('light');
   width: 100%;
   flex-wrap: wrap;
   .info-bar-image {
     @include img-fluid();
     @extend .d-flex;
-    box-shadow: map-get($elevation-shadow-2dp, shadow);
-    border: 2px solid map_get(theme-color('light'),darker);
+    box-shadow: map-get($shadows, 2);
+    border: 2px solid theme-color-dark('light');
     z-index: 5;
     width: 50px;
     max-width: 50px;
@@ -32,7 +32,6 @@
       max-width: calc(100% - 5rem);
       font-weight: bolder;
       margin-right: auto;
-
     }
     h3 {
       font-size: $font-size-lg;
@@ -60,7 +59,7 @@
     display: flex;
     align-content: center;
     align-items: center;
-    color: map_get(theme-color('light'),darker);
+    color: theme-color-dark('light');
     i {
       margin: 0.2rem;
       &:first-child {

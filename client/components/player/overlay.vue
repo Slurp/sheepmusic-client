@@ -5,7 +5,18 @@
             <a class="btn btn-secondary btn-sm btn-float btn-close" v-on:click.stop.prevent="close"><i class="material-icons">close</i></a>
             <h1>Now playing</h1>
             <div class="album-cover">
-                <img :src="album.cover">
+                <div class="case">
+                    <div class="overlay"></div>
+                    <img class="cover"
+                         v-lazyload
+                         :alt="album.name"
+                         src="/media/general/default.png"
+                         :data-src=album.cover
+                         data-err="/media/general/default.png"/>
+                    <div class="slot">
+                    </div>
+                    <div class="vinyl"><i></i></div>
+                </div>
             </div>
             <div class="info">
                 <h3><img :src="logo" v-if="logo"><span v-else>{{ artist.name }}</span></h3>

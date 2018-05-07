@@ -29,12 +29,12 @@
         }
 
         @include focus-hover {
-            background-image: linear-gradient(to bottom, map_get(theme-color('secondary'),color), map_get(theme-color('secondary'),color));
+            background-image: linear-gradient(to bottom, theme-color('secondary'), theme-color('secondary'));
         }
 
         &:active,
         &.active {
-            background-color: map_get(theme-color('secondary'),color);
+            background-color: theme-color('secondary');
             background-image: none;
         }
     }

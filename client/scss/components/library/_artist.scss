@@ -1,7 +1,7 @@
 .artist-info {
   @extend .media;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid  rgba(map_get(theme-color('secondary'),color), 0.8);
+  border-bottom: 2px solid  rgba(theme-color('secondary'), 0.8);
 }
 .artist-bio {
   transition: all 0.5s ease-in-out;
@@ -13,13 +13,32 @@
       display: block;
     }
   }
+  &__long {
+    max-width: 100%;
+    word-break: break-all;
+  }
 }
 
-.artist-detail {
-  position: relative;
+.library-detail.artist-detail {
   .progress-circular {
     position: absolute;
     left: 50%;
     margin-top: 50vh;
+  }
+  .list {
+    .col {
+      @include media-breakpoint-up(sm) {
+        @include make-col(12/2);
+      }
+      @include media-breakpoint-up(md) {
+        @include make-col(12/2.5);
+      }
+      @include media-breakpoint-up(lg) {
+        @include make-col(12/3);
+      }
+      @include media-breakpoint-up(xl) {
+        @include make-col(12/4);
+      }
+    }
   }
 }

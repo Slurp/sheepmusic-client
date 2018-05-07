@@ -21,6 +21,18 @@ if (config.electron) {
   base.devtool = 'source-map'
 }
 
+base.mode = 'production'
+base.optimization = {
+  splitChunks: {
+    cacheGroups: {
+      commons: {
+        test: /[\\/]node_modules[\\/]/,
+        name: 'vendor',
+        chunks: 'all'
+      }
+    }
+  }
+};
 // use hash filename to support long-term caching
 base.output.filename = '[name].[chunkhash:8].js'
 // add webpack plugins
@@ -30,32 +42,14 @@ base.plugins.push(
   new webpack.DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify('production')
   }),
-  new webpack.optimize.UglifyJsPlugin({
-    sourceMap: true,
-    compress: {
-      warnings: false
-    },
-    output: {
-      comments: false
-    }
-  }),
-  // extract vendor chunks
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks: module => {
-      return module.resource && /\.(js|css|es6)$/.test(module.resource) && module.resource.indexOf('node_modules') !== -1
-    }
-  }),
-  new webpack.optimize.CommonsChunkPlugin({
-    name: 'manifest'
-  }),
   // progressive web app
   // it uses the publicPath in webpack config
   new OfflinePlugin({
     relativePaths: false,
     ServiceWorker: {
       events:true,
-      navigateFallbackURL:'/'
+      navigateFallbackURL:'/',
+      minify: false
     },
     AppCache: {
       events:true,
@@ -72,7 +66,7 @@ _.cssProcessors.forEach(processor => {
   } else {
     loaders = ['postcss-loader', processor.loader]
   }
-  base.module.loaders.push({
+  base.module.rules.push({
     test: processor.test,
     loader: ExtractTextPlugin.extract({
       use: [_.cssLoader].concat(loaders),

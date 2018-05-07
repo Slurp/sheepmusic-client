@@ -1,34 +1,34 @@
 /* ==========  Player  ========== */
-$player-bg-color : map_get(theme-color(),color);
+$player-bg-color : theme-color();;
 $player-border-color:  #263238;
-$player-txt-color : map_get(theme-color('light'),color);
-$player-button-color:map_get(theme-color('secondary'),color);
+$player-txt-color : theme-color('light');
+$player-button-color:theme-color('secondary');
 
 $plyr-font-family: $font-family-base;
-$plyr-color-main:map_get(theme-color(),color);
+$plyr-color-main:theme-color();;
 $plyr-control-spacing: 0;
 
 $plyr-audio-controls-bg:                transparent;
 $plyr-audio-controls-border:            none;
-$plyr-audio-control-color:              map_get(theme-color('secondary'),color) !default;
+$plyr-audio-control-color:              theme-color('secondary') !default;
 $plyr-audio-control-color-hover:        #fff !default;
 $plyr-audio-control-bg-hover:           $plyr-color-main;
 
-$plyr-range-selected-bg:map_get(theme-color('secondary'),color);
-$plyr-audio-range-track-bg:map_get(theme-color('dark'),color);
-$plyr-audio-control-bg-hover:map_get(theme-color('secondary'),color);
+$plyr-range-selected-bg:theme-color('secondary');
+$plyr-audio-range-track-bg:theme-color('dark');
+$plyr-audio-control-bg-hover:theme-color('secondary');
 // Progress
 $plyr-progress-loading-size:            25px ;
-$plyr-progress-loading-bg:              rgba(map_get(theme-color('secondary'),color), .85) ;
-$plyr-audio-progress-bg:                rgba(map_get(theme-color('dark'),lighter), .33) ;
-$plyr-audio-progress-buffered-bg:       rgba(map_get(theme-color('dark'),darker), .33);
+$plyr-progress-loading-bg:              rgba(theme-color('secondary'), .85) ;
+$plyr-audio-progress-bg:                rgba(theme-color-light('dark'), .33) ;
+$plyr-audio-progress-buffered-bg:       rgba(theme-color-dark('dark'), .33);
 
-$plyr-range-thumb-bg: map_get(theme-color('secondary'),color);
-$plyr-range-thumb-active-bg: map_get(theme-color('secondary'),color);
+$plyr-range-thumb-bg: theme-color('secondary');
+$plyr-range-thumb-active-bg: theme-color('secondary');
 $plyr-range-thumb-border: 1px solid transparent;
-$plyr-range-thumb-active-border-color: rgba(map_get(theme-color('secondary'),darker), 0.85);
-$plyr-range-thumb-shadow: 0 1px 1px rgba(map_get(theme-color('secondary'),lighter), 0.85);
+$plyr-range-thumb-active-border-color: rgba(theme-color-dark('secondary'), 0.85);
+$plyr-range-thumb-shadow: 0 1px 1px rgba(theme-color-light('secondary'), 0.85);
 
 $plyr-tooltip-padding: 0.25rem;
-$plyr-tooltip-bg: rgba(map_get(theme-color('secondary'),color), 0.85);
-$plyr-tooltip-color: map_get(theme-color('light'),lighter);
+$plyr-tooltip-bg: rgba(theme-color('secondary'), 0.85);
+$plyr-tooltip-color: theme-color-light('light');

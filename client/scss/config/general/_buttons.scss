@@ -1,15 +1,15 @@
 // Shared styles
 $button-border: none;
-$button-background-focus: lighten(map_get(theme-color('secondary'),color), 4%);
+$button-background-focus: lighten(theme-color('secondary'), 4%);
 $button-font-size: 1.3rem;
 $button-height: 36px;
 $button-padding: 0 2rem;
 $button-radius: 2px;
 
 // Floating buttons
-$button-floating-background: map_get(theme-color('secondary'),color);
-$button-floating-background-hover: darken(map_get(theme-color('secondary'),color), 4%);
-$button-floating-color: map_get(theme-color('light'),color);
+$button-floating-background: theme-color('secondary');
+$button-floating-background-hover: darken(theme-color('secondary'), 4%);
+$button-floating-color: theme-color('light');
 $button-floating-size: 32px;
 $button-floating-large-size: $button-floating-size * 1.5;
 $button-floating-radius: 50%;

@@ -6,15 +6,18 @@
                 <div class="image-backdrop album-backdrop" v-bind:style="{ 'background-image': 'url(' + album.cover + ')' }"></div>
             </div>
             <section>
-                <div class="actions">
-                    <play_btn :album=album></play_btn>
-                    <queue_btn :album=album></queue_btn>
-                </div>
+
                 <div class="detail-info-wrapper">
                     <div class="detail-art">
-                        <img :src="album.cover">
+                        <div class="detail-art-img">
+                            <img :src="album.cover">
+                        </div>
                     </div>
                     <div class="detail-info">
+                        <div class="actions">
+                            <play_btn :album=album></play_btn>
+                            <queue_btn :album=album></queue_btn>
+                        </div>
                         <h3 class="artist-name">
                             <router-link
                                     :to="{ name: 'detail_artist', params: { artist: this.album.artist.name, id: this.album.artist.id }}">
@@ -26,11 +29,11 @@
                             {{ album.name }}
                         </h1>
                         <div class="meta">
-                            <i class="material-icons">hearing</i>{{ album.playCount}} times
-                            <i class="material-icons">date_range</i>{{ album.year}}
-                            <i class="material-icons">queue_music</i>{{ album.songs.length }} songs
-                            <i class="material-icons">av_timer</i>{{ lengthAlbum }}
-                            <i class="material-icons" v-if="album.genre.name">receipt</i>{{ album.genre.name}}
+                            <span class="chip"><span class="chip-icon"><i class="material-icons">hearing</i></span>{{ album.playCount}} times</span>
+                            <span class="chip"><span class="chip-icon"><i class="material-icons">date_range</i></span>{{ album.year}}</span>
+                            <span class="chip"><span class="chip-icon"><i class="material-icons">queue_music</i></span>{{ album.songs.length }} songs</span>
+                            <span class="chip"><span class="chip-icon"><i class="material-icons">av_timer</i></span>{{ lengthAlbum }}</span>
+                            <span class="chip" v-if="album.genre.name"><span class="chip-icon"><i class="material-icons">receipt</i></span>{{ album.genre.name}}</span>
                         </div>
                     </div>
                 </div>

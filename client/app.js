@@ -8,6 +8,9 @@ import store from 'store'
 import pagination from 'services/pagination/pagination'
 import { Auth, Bearer, HttpDriver, RouterDriver } from 'services/auth'
 
+import VueTinyLazyloadImg from 'vue-tiny-lazyload-img'
+
+Vue.use(VueTinyLazyloadImg)
 // Setup auth
 Vue.use(Auth, {
   auth: Bearer,
@@ -23,7 +26,7 @@ Vue.use(Auth, {
     enabled: true,
     interval: 30
   },
-  parseUserData(data) {
+  parseUserData (data) {
     return data
   }
 })

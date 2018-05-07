@@ -19,7 +19,7 @@
             <!--</li>-->
         </ul>
         <transition-group name="list" tag="div" class="list">
-            <div class="col" v-for="artist in artistPage" :key="artist.id" :name="artist.id">
+            <div class="col" v-for="artist in artists" :key="artist.id" :name="artist.id">
                 <artist :artist-id=artist.id :artist=artist></artist>
             </div>
         </transition-group>
@@ -37,7 +37,7 @@
     },
     data () {
       return {
-        loadArtists: false,
+        loadedArtists: false,
 
       }
     },
@@ -47,7 +47,21 @@
       }
     },
     computed: {
+      artists () {
+        if (this.artistPage) {
+          this.$store.dispatch('artists/loadArtistCollection', this.artistPage).then(() => {
+            this.loadedArtists = true
+          }).catch(() => {
+            this.loadedArtists = true
+          })
+        }
+        if(this.loadedArtists) {
+          return this.artistPage
+        }
+        return null
+      },
       artistPage () {
+        this.loadedArtists = false;
         return this.$store.getters['artists/artists']
       },
       totalArtists () {

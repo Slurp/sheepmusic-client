@@ -4,25 +4,25 @@
 // Version 1.4.1
 // MIT License
 
-$track-color: map_get(theme-color('secondary'),'color') !default;
-$thumb-color: map_get(theme-color('secondary'),'color') !default;
+$track-color: theme-color('secondary') !default;
+$thumb-color: theme-color('secondary') !default;
 
 $thumb-radius: 12px !default;
 $thumb-height: 16px !default;
 $thumb-width: 16px !default;
 $thumb-shadow-size: 1px !default;
 $thumb-shadow-blur: 2px !default;
-$thumb-shadow-color: rgba(map_get(theme-color('secondary'),lighter), 0.85) !default;
+$thumb-shadow-color: rgba(theme-color-light('secondary'), 0.85) !default;
 $thumb-border-width: 1px !default;
-$thumb-border-color: rgba(map_get(theme-color('secondary'),darker), 0.85) !default;
+$thumb-border-color: rgba(theme-color-dark('secondary'), 0.85) !default;
 
 $track-width: 100% !default;
 $track-height: 8px !default;
 $track-shadow-size: 1px !default;
 $track-shadow-blur: 1px !default;
-$track-shadow-color: rgba(map_get(theme-color('secondary'),'darker'), .2) !default;
+$track-shadow-color: rgba(theme-color-dark('secondary'), .2) !default;
 $track-border-width: 1px !default;
-$track-border-color: map_get(theme-color('secondary'),'darker') !default;
+$track-border-color: theme-color-dark('secondary') !default;
 
 $track-radius: 5px !default;
 $contrast: 5% !default;

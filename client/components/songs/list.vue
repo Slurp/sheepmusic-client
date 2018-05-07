@@ -20,13 +20,15 @@
                     <i class="material-icons">play_arrow</i>
                 </a>
             </div>
-            <div class="col col-artist" v-if="displayArtist">{{ song.artist.name }}</div>
-            <div class="col col-title">{{ song.title }}</div>
+            <div class="col col-artist" v-if="displayArtist"><router-link class="artist" :to=detailArtist(song)>{{ song.artist.name }}</router-link></div>
+            <div class="col col-title"><router-link class="album" :to=detailAlbum(song)>{{ song.title }}</router-link></div>
             <div class="col col-duration">{{ formatLength(song.length) }}</div>
             <div class="col col-playcount">{{ song.playCount }}</div>
-            <a class="col col-queue" v-on:click.stop.prevent="queue(song)">
-                <i class="material-icons" >add_to_queue</i>
-            </a>
+            <div class="col col-queue">
+                <a v-on:click.stop.prevent="queue(song)">
+                    <i class="material-icons">add_to_queue</i>
+                </a>
+            </div>
         </div>
     </div>
 </template>
@@ -49,19 +51,19 @@
         toast: new Toaster(),
       }
     },
-    beforeDestroy() {
+    beforeDestroy () {
       this.toast = null
       delete this.toast
     },
     methods: {
       play: function (song) {
         if (event) event.preventDefault()
-        this.$store.dispatch('playlist/playAlbum', this.album)
+        this.$store.dispatch('playlist/playSong', song)
       },
       queue: function (song) {
         if (event) event.preventDefault()
         this.$store.dispatch('playlist/queueSong', song)
-        this.toast.toast(`${song.title} added to your playlist`);
+        this.toast.toast(`${song.title} added to your playlist`)
       },
       formatLength (length) {
         return secondsToHis(length)
@@ -71,7 +73,22 @@
           return (this.currentSong.id === id)
         }
         return false
-      }
+      },
+      detailArtist (song) {
+        if (song) {
+          return this.$store.getters['artists/detailLink'](song.artist)
+        }
+        return '/'
+      },
+      detailAlbum (song) {
+        if (song) {
+          return {
+            name: 'detail_album',
+            params: { artist: song.artist.name, album: song.album.name, id: song.album.id }
+          }
+        }
+        return '/'
+      },
     },
     computed: {
       playing () {
@@ -81,7 +98,7 @@
         return this.$store.getters['playlist/getCurrentSong']
       },
       displayArtist () {
-        return this.showArtist;
+        return this.showArtist
       }
     }
   }

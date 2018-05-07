@@ -2,7 +2,8 @@
     <div class="playlist">
         <div class="playlist-dropup">
             <h5 class="playlist-header">
-                Current Playlist<span v-if="playlistName">: {{ playlistName }}</span>
+                Current Playlist
+                <span v-if="playlistName">: {{ playlistName }}</span>
 
             </h5>
             <div class="playlist-wrapper">
@@ -30,22 +31,26 @@
                     </transition-group>
                 </draggable>
             </div>
+
             <div v-if="isEmpty == false" class="playlist-actions" role="group">
 
-                <a href="#" class='btn' v-on:click.stop.prevent="shuffle">
-                    <i class="material-icons">shuffle</i>
-                </a>
-                <a href="#" class='btn' v-bind:class="repeatMode" v-bind:title="repeatStatus"
-                   v-on:click.stop.prevent="changeRepeatMode">
-                    <i v-if="repeatMode == 'REPEAT_ONE'" class="material-icons">repeat_one</i>
-                    <i v-if="repeatMode == 'NO_REPEAT'" class="material-icons">repeat</i>
-                    <i v-if="repeatMode == 'REPEAT_ALL'" class="material-icons">repeat</i>
-                </a>
-                <a href="#" class='btn' data-toggle="modal" data-target="#playlistModal">
-                    <i class="material-icons">save</i>
-                </a>
-                <div class="duration" v-if="playlistDuration"><i class="material-icons">av_timer</i>{{ playlistDuration
-                    }}
+                <div class="btn-group-fluid">
+                    <a href="#" class='btn' v-on:click.stop.prevent="shuffle">
+                        <i class="material-icons">shuffle</i>
+                    </a>
+                    <a href="#" class='btn' v-bind:class="repeatMode" v-bind:title="repeatStatus"
+                       v-on:click.stop.prevent="changeRepeatMode">
+                        <i v-if="repeatMode == 'REPEAT_ONE'" class="material-icons">repeat_one</i>
+                        <i v-if="repeatMode == 'NO_REPEAT'" class="material-icons">repeat</i>
+                        <i v-if="repeatMode == 'REPEAT_ALL'" class="material-icons">repeat</i>
+                    </a>
+                    <a href="#" class='btn' data-toggle="modal" data-target="#playlistModal">
+                        <i class="material-icons">save</i>
+                    </a>
+                </div>
+                <div class="duration" v-if="playlistDuration">
+                    <i class="material-icons">av_timer</i>
+                    {{ playlistDuration }}
                 </div>
 
             </div>

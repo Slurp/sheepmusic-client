@@ -2,31 +2,35 @@
 
     <router-link :to="detailLink"
                  class="card card__overview">
-        <img class="card-img-top"  :src="cover" :alt="album.name"/>
-        <div class="card-body has-sheet">
-            <div class="fixed-action-btn"
-                 v-bind:class="{ active: openSheet }">
-                <a class="btn btn-float btn-sm btn-secondary" v-on:click.stop.prevent="toggleSheet"
-                   v-if="loadedAlbum">
-                    <i class="material-icons">more_horiz</i>
-                </a>
-                <ul class="action-sheet">
-                    <li>
-                        <play_btn :album=album></play_btn>
-                    </li>
-                    <li>
-                        <queue_btn :album=album></queue_btn>
-                    </li>
-                </ul>
+        <div class="card-img">
+            <img class="card-img-top"
+                 v-lazyload
+                 :alt="album.name"
+                 src="/media/general/default.png"
+                 :data-src=cover
+                 data-err="/media/general/default.png"
+            />
+            <ul class="action-sheet" v-if="loadedAlbum">
+                <li>
+                    <play_btn :album=album></play_btn>
+                </li>
+                <li>
+                    <queue_btn :album=album></queue_btn>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body">
+
+            <div class="progress" v-if="!loadedAlbum">
+                <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
+            </div>
+            <div class="card-block" v-else>
+                <h4 class="card-title">{{album.artist.name}}</h4>
+                <h6 class="card-subtitle">{{album.name}}</h6>
             </div>
         </div>
-        <div class="progress" v-if="!loadedAlbum">
-            <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
-        </div>
-        <div class="card-block" v-if="loadedAlbum">
-            <h4 class="card-title">{{album.artist.name}}</h4>
-            <h6 class="card-subtitle text-muted">{{album.name}}</h6>
-        </div>
+
     </router-link>
 </template>
 
@@ -79,11 +83,11 @@
       hasCover () {
         return (this.loadedAlbum && this.album.cover)
       },
-      cover() {
+      cover () {
         if (this.hasCover) {
-          return new URL(this.album.cover,config.baseUrl);
+          return new URL(this.album.cover, config.baseUrl)
         }
-        return config.defaultCover;
+        return config.defaultCover
       },
       loadedAlbum () {
         return (this.loaded && (this.album !== null && this.album.fullyLoaded))

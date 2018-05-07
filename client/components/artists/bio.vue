@@ -1,5 +1,5 @@
 <template>
-    <div class="artist-bio">
+    <div class="artist-bio" v-if="text">
         <div class="artist-bio__short" v-bind:class="{ visible: !show}">{{truncate(text)}}</div>
         <div class="artist-bio__long" v-bind:class="{ visible: show}" v-html="text"></div>
         <a v-if="text.length >= length && !show" @click="toggle()">{{clamp || 'Read More'}}</a>

@@ -7,11 +7,14 @@
 
 /* General
    ========================================================================== */
-@import '~daemonite-material/assets/scss/colours';
+@function gray($key: "100") {
+  @return map-get($grays, $key);
+}
+
+@import '~daemonite-material/assets/scss/colors';
 @import '~daemonite-material/assets/scss/functions';
 $yiq-text-light: $light-theme-1;
 $yiq-text-dark: $dark-theme-1;
-@import '~bootstrap/scss/functions';
 @import "general/colors";
 @import "vendors/bootstrap-vars";
 

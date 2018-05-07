@@ -23,9 +23,9 @@
     }
     .breadcrumb-item {
         &:before {
-            color: map_get(theme-color('secondary'),color);
+            color: theme-color('secondary');
         }
         text-transform: capitalize;
-        color: map_get(theme-color('light'),color);
+        color: theme-color('light');
     }
 }

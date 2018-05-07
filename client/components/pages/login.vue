@@ -22,13 +22,14 @@
                             <span class="custom-control-indicator"></span>
                             <span class="custom-control-description">Remember Me</span>
                         </label>
-                        <button type="submit" class="btn btn-secondary float-md-right">Login</button>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-form-label"></label>
 
                     </div>
-                    </table>
+                    <div class="form-group">
+                        <label class="col-form-label">
+
+                        </label>
+                        <button type="submit" class="btn btn-secondary float-md-right">Login</button>
+                    </div>
                     <div v-show="error" style="color:red; word-wrap:break-word;">{{ error }}</div>
                 </form>
             </div>

@@ -5,7 +5,8 @@ const state = {
   sortedList: [],
   currentArtist: null,
   page: 1,
-  sortBy: 'all'
+  sortBy: 'all',
+  itemsPerPage: 24
 }
 
 const actions = {
@@ -28,7 +29,7 @@ const actions = {
           formData.append('objects[]', object.id)
           return formData
         }, new FormData())
-        return Vue.axios.post(`app_dev.php/api/artist_collection`, data).then(response => {
+        return Vue.axios.post(`/api/artist_collection`, data).then(response => {
           response.data.forEach((artistData) => commit('ADD_ARTIST', {
             artist: artistData,
             index: artistData.id
@@ -120,9 +121,9 @@ const getters = {
     return state.artists.length
   },
   artists: state => {
-    if (state.artists.length >= 12) {
-      const start = (12 * (state.page - 1))
-      return state.sortedList.slice(start, start + 12).map(artist => state.artists[artist.id])
+    if (state.artists.length >= state.itemsPerPage) {
+      const start = (state.itemsPerPage * (state.page - 1))
+      return state.sortedList.slice(start, start + state.itemsPerPage).map(artist => state.artists[artist.id])
     }
     return state.artists.slice
   },

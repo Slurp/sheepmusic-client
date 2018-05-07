@@ -5,7 +5,8 @@ const state = {
   sortedList: [],
   currentAlbum: null,
   page: 1,
-  sortBy: 'all'
+  sortBy: 'all',
+  itemsPerPage: 24
 }
 
 const actions = {
@@ -30,7 +31,7 @@ const actions = {
           formData.append('objects[]', object.id)
           return formData
         }, new FormData())
-        return Vue.axios.post(`app_dev.php/api/album_collection`, data).then(response => {
+        return Vue.axios.post(`/api/album_collection`, data).then(response => {
           response.data.forEach((responseAlbum) => commit('ADD_ALBUM', {
             album: responseAlbum,
             index: responseAlbum.id
@@ -119,9 +120,9 @@ const getters = {
     return state.albums.length
   },
   albums: state => {
-    if (state.albums.length >= 12) {
-      const start = (12 * (state.page - 1))
-      return state.sortedList.slice(start, start + 12).map(album => state.albums[album.id])
+    if (state.albums.length >= state.itemsPerPage) {
+      const start = (state.itemsPerPage * (state.page - 1))
+      return state.sortedList.slice(start, start + state.itemsPerPage).map(album => state.albums[album.id])
     }
     return state.albums.slice
   },
