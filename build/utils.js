@@ -15,7 +15,6 @@ _.cssLoader = config.cssModules ?
 
 _.cssProcessors = [
   {loader: '', test: /\.css$/},
-  {loader: 'sass-loader?sourceMap&{"includePaths":["./node_modules"]}', test: /\.scss$/},
   {loader: 'less-loader?sourceMap', test: /\.less$/},
   {loader: 'stylus-loader?sourceMap', test: /\.styl$/},
   {loader: 'sass-loader?indentedSyntax&sourceMap', test: /\.sass$/},
