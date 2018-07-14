@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { addItemsAndSortedList, sortList } from 'store/helpers/mutations'
 
 const state = {
   albums: [],
@@ -66,26 +67,7 @@ const actions = {
 
 const mutations = {
   ADD_ALBUMS: (state, { albums }) => {
-    for (const album of albums) {
-      if (state.albums[album.id] == null || state.albums[album.id].songs == null) {
-        album.fullyLoaded = false
-        Vue.set(state.albums, album.id, album)
-      }
-    }
-
-    state.sortedList = state.albums.filter(Boolean).map(album => ({
-      id: album.id,
-      name: album.name,
-      playCount: album.playCount,
-      date: new Date(album.createdAt.date)
-    }))
-    // remove first value is null
-    state.sortedList.splice(0, 1)
-    if (state.sortBy === 'recent') {
-      state.sortedList.sort((a, b) => b.date - a.date)
-    } else if (state.sortBy === 'most-played') {
-      state.sortedList.sort((a, b) => b.playCount - a.playCount)
-    }
+    addItemsAndSortedList(state, 'albums', albums, 'songs')
   },
   ADD_ALBUM: (state, { album, index }) => {
     album.fullyLoaded = true
@@ -98,17 +80,7 @@ const mutations = {
     state.page = page
   },
   SORT_BY: (state, { sort }) => {
-    if (sort !== state.sortBy) {
-      if (sort === 'recent') {
-        state.sortedList.sort((a, b) => b.date - a.date)
-      } else if (sort === 'most-played') {
-        state.sortedList.sort((a, b) => b.playCount - a.playCount)
-      } else {
-        state.sortedList.sort((a, b) => a.id - b.id)
-      }
-      state.sortBy = sort
-      state.page = 1
-    }
+    sortList(state, sort)
   }
 }
 
@@ -159,9 +131,8 @@ const getters = {
   getLosslessCollection: state => {
     if (state.albums.length > 0) {
       const data = []
-      const losslessCount = state.albums.reduce((counter, album) => (album.lossless ? counter + 1 : counter + 0), 0)
-      data.push(losslessCount)
-      data.push(state.albums.length - losslessCount)
+      data.push(state.albums.reduce((counter, album) => (album.lossless ? counter + 1 : counter + 0), 0))
+      data.push(state.albums.length - data[0])
       return data
     }
     return Array(2).fill(0)

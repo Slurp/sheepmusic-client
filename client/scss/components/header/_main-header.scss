@@ -7,10 +7,6 @@
   }
 }
 .navbar {
-  //background-image: url("#{$backgrounds}/1920x1080.jpg");
-  //background-position: center;
-  //background-size: cover;
-  //background-color: rgba($player-bg-color,0.8);
   .navbar-collapse {
     @extend .justify-content-end;
   }
@@ -38,10 +34,8 @@
   z-index: $zindex-sticky;
   &.navbar {
     transition: all 0.3s linear;
-    background-color: theme-color();;
+    background-color: theme-color();
     width: 100% !important;
-  }
-  &.is-sticky {
     // Sticky target is now sticky
     position: fixed;
     @supports (position: sticky) {
@@ -54,6 +48,8 @@
     z-index: 1000;
     width: 100%;
     border-radius: 0;
+  }
+  &.is-sticky {
     &.navbar {
       background-color: theme-color();;
       box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16);

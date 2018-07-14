@@ -16,6 +16,7 @@
         <modal-screens></modal-screens>
     </div>
 </template>
+
 <script>
   import navbar from 'components/header/index'
   import player from 'components/player/index'
@@ -102,19 +103,21 @@
         })
       },
       watchIdle(){
-        const idleTime = 60 * 1000
-        const keepTracking = true
-        const startAtIdle = false
         const idle = new IdleJs({
-          idle:idleTime,
-          events:['mousemove', 'keydown', 'mousedown', 'touchstart'],
-          keepTracking,
-          startAtIdle,
+          idle:60 * 1000,
+          events:['keydown', 'mousedown', 'touchstart'],
+          keepTracking:true,
+          startAtIdle:false,
           onIdle: () => {
             if(this.$store) {
               this.$store.dispatch('changeIdle', true)
             }
-          }
+          },
+          onActive:() => {
+            if(this.$store) {
+              this.$store.dispatch('changeIdle', false)
+            }
+          },
         })
         idle.start();
       }

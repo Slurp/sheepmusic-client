@@ -15,19 +15,21 @@
     display: flex;
     width: 100%;
   }
-  .plyr--playing + .player-row {
-    padding-top: 10px;
-  }
 }
 
 .player__button {
-  flex: 1 0;
-  height: 100%;
+  width: 76px;
+  height: 76px;
   background-color: transparent;
   color: $button-floating-background;
   border: none;
   text-align: center;
   padding: 0.2rem;
+  &__center {
+    i {
+      font-size: 4rem;
+    }
+  }
   i {
     display: block;
     font-size: 2rem;
@@ -50,29 +52,31 @@
 
 .player-controls {
   @include make-col-ready();
-  @include make-col(4);
+  @include make-col(6);
   @include media-breakpoint-up(md) {
-    @include make-col(3);
+    @include make-col(4);
   }
   .row {
     flex-direction: row;
     height: 100%;
+    align-items: center;
+    padding-top: 10px;
   }
-
 }
 
 .player-info {
   @include make-col-ready();
-  @include make-col(8);
+  @include make-col(6);
   @include media-breakpoint-up(md) {
-    @include make-col(6);
+    @include make-col(4);
   }
+
   display: flex;
   .song-image {
     flex: 0;
     width: auto;
-    height: 70px;
-    margin-left: ($grid-gutter-width-base / 2) * -1;
+    height: $footer-fixed-height;
+    margin-left: -15px;
   }
   button {
     margin-top: -30px;
@@ -83,40 +87,40 @@
     }
   }
   .now-playing {
-    padding-left: 0.5rem;
+
     display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-items: center;
-    align-items: flex-start;
-    max-width: 100%;
-    width: 100%;
-    flex: 0 0 100%;
+    align-items: center;
+    padding-top: 10px;
+    padding-left: 0.5rem;
+    &__content {
+      flex:1;
+    }
+    .title {
+      @include text-truncate();
+      text-transform: capitalize;
+      font-size: 1.2rem;
+      color: theme-color-light('light');
+      margin-bottom: 0;
+      line-height: 1.9rem;
+    }
     .meta {
-      display: flex;
       margin: 0;
-      flex: 1 1 100%;
       text-transform: capitalize;
       display: flex;
       padding-bottom: 3px;
-      a {
-        color: theme-color('light');
+      a,span {
+        color: theme-color-light('light');
         font-size: 13px;
         margin: 0;
+      }
+      span {
+        margin: 0 .3rem;
       }
       a:hover {
         color: theme-color('secondary');
       }
     }
-    .title {
-      @include text-truncate();
-      text-transform: capitalize;
-      flex: 1 1 100%;
-      font-size: 1rem;
-      color: theme-color('light');
-      margin-bottom: 0;
-      line-height: 1.9rem;
-    }
+
 
 
   }
@@ -135,7 +139,7 @@
 .player .plyr {
   position: absolute;
   top: -5px;
-  left: $navdrawer-width;
+  left: $footer-fixed-height;
   right: percentage(2.5 / $grid-columns);
   @include media-breakpoint-up(sm) {
     //right: 5rem;

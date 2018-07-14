@@ -10,7 +10,13 @@
                 <div class="detail-info-wrapper">
                     <div class="detail-art">
                         <div class="detail-art-img">
-                            <img :src="album.cover">
+                            <img
+                                 v-lazyload
+                                 :alt="album.artist.name"
+                                 src="/media/general/default.png"
+                                 :data-src=album.cover
+                                 data-err="/media/general/default.png"
+                            />
                         </div>
                     </div>
                     <div class="detail-info">

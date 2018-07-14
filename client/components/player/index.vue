@@ -20,51 +20,25 @@
                 </div>
             </div>
             <div class="player-row">
-                <div class='player-controls'>
-                    <div class='row'>
-                        <button type='button' class="player__button" v-on:click.stop.prevent="playPrev">
-                            <i class='material-icons'>skip_previous</i>
-                            <span class='plyr__sr-only'>previous</span>
-                        </button>
-                        <button type='button' class="player__button player__rewind" v-on:click.stop.prevent="rewind">
-                            <i class='material-icons'>fast_rewind</i>
-                            <span class='plyr__sr-only'>Rewind {seektime} secs</span>
-                        </button>
-                        <button type='button' class="player__button" data-plyr='play' v-if="stopped"
-                                v-on:click.stop.prevent="play">
-                            <i class='material-icons'>play_circle_outline</i>
-                            <span class='plyr__sr-only'>Play</span>
-                        </button>
-                        <button type='button' class="player__button" v-if="playing"
-                                v-on:click.stop.prevent="pause">
-                            <i class='material-icons'>pause_circle_outline</i>
-                            <span class='plyr__sr-only'>Pause</span>
-                        </button>
-                        <button type='button' class="player__button player__forward" v-on:click.stop.prevent="forward">
-                            <i class='material-icons'>fast_forward</i>
-                            <span class='plyr__sr-only'>Forward {seektime} secs</span>
-                        </button>
-                        <button type='button' class="player__button" v-on:click.stop.prevent="playNext">
-                            <i class='material-icons'>skip_next</i>
-                            <span class='plyr__sr-only'>next</span>
-                        </button>
-                    </div>
-                </div>
                 <player-info></player-info>
+                <player-controls
+                        :playing="playing"
+                        :stopped="stopped"
+                        v-on:playPrev="playPrev"
+                        v-on:playNext="playNext"
+                        v-on:rewind="rewind"
+                        v-on:forward="forward"
+                        v-on:play="play"
+                        v-on:pause="pause"
+                ></player-controls>
+
                 <div class="player-desktop-controls">
+                    <player-volume v-model="volume"></player-volume>
                     <button class="player__button" type='button' data-plyr='mute'>
                         <i class='material-icons icon--muted' v-if="muted">volume_off</i>
                         <i class='material-icons' v-else>volume_mute</i>
                         <span class='plyr__sr-only'>Toggle Mute</span>
                     </button>
-                    <span class="plyr__volume">
-                      <label for="volume{id}" class="plyr__sr-only">Volume</label>
-                        <input type="range" id="volumeRange" max="10" step="0.1"
-                               class="plyr__volume__input"
-                               @input="setVolume"
-                        >
-
-                    </span>
                 </div>
             </div>
         </div>
@@ -85,12 +59,14 @@
   import { secondsToHis } from 'services/time'
   import playerInfo from './player-info'
   import playerVolume from './player-volume'
+  import playerControls from './player-controls'
 
   export default {
     name: 'player',
     components : {
       playerInfo,
-      playerVolume
+      playerVolume,
+      playerControls
     },
     data () {
       return {
@@ -106,6 +82,7 @@
         hoverProgress: false,
         mouseDownProgress: false,
         variableSeek: 0,
+        volume: 100,
       }
     },
     mounted () {
@@ -122,7 +99,6 @@
           console.log(!this.nextSong || this.nextSong.preloaded)
         }
         if (!this.nextSong || this.nextSong.preloaded) {
-
           this.nextSong = this.$store.getters['playlist/getPreloadSong']
           if (!this.nextSong) {
             // Don't preload if
@@ -192,24 +168,32 @@
       },
       position () {
         return secondsToHis(this.seek)
-      }
+      },
+
     },
     watch: {
       currentSong (newSong, oldSong) {
         this.nextSong = null
+        let forceSong = false;
         if (oldSong == null || newSong.id !== oldSong.id || this.song == null) {
           this.song = newSong
+          forceSong = true;
           if(this.playing) {
             this.stop();
           }
         }
-        this.play()
+        this.play(forceSong)
+      },
+      volume () {
+        console.log(this.volume);
+        this.blackSheepPlayer.setVolume(this.volume / 10)
+        this.muted = this.volume === 0
       }
     },
     methods: {
-      play () {
+      play (forceSong = false) {
         this.$store.dispatch('playlist/setPlayingStatus', true)
-        if (this.blackSheepPlayer.isPaused()) {
+        if (this.blackSheepPlayer.isPaused() && forceSong === false) {
           this.blackSheepPlayer.resume()
           return
         }
@@ -278,11 +262,6 @@
 
       calculatePercentage (xPos, element) {
         return Math.min(1, Math.max(0, (xPos - element.getBoundingClientRect().left) / element.scrollWidth))
-      },
-
-      setVolume (e) {
-        this.blackSheepPlayer.setVolume(e.target.value)
-        this.muted = e.target.value === 0
       },
 
       mute () {

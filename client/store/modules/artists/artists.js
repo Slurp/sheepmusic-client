@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { set,addItemsAndSortedList, sortList } from 'root/store/helpers/mutations'
 
 const state = {
   artists: [],
@@ -71,23 +72,7 @@ const actions = {
 
 const mutations = {
   ADD_ARTISTS: (state, { artists }) => {
-    for (const artist of artists) {
-      if (state.artists[artist.id] == null || state.artists[artist.id].albums == null) {
-        artist.fullyLoaded = false
-        Vue.set(state.artists, artist.id, artist)
-      }
-    }
-    state.sortedList = state.artists.map(artist => ({
-      id: artist.id,
-      date: new Date(artist.createdAt.date),
-      playCount: artist.playCount
-    }))
-    state.sortedList.splice(0, 1)
-    if (state.sortBy === 'recent') {
-      state.sortedList.sort((a, b) => b.date - a.date)
-    } else if (state.sortBy === 'most-played') {
-      state.sortedList.sort((a, b) => b.playCount - a.playCount)
-    }
+    addItemsAndSortedList(state, 'artists', artists, 'albums')
   },
   ADD_ARTIST: (state, { artist, index }) => {
     artist.fullyLoaded = true
@@ -100,16 +85,7 @@ const mutations = {
     state.page = page
   },
   SORT_BY: (state, { sort }) => {
-    if (sort !== state.sortBy) {
-      if (sort === 'recent') {
-        state.sortedList.sort((a, b) => b.date - a.date)
-      } else if (sort === 'most-played') {
-        state.sortedList.sort((a, b) => b.playCount - a.playCount)
-      } else {
-        state.sortedList.sort((a, b) => a.id - b.id)
-      }
-      state.sortBy = sort
-    }
+    sortList(state, sort)
   }
 }
 

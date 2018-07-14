@@ -1,5 +1,4 @@
 import { Howl } from 'howler'
-import config from 'config/index'
 
 export default class BlackSheepPlayer {
   constructor () {
@@ -34,7 +33,7 @@ export default class BlackSheepPlayer {
     return new Howl({
       type: 'audio',
       title: '-',
-      src: [config.baseUrl + src],
+      src: [src],
       format: ['mp3'],
       html5: true,
       preload: true
@@ -109,6 +108,7 @@ export default class BlackSheepPlayer {
       this.duration = this.player.duration()
       this.dispatchEvent('loaded', this.duration)
     })
+
     this.player.on('play', () => {
       if (preloadedSong) {
         this.duration = this.player.duration()
@@ -130,6 +130,9 @@ export default class BlackSheepPlayer {
     this.restart()
   }
 
+  /**
+   * Groundhog day!
+   */
   restart () {
     if (this.player) {
       this.player.seek(0)
@@ -137,21 +140,33 @@ export default class BlackSheepPlayer {
     }
   }
 
+  /**
+   * Slow down
+   */
   pause () {
     if (this.player.playing()) {
       this.player.pause()
     }
   }
 
+  /**
+   * And we go on.
+   */
   resume () {
     this.player.play()
   }
 
+  /**
+   * Did you had a kitkat?
+   * @returns {boolean}
+   */
   isPaused () {
-    console.log(this.player)
     return (this.player !== null && !this.player.playing())
   }
 
+  /**
+   * Don't ... me now.
+   */
   stop () {
     if (this.player) {
       this.player.stop().off().unload()
@@ -161,6 +176,9 @@ export default class BlackSheepPlayer {
     }
   }
 
+  /**
+   *
+   */
   forward () {
     if (this.player && this.player.playing()) {
       this.player.seek(Math.min(this.player._duration, this.player.seek() + 5))
@@ -173,6 +191,9 @@ export default class BlackSheepPlayer {
     }
   }
 
+  /**
+   * @param value
+   */
   setSeekPosition (value) {
     console.log(value)
     if (this.player) {

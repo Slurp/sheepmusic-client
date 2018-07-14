@@ -27,7 +27,7 @@
     @include make-col(2.5);
   }
   @extend .z-depth-1;
-  top: 40px;
+  top: 57px;
   position: fixed;
   right: 0;
   background-color: $playlist-bg-color;
@@ -37,14 +37,14 @@
   margin-bottom: 0;
   @include transition-sharp(transform);
   color: $playlist-txt-color;
-  height: calc(100vh - 110px);
+  height: calc(100vh - #{$footer-fixed-height} - 57px);
   .playlist-wrapper {
     position: absolute;
     left: 5px;
     right: 5px;
   }
   .playlist-header {
-    padding-top: 30px;
+    padding-top: 17px;
     margin-bottom: 5px;
     border-bottom:1px solid rgba(0, 0, 0, 0.1);
   }
@@ -54,7 +54,7 @@
     flex-direction: row !important;
     overflow-y: auto;
     position: relative;
-    height: calc(100vh - 200px);
+    height: calc(100vh - #{$footer-fixed-height} - 150px);
     padding-bottom: 50px;
     align-content: flex-start;
     width: 100%;

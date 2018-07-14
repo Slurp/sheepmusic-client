@@ -67,15 +67,16 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          'vue-style-loader',
-          'css-loader',
-          'sass-loader?indentedSyntax=false'
+          { loader: 'vue-style-loader', options: { sourceMap: true } },
+          { loader: 'css-loader', options: { sourceMap: true } },
+          { loader: 'postcss-loader', options: { sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true,includePaths:['./node_modules'], indentedSyntax: false} }
         ]
       }
     ]
   },
   plugins: [
-    new VueLoaderPlugin(),
+
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
@@ -88,6 +89,7 @@ module.exports = {
       filename: _.outputIndexPath
     }),
     new webpack.LoaderOptionsPlugin(_.loadersOptions()),
+    new VueLoaderPlugin(),
     new CopyWebpackPlugin([
       {
         from: _.cwd('./static'),

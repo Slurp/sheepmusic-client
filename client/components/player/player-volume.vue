@@ -1,105 +1,73 @@
 <template>
-    <div class="knob-surround">
-        <div class="knob"></div>
-        <span class="min">Min</span>
-        <span class="max">Max</span>
-        <div class="ticks">
-            <div class="tick activetick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
-            <div class="tick"></div>
+    <div class="volume">
+        <div class="knob-surround">
+
+            <div class="knob" v-bind:style="{ transform: angleTransform }"></div>
+            <span class="min">Min</span>
+            <span class="max">Max</span>
+            <div class="ticks">
+                <div v-for="ticker in 19" class="tick" :class="{ 'activetick': ticker <= activeTicks }"></div>
+            </div>
+            <input type="range" id="volumeRange" :max="max" :step="stepSize" :value="value" @input="updatePosition">
+            <label for="volumeRange" class="sr-only">Volume</label>
         </div>
-
     </div>
-
 </template>
 <script>
-  var knob = $('.knob');
-  var angle = 0;
-  var minangle = 0;
-  var maxangle = 270;
-
-  function moveKnob(direction) {
-
-    if(direction === 'up') {
-      if((angle + 2) <= maxangle) {
-        angle = angle + 2;
-        setAngle();
+  export default {
+    name: 'volume',
+    data () {
+      return {
+        minangle: 0,
+        maxangle: 270,
+        angle: 0
       }
+    },
+    props: {
+      'value': {
+        type: Number,
+        default: 100
+      },
+      'max': {
+        type: Number,
+        default: 100
+      },
+      'min': {
+        type: Number,
+        default: 0
+      },
+      'stepSize': {
+        type: Number,
+        default: 1
+      },
+      'disabled': {
+        type: Boolean,
+        default: false
+      },
+      'size': {
+        type: Number,
+        default: 70
+      },
+    },
+    mounted () {
+      this.angle = (360 / 100 * this.value);
+    },
+    computed: {
+      angleTransform () {
+        return 'rotate(' + this.angle + 'deg)'
+      },
+      showValue () {
+        return (this.value >= this.min && this.value <= this.max) && !this.disabled
+      },
+      activeTicks () {
+        return (Math.round(this.angle / 9.5))
+      },
+    },
+    methods: {
+      updatePosition (e) {
+        this.angle = (180 / 100 * e.target.value);
+        this.$emit('input', e.target.value * 1)
+      },
     }
-
-    else if(direction === 'down') {
-      if((angle - 2) >= minangle) {
-        angle = angle - 2;
-        setAngle();
-      }
-    }
-
   }
-
-  function setAngle() {
-
-    // rotate knob
-    knob.css({
-      '-moz-transform':'rotate('+angle+'deg)',
-      '-webkit-transform':'rotate('+angle+'deg)',
-      '-o-transform':'rotate('+angle+'deg)',
-      '-ms-transform':'rotate('+angle+'deg)',
-      'transform':'rotate('+angle+'deg)'
-    });
-
-    // highlight ticks
-    var activeTicks = (Math.round(angle / 10) + 1);
-    $('.tick').removeClass('activetick');
-    $('.tick').slice(0,activeTicks).addClass('activetick');
-
-    // update % value in text
-    var pc = Math.round((angle/270)*100);
-    $('.current-value').text(pc+'%');
-
-  }
-
-  // mousewheel event - firefox
-  knob.bind('DOMMouseScroll', function(e){
-    if(e.originalEvent.detail > 0) {
-      moveKnob('down');
-    } else {
-      moveKnob('up');
-    }
-    return false;
-  });
-
-  // mousewheel event - ie, safari, opera
-  knob.bind('mousewheel', function(e){
-    if(e.originalEvent.wheelDelta < 0) {
-      moveKnob('down');
-    } else {
-      moveKnob('up');
-    }
-    return false;
-  });
 </script>

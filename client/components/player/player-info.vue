@@ -2,13 +2,15 @@
     <div class="player-info">
 
         <img :src="cover" class='song-image'>
-        <div class="now-playing">
-            <h3 class="title" v-if="currentSong">{{ currentSong.title }}</h3>
-            <p class="meta" v-if="currentSong">
+        <div class="now-playing" v-if="currentSong">
+            <div class="now-playing__content" >
+            <h3 class="title" >{{ currentSong.title }}</h3>
+            <p class="meta">
                 <router-link class="artist" :to=detailArtist>{{ currentSong.artist.name }}</router-link>
-                –
+                <span> – </span>
                 <router-link class="album" :to=detailAlbum>{{ currentSong.album.name }}</router-link>
             </p>
+            </div>
         </div>
     </div>
 </template>
