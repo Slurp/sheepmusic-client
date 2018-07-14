@@ -50,14 +50,14 @@
       },
     },
     mounted () {
-      this.angle = (360 / 100 * this.value);
+      this.angle = (180 / 100 * this.value);
     },
     computed: {
       angleTransform () {
         return 'rotate(' + this.angle + 'deg)'
       },
       showValue () {
-        return (this.value >= this.min && this.value <= this.max) && !this.disabled
+        return this.value
       },
       activeTicks () {
         return (Math.round(this.angle / 9.5))
