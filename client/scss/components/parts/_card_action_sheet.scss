@@ -48,11 +48,14 @@
   li {
     opacity: 0;
     flex: 0 0 auto;
-    padding-right:0.5rem;
+    padding-right: 0.25rem;
     transition: opacity 0.3s ease;
     margin-top: auto;
     .btn {
       margin-top: auto;
+      i {
+        font-size: 1.6rem;
+      }
     }
   }
   .btn-floating {

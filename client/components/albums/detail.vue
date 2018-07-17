@@ -46,19 +46,7 @@
                     <song-list :songs="album.songs"></song-list>
             </section>
         </div>
-        <div class="progress-circular progress-circular-secondary" v-else>
-            <div class="progress-circular-wrapper">
-                <div class="progress-circular-inner">
-                    <div class="progress-circular-left">
-                        <div class="progress-circular-spinner"></div>
-                    </div>
-                    <div class="progress-circular-gap"></div>
-                    <div class="progress-circular-right">
-                        <div class="progress-circular-spinner"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <loading-cirlce v-else></loading-cirlce>
     </div>
 </template>
 
@@ -67,6 +55,7 @@
   import breadcrumbs from 'components/misc/breadcrumbs'
   import play_btn from './play-btn'
   import queue_btn from './queue-btn'
+  import loadingCirlce from 'components/misc/loading-circle';
   import { secondsToHis } from 'services/time'
 
   export default {
@@ -75,7 +64,8 @@
       songList,
       breadcrumbs,
       play_btn,
-      queue_btn
+      queue_btn,
+      loadingCirlce
     },
     props: ['id'],
     data () {

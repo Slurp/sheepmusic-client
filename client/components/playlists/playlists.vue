@@ -1,36 +1,39 @@
 <template>
     <router-link :to="detailLink"
                  class="card card__overview">
-        <img class="card-img-top" :src="cover" :alt="playlist.name"/>
-        <div class="card-body has-sheet">
-            <div class="fixed-action-btn"
-                 :class="{ active: openSheet }"
-                 v-on:click.stop.prevent="toggleSheet">
-                <a class="btn btn-float btn-sm btn-secondary">
-                    <i class="material-icons">more_horiz</i>
-                </a>
-                <ul class="action-sheet">
-                    <li>
-                        <play_btn :playlist=playlist></play_btn>
-                    </li>
-                    <li>
-                        <queue_btn :playlist=playlist></queue_btn>
-                    </li>
-                </ul>
+        <div class="card-img">
+            <img class="card-img-top"
+
+                 v-lazyload
+                 :alt="playlist.name"
+                 src="/media/general/default.png"
+                 :data-src=cover
+                 data-err="/media/general/default.png"
+            />
+            <ul class="action-sheet">
+                <li>
+                    <play_btn :playlist=playlist></play_btn>
+                </li>
+                <li>
+                    <queue_btn :playlist=playlist></queue_btn>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+
+            <div class="progress" v-if="!loaded">
+                <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
             </div>
-        </div>
-        <div class="progress" v-if="!loaded">
-            <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
-        </div>
-        <div class="card-block" v-else>
-            <h4 class="card-title">{{playlist.name}}</h4>
-            <h6 class="card-subtitle text-muted" v-if="playlist.songs">
-                {{playlist.songs.length}} songs
-                <span v-if="playlistDuration">
+            <div class="card-block" v-else>
+                <h4 class="card-title">{{playlist.name}}</h4>
+                <h6 class="card-subtitle text-muted" v-if="playlist.songs">
+                    {{playlist.songs.length}} songs
+                    <span v-if="playlistDuration">
                     <i class="material-icons">av_timer</i>
                     {{ playlistDuration }}
                 </span>
-            </h6>
+                </h6>
+            </div>
         </div>
     </router-link>
 </template>
@@ -73,7 +76,7 @@
       },
       cover () {
         if (this.hasCover) {
-          return config.baseUrl+"/"+this.playlist.cover
+          return config.baseUrl + '/' + this.playlist.cover
         }
         return '/media/general/default.png'
       },
@@ -85,7 +88,7 @@
       },
       playlistDuration () {
         if (this.loaded && this.playlist && this.playlist.songs) {
-          return secondsToHis(this.playlist.songs.map(song => song ? song.length:0).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
+          return secondsToHis(this.playlist.songs.map(song => song ? song.length : 0).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
         }
         return null
       },

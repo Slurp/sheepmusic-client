@@ -203,6 +203,8 @@
   display: flex;
   flex-wrap: wrap;
   .btn-group-fluid {
+    width: 100%;
+    display: flex;
     justify-content: space-around;
   }
   .duration {
@@ -219,6 +221,14 @@
     @extend .btn-sm;
     @extend .btn-secondary;
     min-width: 0;
+    padding: 0.4rem;
+
+    &:hover {
+      color: $white;
+    }
+    i {
+      font-size: 1.6rem;
+    }
     &.REPEAT_ONE {
       @extend .btn-info;
     }
@@ -227,8 +237,8 @@
     }
     &.REPEAT_ALL {
     }
-    &:last-child {
-      margin-right: 3.75rem;
+    &:nth-child(2) {
+      margin-right: auto;
     }
   }
 }

@@ -71,6 +71,9 @@ const actions = {
   },
   async updateList({ commit }, sortedList) {
     commit('UPDATE_LIST', { list: sortedList })
+  },
+  async clear({commit}) {
+    commit('CLEAR')
   }
 }
 

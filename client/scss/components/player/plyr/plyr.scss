@@ -594,11 +594,13 @@
     background: currentColor;
     border-radius: 100px;
     min-width: $plyr-range-track-height;
+    transition: width 0.1s ease;
   }
   &::-moz-progress-bar {
     background: currentColor;
     border-radius: 100px;
     min-width: $plyr-range-track-height;
+    transition: width 0.1s ease;
   }
   &::-ms-fill {
     border-radius: 100px;
@@ -616,14 +618,12 @@
     max-width: 99%;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    transition: none;
   }
   &::-moz-progress-bar {
     min-width: $plyr-range-track-height;
     max-width: 99%;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-    transition: none;
   }
   &::-ms-fill {
     display: none;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs router-tabs">
             <li class="nav-item">
                 <router-link class="nav-item nav-link" :to="{ name: 'all-albums'}">
                     <span class="font-weight-normal">All</span>
@@ -22,6 +22,7 @@
                 <album :album-id=album.id :album=album :key="album.id"></album>
             </div>
         </transition-group>
+        <loading-circle v-if="loadedAlbums == false"></loading-circle>
         <pagination for="albums" :records="totalAlbums" :vuex="true"></pagination>
     </div>
 </template>
@@ -29,6 +30,7 @@
 <script>
   import album from './album'
   import Toaster from 'services/toast'
+  import loadingCircle from 'components/misc/loading-circle';
 
   export default {
     props: {
@@ -39,7 +41,8 @@
       }
     },
     components: {
-      album
+      album,
+      loadingCircle
     },
     data () {
       return {

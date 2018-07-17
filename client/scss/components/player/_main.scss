@@ -15,24 +15,30 @@
     display: flex;
     width: 100%;
   }
+  .plyr--playing + .player-row {
+    .player-controls .row {
+      padding-top: 10px;
+    }
+  }
 }
 
 .player__button {
-  width: 76px;
-  height: 76px;
+  width: 2.5rem;
+  min-height: 100%;
   background-color: transparent;
   color: $button-floating-background;
   border: none;
   text-align: center;
   padding: 0.2rem;
-  &__center {
-    i {
-      font-size: 4rem;
-    }
-  }
   i {
     display: block;
     font-size: 2rem;
+  }
+  &__center {
+    width: 76px;
+    i {
+      font-size: 4rem;
+    }
   }
   &.tab-focus:focus,
   &:hover {
@@ -42,7 +48,7 @@
   &.player__forward,
   &.player__rewind {
     display: none;
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       display: initial;
     }
   }
@@ -60,7 +66,7 @@
     flex-direction: row;
     height: 100%;
     align-items: center;
-    padding-top: 10px;
+    justify-content: center;
   }
 }
 
@@ -178,6 +184,7 @@
         }
       }
     }
+
   }
   .plyr__progress {
     width: 1px;

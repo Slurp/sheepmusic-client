@@ -6,11 +6,16 @@
                 <div class="image-backdrop artist-backdrop" v-bind:style="{ 'background-image': 'url(' + background + ')' }"></div>
             </div>
             <section>
-
                 <div class="detail-info-wrapper">
                     <div class="detail-art">
                         <div class="detail-art-img">
-                            <img :src="cover">
+                            <img
+                                    v-lazyload
+                                    :alt="artist.name"
+                                    src="/media/general/default.png"
+                                    :data-src=cover
+                                    data-err="/media/general/default.png"
+                            />
                         </div>
                     </div>
                     <div class="detail-info">
@@ -41,7 +46,7 @@
                     </div>
                 </section>
 
-                <section class="list" v-if="artist.similar">
+                <section class="list" v-if="artist.similar.length > 0">
                     <h2 class="section-header">Similar Artists</h2>
                     <div class="col" v-for="similarArtist in artist.similar" :key="similarArtist">
                         <artist-card :artist-id=similarArtist :artist=storedArtist(similarArtist) :key="similarArtist"></artist-card>
@@ -49,23 +54,8 @@
                 </section>
 
             </section>
-
-
-
         </div>
-        <div class="progress-circular progress-circular-secondary" v-else>
-            <div class="progress-circular-wrapper">
-                <div class="progress-circular-inner">
-                    <div class="progress-circular-left">
-                        <div class="progress-circular-spinner"></div>
-                    </div>
-                    <div class="progress-circular-gap"></div>
-                    <div class="progress-circular-right">
-                        <div class="progress-circular-spinner"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <loading-circle v-else></loading-circle>
     </article>
 
 </template>
@@ -80,6 +70,7 @@
   import queue_btn from './queue-btn'
   import edit_btn from './edit-btn'
   import config from 'config/index'
+  import loadingCircle from 'components/misc/loading-circle';
 
   export default {
     components: {
@@ -90,7 +81,8 @@
       truncate,
       play_btn,
       queue_btn,
-      edit_btn
+      edit_btn,
+      loadingCircle
     },
     props: ['id'],
     created () {

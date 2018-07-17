@@ -47,6 +47,12 @@
                     <a href="#" class='btn' data-toggle="modal" data-target="#playlistModal">
                         <i class="material-icons">save</i>
                     </a>
+                    <a href="#" class='btn' v-on:click.stop.prevent="clear">
+                        <i class="material-icons">
+                            delete
+                        </i>
+                    </a>
+
                 </div>
                 <div class="duration" v-if="playlistDuration">
                     <i class="material-icons">av_timer</i>
@@ -88,6 +94,9 @@
       },
       shuffle () {
         this.$store.dispatch('playlist/shuffle')
+      },
+      clear () {
+        this.$store.dispatch('playlist/clear')
       },
       changeRepeatMode () {
         this.$store.dispatch('playlist/setRepeatMode', this.repeatMode)

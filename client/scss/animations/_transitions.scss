@@ -14,7 +14,7 @@
     transform: translateY(0);
   }
   &.list-enter-active {
-    transition-delay: 0.5s;
+    transition-delay: 0.3s;
 
   }
 
@@ -22,10 +22,10 @@
     opacity: 0;
   }
   &.list-enter {
-    transform: translateY(10vh);
+    transform: translateY(1vh);
   }
   &.list-leave-to {
-    transform: translateY(-10vh);
+    transform: translateY(-1vh);
   }
 }
 @keyframes slideInUp {

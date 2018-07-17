@@ -9,7 +9,7 @@
                 </div>
                 <playlist v-show="$auth.check() && !loading"></playlist>
             </main>
-            <player-overlay v-if="(isPlaying && isAppIdle)"></player-overlay>
+            <player-overlay></player-overlay>
         </div>
         <player v-show="$auth.check() && !loading"></player>
         <overlay v-if="(!$auth.ready() && !loaded ) || loading"></overlay>
@@ -26,7 +26,7 @@
   import sidebar from 'components/sidebar/index'
   import modalScreens from 'components/modals/screens'
   import Toaster from 'services/toast'
-  import IdleJs from 'idle-js'
+
 
   export default {
     components: { navbar, player, playlist, overlay, sidebar, modalScreens, playerOverlay },
@@ -45,41 +45,16 @@
           'main-background': !this.$auth.check()
         }
       },
-      isAppIdle () {
-         return this.$store.getters['isIdle']
-      },
-      isPlaying () {
-        return this.$store.getters['playlist/isPlaying']
-      },
+
       loading () {
         return this.$store.getters['loading']
       },
       showPlaylist () {
         return this.$store.getters['showPlaylist']
       },
-      isLoggedIn()
-      {
-        if(this.$auth.check() === false) {
-          this.loaded = false;
-        }
-        if(this.$auth.check() && this.loaded === false) {
-          this.$store.dispatch('toggleLoading')
-          this.$store.dispatch('albums/loadAlbums').then(() => {
-            this.$store.dispatch('artists/loadArtists').then(() => {
-              this.loaded = true
-              this.$store.dispatch('toggleLoading')
-            }).catch(() => {
-              this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-            })
-          }).catch(() => {
-            this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-          })
-        }
-      }
     },
     created () {
       this.readyState();
-      this.watchIdle();
     },
     methods: {
       readyState(){
@@ -102,25 +77,7 @@
           }
         })
       },
-      watchIdle(){
-        const idle = new IdleJs({
-          idle:60 * 1000,
-          events:['keydown', 'mousedown', 'touchstart'],
-          keepTracking:true,
-          startAtIdle:false,
-          onIdle: () => {
-            if(this.$store) {
-              this.$store.dispatch('changeIdle', true)
-            }
-          },
-          onActive:() => {
-            if(this.$store) {
-              this.$store.dispatch('changeIdle', false)
-            }
-          },
-        })
-        idle.start();
-      }
+
     }
   }
 </script>

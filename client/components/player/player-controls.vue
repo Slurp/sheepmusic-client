@@ -14,7 +14,7 @@
                 <i class='material-icons'>play_circle_outline</i>
                 <span class='plyr__sr-only'>Play</span>
             </button>
-            <button type='button' class="player__button" v-if="playing"
+            <button type='button' class="player__button player__button__center" v-if="playing"
                     v-on:click.stop.prevent="$emit('pause')">
                 <i class='material-icons'>pause_circle_outline</i>
                 <span class='plyr__sr-only'>Pause</span>

@@ -3,6 +3,7 @@
         <div class="song-list-header">
             <div class="col col-track">#</div>
             <div class="col col-artist" v-if="displayArtist">Artist</div>
+            <div class="col col-album" v-if="displayArtist">Album</div>
             <div class="col col-title">Title</div>
             <div class="col col-duration"><i class="material-icons">av_timer</i></div>
             <div class="col col-playcount"><i class="material-icons">music_note</i></div>
@@ -21,7 +22,8 @@
                 </a>
             </div>
             <div class="col col-artist" v-if="displayArtist"><router-link class="artist" :to=detailArtist(song)>{{ song.artist.name }}</router-link></div>
-            <div class="col col-title"><router-link class="album" :to=detailAlbum(song)>{{ song.title }}</router-link></div>
+            <div class="col col-album" v-if="displayArtist"><router-link class="album" :to=detailAlbum(song)>{{ song.album.name }}</router-link></div>
+            <div class="col col-title">{{ song.title }}</div>
             <div class="col col-duration">{{ formatLength(song.length) }}</div>
             <div class="col col-playcount">{{ song.playCount }}</div>
             <div class="col col-queue">

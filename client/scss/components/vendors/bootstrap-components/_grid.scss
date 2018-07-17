@@ -86,6 +86,13 @@
       margin-bottom: $grid-gutter-width;
     }
   }
+  + .progress,
+  + .progress-circular {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    min-height: 30vh;
+  }
 }
 
 .router-view {

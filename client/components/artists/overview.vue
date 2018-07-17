@@ -1,6 +1,6 @@
 <template>
     <div>
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs router-tabs">
             <li class="nav-item">
                 <router-link class="nav-item nav-link" :to="{ name: 'all-artists'}">
                     <span class="font-weight-normal">All</span>
@@ -18,22 +18,28 @@
                 <!--</router-link>-->
             <!--</li>-->
         </ul>
+
         <transition-group name="list" tag="div" class="list">
-            <div class="col" v-for="artist in artists" :key="artist.id" :name="artist.id">
+            <div class="col" v-for="artist in artists" :key="artist.id" :name="artist.id" >
                 <artist :artist-id=artist.id :artist=artist></artist>
             </div>
+
         </transition-group>
+        <loading-circle v-if="loadedArtists == false"></loading-circle>
+
         <pagination for="artists" :records="totalArtists" :vuex="true"></pagination>
     </div>
 </template>
 
 <script>
   import artist from './artist'
+  import loadingCircle from 'components/misc/loading-circle';
 
   export default {
     props: ['type'],
     components: {
-      artist
+      artist,
+      loadingCircle
     },
     data () {
       return {

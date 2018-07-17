@@ -7,7 +7,14 @@
         <section>
             <div class="detail-info-wrapper">
                 <div class="detail-art">
-                    <img :src="cover">
+                    <img
+                            v-lazyload
+                            :alt="playlist.name"
+                            src="/media/general/default.png"
+                            :data-src=cover
+                            data-err="/media/general/default.png"
+                            class="card-img-top"
+                    />
                 </div>
                 <div class="detail-info">
                     <h1>{{ playlist.name }}</h1>

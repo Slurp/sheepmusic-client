@@ -1,5 +1,5 @@
 <template>
-    <div class="playing-overlay" v-if="song">
+    <div class="playing-overlay" v-if="show">
         <div class="background-image" v-bind:style="{ 'background-image': 'url(' + background + ')' }"></div>
         <div class="playing-overlay__content">
             <a class="btn btn-secondary btn-sm btn-float btn-close" v-on:click.stop.prevent="close"><i class="material-icons">close</i></a>
@@ -32,11 +32,35 @@
 </template>
 
 <script>
+  import IdleJs from 'idle-js'
+
   export default {
     name: 'player-overlay',
+    created () {
+      this.watchIdle();
+    },
     methods: {
       close: function (event) {
         this.$store.dispatch('changeIdle', false)
+      },
+      watchIdle(){
+        const idle = new IdleJs({
+          idle:60 * 1000,
+          events:['keydown', 'mousedown', 'touchstart'],
+          keepTracking:true,
+          startAtIdle:false,
+          onIdle: () => {
+            if(this.$store) {
+              this.$store.dispatch('changeIdle', true)
+            }
+          },
+          onActive:() => {
+            if(this.$store) {
+              this.$store.dispatch('changeIdle', false)
+            }
+          },
+        })
+        idle.start();
       }
     },
     computed: {
@@ -71,6 +95,9 @@
           return this.$store.getters['artists/getLogoForArtist'](this.artist.id)
         }
         return null
+      },
+      show () {
+        return (this.$store.getters['isIdle'] && this.$store.getters['playlist/isPlaying'] && this.song)
       },
     }
   }
