@@ -1,16 +1,39 @@
 <template>
-    <span class="profile" id="userBadge">
-        <span class="view-profile control" @click="loadProfileView">
-            <img class="avatar" :src="state.current.avatar" alt="Avatar"></img>
-            <span class="name">{{ state.current.name }}</span>
-        </span>
-
-        <a class="logout" @click.prevent="logout"><i class="fa fa-sign-out control"></i></a>
-    </span>
+    <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+            <a class="nav-link nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+               aria-expanded="false">
+                {{ $auth.user().user }}
+            </a>
+            <div class="dropdown-menu menu-cascading">
+                <a class="dropdown-item" @click.prevent="logout">
+                    Leave
+                    <i class="material-icons">
+                        exit_to_app
+                    </i>
+                </a>
+            </div>
+        </li>
+    </ul>
 </template>
 
 <script>
-
+  export default {
+    name: "user-menu",
+    methods: {
+      logout () {
+        this.$auth.logout({
+          makeRequest: false,
+          success () {
+            console.log('success ' + this.context);
+          },
+          error () {
+            console.log('error ' + this.context);
+          }
+        });
+      }
+    }
+  }
 </script>
 
 <style>

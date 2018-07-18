@@ -19,7 +19,7 @@ Vue.use(Auth, {
   fetchData: { url: 'api/user', method: 'GET', enabled: true },
   registerData: { url: 'api/register', method: 'POST', redirect: '/login' },
   loginData: { url: 'api/login_check', method: 'POST', redirect: { name: 'home', redirect: true }, fetchUser: true },
-  logoutData: { url: 'api/logout', method: 'POST', redirect: 'home', makeRequest: false },
+  logoutData: { url: 'api/logout', method: 'POST', redirect: '/', makeRequest: false },
   refreshData: {
     url: 'api/token/refresh',
     method: 'GET',

@@ -1,18 +1,11 @@
 <template>
     <nav class="navbar navbar-expand-sm sticky" v-stick="stickyOptions" role="navigation">
-        <a href="#" aria-controls="doc_navdrawer" aria-expanded="false" aria-label="Toggle Navdrawer" class="navbar-brand" data-target="#doc_navdrawer" data-toggle="navdrawer" data-type="permanent">
+        <a href="#" aria-controls="doc_navdrawer" aria-expanded="false" aria-label="Toggle Navdrawer"
+           class="navbar-brand" data-target="#doc_navdrawer" data-toggle="navdrawer" data-type="permanent">
             <span class="brand-logo"></span>
         </a>
         <search-box></search-box>
-        <ul class="navbar-nav">
-            <li class="nav-item dropdown ">
-                <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
-                   aria-expanded="false">
-                    {{ $auth.user().user }}
-                </a>
-            </li>
-        </ul>
-
+        <user-badge></user-badge>
     </nav>
 </template>
 
@@ -20,11 +13,13 @@
   import config from '../../config'
   import Sticky from 'sticky-js'
   import searchBox from 'components/search/search-box'
+  import userBadge from './user-badge'
 
   export default {
     name: 'navbar-header',
     components: {
-      searchBox
+      searchBox,
+      userBadge
     },
     data () {
       return {
