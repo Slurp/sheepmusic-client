@@ -1,9 +1,18 @@
 .user-profile {
-  .flip {
-    min-height: 25rem;
-  }
   .card {
     margin-top: 2rem;
+    box-shadow: 0 0 2px 0 rgba(theme-color(), 0.14), 0 1px 2px 0 rgba(theme-color(), 0.12), 0 1px 1px 0 rgba(theme-color(), 0.2);
+    &[href],
+    &[tabindex] {
+      @include active-focus-hover {
+        box-shadow:  0 2px 4px 0 rgba(theme-color(), 0.14), 0 4px 5px 0  rgba(theme-color(), 0.12), 0 1px 10px 0 rgba(theme-color(), 0.2);
+        text-decoration: none;
+      }
+
+      &:focus {
+        outline: 0;
+      }
+    }
     .card-header {
       padding: 0.25rem 1rem;
       margin-bottom: 0.5rem;
@@ -18,8 +27,6 @@
       }
     }
     .card-actions__header {
-      position: absolute;
-      top: -82px;
     }
     .card-actions {
       margin-left: auto;
