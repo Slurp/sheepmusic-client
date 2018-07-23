@@ -5,9 +5,6 @@
               :class="{ 'was-validated': hasErrors }"
               v-on:submit.prevent="saveProfile()"
               class="card" novalidate>
-            <h4 class="card-header">
-                Editing
-            </h4>
             <div class="card-body">
                 <div class="form-group">
                     <div class="floating-label" :class="{ 'has-value': data.username }">
