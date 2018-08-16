@@ -68,10 +68,14 @@
         this.$auth.login({
           data: this.data.body, // Axios
           rememberMe: this.data.rememberMe,
-          redirect: { name: redirect ? redirect.from.name : 'all-albums' },
+          redirect: { name: redirect ? redirect.from.name : 'recent-albums' },
           fetchUser: this.data.fetchUser,
           success (res) {
-            this.$store.dispatch('toggleLoading')
+            this.$store.dispatch('loggedIn').then(() => {
+              this.$store.dispatch('toggleLoading')
+            }).catch(() => {
+              this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
+            })
           },
           error (res) {
             this.$store.dispatch('toggleLoading')

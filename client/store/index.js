@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import modules from './modules'
-import { CLEAR, TOGGLE_LOADING, TOGGLE_PLAYLIST, CHANGE_IDLE } from './mutations'
+import { CHANGE_IDLE, CLEAR, TOGGLE_LOADING, TOGGLE_PLAYLIST } from './mutations'
 
 Vue.use(Vuex)
 
@@ -46,7 +46,20 @@ const store = new Vuex.Store({
      */
     togglePlaylist: ({ commit }) => commit(TOGGLE_PLAYLIST),
     toggleLoading: ({ commit }) => commit(TOGGLE_LOADING),
-    changeIdle: ({ commit }, isIdle) => commit(CHANGE_IDLE, isIdle)
+    changeIdle: ({ commit }, isIdle) => commit(CHANGE_IDLE, isIdle),
+    loggedIn: ({ commit, dispatch }) => {
+      return new Promise((resolve, reject) => {
+        dispatch('albums/loadAlbums').then(() => {
+          dispatch('artists/loadArtists').then(() => {
+            resolve()
+          }).catch(() => {
+            reject()
+          })
+        }).catch(() => {
+          reject()
+        })
+      })
+    }
   },
 
   mutations: {

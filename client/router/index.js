@@ -170,7 +170,7 @@ export default new VueRouter({
       component: NotFound
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     }
@@ -180,5 +180,5 @@ export default new VueRouter({
       }
     }
     return { x: 0, y: 0 }
-  },
+  }
 })

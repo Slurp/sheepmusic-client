@@ -61,13 +61,9 @@
         this.$auth.ready( () => {
           this.$store.dispatch('toggleLoading')
           if(this.$auth.check()) {
-            this.$store.dispatch('albums/loadAlbums').then(() => {
-              this.$store.dispatch('artists/loadArtists').then(() => {
+            this.$store.dispatch('loggedIn').then(() => {
                 this.loaded = true
                 this.$store.dispatch('toggleLoading')
-              }).catch(() => {
-                this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
-              })
             }).catch(() => {
               this.toast.toast('@#@#*(&@#*&@#(*!@^!@&@!')
             })
