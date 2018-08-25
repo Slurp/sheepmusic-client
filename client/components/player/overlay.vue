@@ -2,7 +2,6 @@
     <div class="playing-overlay" v-if="show">
         <div class="background-image" v-bind:style="{ 'background-image': 'url(' + background + ')' }"></div>
         <div class="playing-overlay__content">
-            <a class="btn btn-secondary btn-sm btn-float btn-close" v-on:click.stop.prevent="close"><i class="material-icons">close</i></a>
             <h1>Now playing</h1>
             <div class="album-cover">
                 <div class="case">
@@ -40,9 +39,6 @@
       this.watchIdle();
     },
     methods: {
-      close: function (event) {
-        this.$store.dispatch('changeIdle', false)
-      },
       watchIdle(){
         const idle = new IdleJs({
           idle:60 * 1000,
@@ -50,14 +46,10 @@
           keepTracking:true,
           startAtIdle:false,
           onIdle: () => {
-            if(this.$store) {
               this.$store.dispatch('changeIdle', true)
-            }
           },
           onActive:() => {
-            if(this.$store) {
               this.$store.dispatch('changeIdle', false)
-            }
           },
         })
         idle.start();
@@ -69,7 +61,6 @@
       },
       album () {
         if (this.song) {
-          console.log(this.song.album.id);
           return this.$store.getters['albums/getAlbumById'](this.song.album.id)
         }
       },

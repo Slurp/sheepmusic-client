@@ -1,5 +1,4 @@
 <template>
-
     <router-link :to="detailLink"
                  class="card card__overview">
         <div class="card-img">
@@ -19,9 +18,7 @@
                 </li>
             </ul>
         </div>
-
         <div class="card-body">
-
             <div class="progress" v-if="!loadedAlbum">
                 <div class="progress-bar progress-bar-indeterminate bg-dark" role="progressbar"></div>
             </div>
@@ -30,7 +27,6 @@
                 <h6 class="card-subtitle">{{album.name}}</h6>
             </div>
         </div>
-
     </router-link>
 </template>
 

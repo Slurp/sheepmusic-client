@@ -1,13 +1,12 @@
 import Vue from 'vue'
-import { set,addItemsAndSortedList, sortList } from 'root/store/helpers/mutations'
+import { sortedState, sortedMutations, sortedActions } from 'store/helpers/sortedPage'
+
+import { addItemsAndSortedList } from 'root/store/helpers/mutations'
 
 const state = {
   artists: [],
-  sortedList: [],
   currentArtist: null,
-  page: 1,
-  sortBy: 'all',
-  itemsPerPage: 24
+  ...sortedState
 }
 
 const actions = {
@@ -24,14 +23,14 @@ const actions = {
   },
   async loadArtistCollection({ commit }, artists) {
     return new Promise((resolve, reject) => {
-      const collection = artists.filter(artist => (!state.artists[artist.id] || state.artists[artist.id].fullyLoaded === false));
+      const collection = artists.filter(artist => (!state.artists[artist.id] || state.artists[artist.id].fullyLoaded === false))
       if (collection.length > 0) {
         const data = collection.reduce((formData, object) => {
           formData.append('objects[]', object.id)
           return formData
         }, new FormData())
         return Vue.axios.post(`/api/artist_collection`, data).then(response => {
-          response.data.forEach((artistData) => commit('ADD_ARTIST', {
+          response.data.forEach(artistData => commit('ADD_ARTIST', {
             artist: artistData,
             index: artistData.id
           }))
@@ -62,12 +61,7 @@ const actions = {
   viewArtist({ commit }, artistId) {
     commit('SET_CURRENT_ARTIST', { index: artistId })
   },
-  paginate({ commit }, page) {
-    commit('PAGINATE', { page })
-  },
-  sortBy({ commit }, sort) {
-    commit('SORT_BY', { sort })
-  }
+  ...sortedActions
 }
 
 const mutations = {
@@ -81,12 +75,7 @@ const mutations = {
   SET_CURRENT_ARTIST: (state, { index }) => {
     state.currentArtist = state.artists[index]
   },
-  PAGINATE: (state, { page }) => {
-    state.page = page
-  },
-  SORT_BY: (state, { sort }) => {
-    sortList(state, sort)
-  }
+  ...sortedMutations
 }
 
 const getters = {

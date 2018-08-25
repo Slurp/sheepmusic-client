@@ -108,15 +108,3 @@ export const addItemsAndSortedList = (state, key, data, subKey) => {
   }
 }
 
-export const sortList = (state, sortBy) => {
-  if (sortBy !== state.sortBy) {
-    if (sortBy === 'recent') {
-      state.sortedList.sort((a, b) => b.date - a.date)
-    } else if (sortBy === 'most-played') {
-      state.sortedList.sort((a, b) => b.playCount - a.playCount)
-    } else {
-      state.sortedList.sort((a, b) => a.id - b.id)
-    }
-    state.sortBy = sortBy
-  }
-}

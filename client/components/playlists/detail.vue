@@ -53,6 +53,7 @@
     },
     props: ['id'],
     created: function () {
+      console.log(this.id);
       this.$store.dispatch('playlists/loadPlaylist', this.id)
       this.$store.dispatch('playlists/viewPlaylist', this.id)
     },
@@ -66,7 +67,7 @@
         return this.$store.getters['playlists/getPlaylistById'](this.id)
       },
       playlistDuration () {
-        if (this.playlist && this.playlist.songs !== 'undefined') {
+        if (this.playlist && typeof(this.playlist.songs) !== 'undefined') {
           return secondsToHis(this.playlist.songs.map(song => song ? song.length:0).reduce((acc, val) => parseInt(acc) + parseInt(val), 0))
         }
         return null

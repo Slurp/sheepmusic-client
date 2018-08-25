@@ -87,7 +87,6 @@
       },
       logo () {
         if (this.artist !== null && this.artist.logo !== 'undefined') {
-          console.log(this.artist.id)
           return this.$store.getters['artists/getLogoForArtist'](this.artist.id)
         }
         return null
