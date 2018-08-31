@@ -20,7 +20,7 @@ module.exports =
     chunk: {
       type: Number,
       required: false,
-      default: 10
+      default: 8
     },
     countText: {
       type: String,
@@ -48,14 +48,14 @@ module.exports =
     }
   },
   computed: {
-    page: function page() {
+    page() {
       return this.$store.state[this.for].page
     },
     pages() {
       if (!this.records) {
         return []
       }
-      return range(this.paginationStart, this.pagesInCurrentChunk)
+      return range(this.page, this.pagesInCurrentChunk, this.chunk)
     },
     totalPages() {
       return this.records ? Math.ceil(this.records / this.perPage) : 1
@@ -79,8 +79,8 @@ module.exports =
       const i = Math.min(this.records == 1 ? 2 : this.totalPages == 1 ? 1 : 0, parts.length - 1)
 
       return parts[i].replace('{count}', this.formatNumber(this.records))
-          .replace('{from}', this.formatNumber(from))
-          .replace('{to}', this.formatNumber(to))
+        .replace('{from}', this.formatNumber(from))
+        .replace('{to}', this.formatNumber(to))
     }
   },
   methods: {
@@ -89,7 +89,7 @@ module.exports =
         this.paginate(page)
       }
     },
-    paginate: function paginate(page) {
+    paginate(page) {
       this.$store.dispatch(this.for + '/paginate', page)
     },
     next() {
@@ -121,7 +121,7 @@ module.exports =
       return this.allowedChunk(direction) ? '' : 'disabled'
     },
     activeClass(page) {
-      return this.page == page ? 'active' : ''
+      return this.page === page ? 'active' : ''
     },
     formatNumber(num) {
       if (!this.format) return num
@@ -131,9 +131,20 @@ module.exports =
   }
 }
 
-function range(start, count) {
+function range(page, count, chunk) {
+  let begin = page
+  let end = page + count
+  if (page > chunk) {
+    count = (count % 2 === 0) ? count - 1 : count
+    begin = page - Math.floor(count / 2)
+    end = page + Math.floor(count / 2)
+  }
+  if (end > this.totalPages) {
+    begin = this.totalPages - chunk
+  }
+
   return Array.apply(0, Array(count))
     .map((element, index) => {
-      return index + start
+      return index + begin
     })
 }
